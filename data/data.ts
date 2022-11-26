@@ -10,18 +10,18 @@ const userData = {
     projects: [
         {
             title: "Portfolio",
-            link: "https://tailwindmasterkit.com",
-            // imgUrl: "/tmk.jpg",
+            link: "https://github.com/Jaival",
+            imgUrl: "/projects/portfolio.png",
         },
         {
             title: "Taskly",
-            link: "https://placeholdertech.in",
-            // imgUrl: "/placeholdertech.png",
+            link: "https://taskly-dc4e2.web.app/",
+            imgUrl: "/projects/taskly.png",
         },
         {
             title: "VS Code Flat Theme",
-            link: "https://manuarora.in",
-            // imgUrl: "/portfolio.png",
+            link: "https://marketplace.visualstudio.com/items?itemName=JaivalSaija.flat",
+            imgUrl: "/projects/flat-theme.png",
         },
     ],
     about: {

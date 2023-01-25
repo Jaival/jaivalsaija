@@ -15,27 +15,26 @@ export default function Navbar() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-10 md:py-20">
-            {/* <div className="flex md:flex-row justify-between items-center"> */}
-            {/* Logo / Home / Text */}
-            {/* TODO: change userData.name and userData.designation dark theme color*/}
+            <div className="flex md:flex-row justify-between items-center">
+                {/* Logo / Home / Text */}
+                {/* TODO: change userData.name and userData.designation dark theme color*/}
 
-            {/* 
-            <div className="flex flex-col">
+                <div className="flex flex-col">
                     <Link href="/">
-                        <a>
+                        <p>
                             <h1 className="font-semibold text-xl text-black-dark dark:text-silver">
                                 {userData.name}
                             </h1>
                             <p className="text-base font-light text-black-dark dark:text-silver">
                                 {userData.designation}
                             </p>
-                        </a>
+                        </p>
                     </Link>
                 </div>
 
                 <div className="space-x-8 hidden md:block text-silver">
                     <Link href="/aboutme">
-                        <a
+                        <text
                             className={`text-base  ${router.asPath === "/aboutme"
                                 ? "text-purple-dark font-bold dark:text-silver"
                                 : "text-purple-dark dark:text-silver font-normal "
@@ -57,10 +56,10 @@ export default function Navbar() {
                                     />
                                 </svg>
                             )}
-                        </a>
+                        </text>
                     </Link>
                     <Link href="/projects">
-                        <a
+                        <text
                             className={`text-base  ${router.asPath === "/projects"
                                 ? "text-purple-dark dark:text-silver font-bold  "
                                 : "text-purple-dark dark:text-silver font-normal "
@@ -82,10 +81,10 @@ export default function Navbar() {
                                     />
                                 </svg>
                             )}
-                        </a>
+                        </text>
                     </Link>
                     <Link href="/experience">
-                        <a
+                        <text
                             className={`text-base  ${router.asPath === "/experience"
                                 ? "text-purple-dark dark:text-silver font-bold  "
                                 : "text-purple-dark dark:text-silver font-normal "
@@ -107,10 +106,10 @@ export default function Navbar() {
                                     />
                                 </svg>
                             )}
-                        </a>
+                        </text>
                     </Link>
                     <Link href="/contactme">
-                        <a
+                        <text
                             className={`text-base  ${router.asPath === "/contactme"
                                 ? "text-purple-dark dark:text-silver font-bold  "
                                 : "text-purple-dark dark:text-silver font-normal "
@@ -132,35 +131,10 @@ export default function Navbar() {
                                     />
                                 </svg>
                             )}
-                        </a>
+                        </text>
                     </Link>
                 </div>
 
-
-            </div> */}
-            <div className="flex md:flex-row justify-between items-center">
-                <div className="flex flex-col">
-                    <Link href="/">
-                        <h1 className="font-semibold text-xl text-black-dark dark:text-silver">
-                            {userData.name}
-                        </h1>
-                        <p className="text-base font-light text-black-dark dark:text-silver">
-                            {userData.designation}
-                        </p>
-                    </Link>
-                </div>
-                <Link href="/aboutme" className="text-base font-normal text-purple-dark dark:text-silver">
-                    About Me
-                </Link>
-                <Link href="/projects" className="text-base font-normal text-purple-dark dark:text-silver">
-                    Projects
-                </Link>
-                <Link href="/experience" className="text-base font-normal text-purple-dark dark:text-silver">
-                    Experience
-                </Link>
-                <Link href="/contactme" className="text-base font-normal text-purple-dark dark:text-silver">
-                    Contact Me
-                </Link>
                 <div className="space-x-4 flex flex-row items-center">
                     <button
                         aria-label="Toggle Dark Mode"
@@ -197,6 +171,20 @@ export default function Navbar() {
                         )}
                     </button>
                 </div>
+            </div>
+            <div className="space-x-8 block md:hidden mt-4">
+                <Link href="/aboutme" className="text-base font-normal text-purple-dark dark:text-silver">
+                    About Me
+                </Link>
+                <Link href="/projects" className="text-base font-normal text-purple-dark dark:text-silver">
+                    Projects
+                </Link>
+                <Link href="/experience" className="text-base font-normal text-purple-dark dark:text-silver">
+                    Experience
+                </Link>
+                <Link href="/contactme" className="text-base font-normal text-purple-dark dark:text-silver">
+                    Contact Me
+                </Link>
             </div>
         </div>
     );

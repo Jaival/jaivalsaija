@@ -1,41 +1,43 @@
+import Image from "next/image";
 import { RoughNotationGroup } from "react-rough-notation";
+import userData from "../data/data";
 import { RoughNotationHero } from "./roughNotationHero";
 
 export default function Hero() {
     const colors = ["#FB9677", "#F1E2D2", "#CFE5C0", "#C8D9EB"];
     return (
-        <div className="flex flex-row justify-center items-start overflow-hidden bg-gray dark:bg-black-light">
+        <div className="flex flex-row items-start justify-center overflow-hidden bg-gray dark:bg-black-light">
             {/* Text container */}
             {/* TODO: Change Hero Text color */}
 
-            <div className="w-full md:w-1/2 mx-auto text-center md:text-left lg:p-20">
+            <div className="w-full mx-auto text-center md:w-1/2 md:text-left lg:p-20">
                 <RoughNotationGroup show={true}>
                     <RoughNotationHero color={colors[0]}>
-                        <h1 className="text-3xl md:text-8xl font-semibold text-blue-dark dark:text-hero-font my-4">
+                        <h1 className="my-4 text-3xl font-semibold md:text-8xl text-blue-dark dark:text-hero-font">
                             DevOps Engineer.
                         </h1>
                     </RoughNotationHero>
                     <RoughNotationHero color={colors[1]}>
-                        <h1 className="text-3xl md:text-8xl font-semibold text-blue-dark dark:text-hero-font my-4">
+                        <h1 className="my-4 text-3xl font-semibold md:text-8xl text-blue-dark dark:text-hero-font">
                             Moody Developer.
                         </h1>
                     </RoughNotationHero>
                     <RoughNotationHero color={colors[2]}>
-                        <h1 className="text-3xl md:text-8xl font-semibold text-blue-dark dark:text-hero-font my-4">
+                        <h1 className="my-4 text-3xl font-semibold md:text-8xl text-blue-dark dark:text-hero-font">
                             Cloud Enthusiastic.
                         </h1>
                     </RoughNotationHero>
                     <RoughNotationHero color={colors[3]}>
-                        <h1 className="text-3xl md:text-8xl font-semibold text-blue-dark dark:text-hero-font my-4">
+                        <h1 className="my-4 text-3xl font-semibold md:text-8xl text-blue-dark dark:text-hero-font">
                             UI Hobbyist.
                         </h1>
                     </RoughNotationHero>
                 </RoughNotationGroup>
             </div>
             {/* Image container */}
-            <div className="hidden lg:block relative w-full md:w-1/2 -mr-40 mt-20">
+            <div className="relative hidden w-full mt-20 -mr-40 lg:block md:w-1/2">
                 <div className="w-3/4 ">
-                    {/* <img src={userData.avatarUrl} alt="avatar" className=" shadow" /> */}
+                    <Image src={userData.avatarUrl} alt="avatar" className="shadow" width={500} height={500} />
                     <div className="flex flex-row justify-between mt-4">
                         <div className="flex flex-row space-x-4">
                             <svg

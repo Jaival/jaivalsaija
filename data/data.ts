@@ -3,9 +3,9 @@ const userData = {
     githubUsername: "Jaival",
     name: "Jaival Saija",
     designation: "Cloud Engineer",
-    avatarUrl: "/avatar.png",
+    avatarUrl: "/avatar.JPG",
     email: "saijajaival@gmail.com",
-    phone: "+91 8155060477",
+    // phone: "+91 8155060477",
     address: "Ahmedabad, Gujarat, India",
     projects: [
         {

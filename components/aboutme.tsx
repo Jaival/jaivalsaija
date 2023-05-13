@@ -19,7 +19,7 @@ export default function AboutMe() {
                     >
                         {userData.about.title}. Currently working on{" "}
                         <Link
-                            className="px-2 py-1 bg-red-500 rounded-md"
+                            className="px-2 py-1 rounded-md bg-red-light"
                             // href={userData.about.currentProjectUrl}
                             href=""
                         >
@@ -76,7 +76,7 @@ export default function AboutMe() {
                                 >
                                     <div className="my-4">&rarr;</div>
                                     <p className="relative overflow-hidden font-mono text-lg text-gray-500 dark:text-gray-300">
-                                        <div className="absolute h-0.5 w-full bg-gray-400 bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
+                                        <div className="absolute h-0.5 w-full bg-red-light bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
                                         Twitter
                                     </p>
                                 </Link>
@@ -88,7 +88,7 @@ export default function AboutMe() {
                                 >
                                     <div className="my-4">&rarr;</div>
                                     <p className="relative overflow-hidden font-mono text-lg text-gray-500 dark:text-gray-300">
-                                        <div className="absolute h-0.5 w-full bg-gray-400 bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
+                                        <div className="absolute h-0.5 w-full bg-red-light bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
                                         GitHub
                                     </p>
                                 </Link>
@@ -100,7 +100,7 @@ export default function AboutMe() {
                                 >
                                     <div className="my-4">&rarr;</div>
                                     <p className="relative overflow-hidden font-mono text-lg text-gray-500 dark:text-gray-300">
-                                        <div className="absolute h-0.5 w-full bg-gray-400 bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
+                                        <div className="absolute h-0.5 w-full bg-red-light bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
                                         LinkedIn
                                     </p>
                                 </Link>
@@ -112,7 +112,7 @@ export default function AboutMe() {
                                 >
                                     <div className="my-4">&rarr;</div>
                                     <p className="relative overflow-hidden font-mono text-lg text-gray-500 dark:text-gray-300">
-                                        <div className="absolute h-0.5 w-full bg-gray-400 bottom-0 transform -translate-x-28 group-hover:translate-x-0 transition duration-300"></div>
+                                        <div className="absolute h-0.5 w-full bg-red-light bottom-0 transform -translate-x-28 group-hover:translate-x-0 transition duration-300"></div>
                                         Instagram
                                     </p>
                                 </Link>
@@ -134,8 +134,8 @@ export default function AboutMe() {
                             Tech Stack
                         </h1>
                         <div className="flex flex-row flex-wrap mt-8">
-                        {/* https://skillicons.dev/icons?i=aws,firebase,docker,dart,flutter,python,next,tailwind,typescript,idea,vscode */}
-                        <Image alt='' width={400} height={400}
+                            {/* https://skillicons.dev/icons?i=aws,firebase,docker,dart,flutter,python,next,tailwind,typescript,idea,vscode */}
+                            <Image alt='' width={400} height={400}
                                 src='https://skillicons.dev/icons?i=aws,next,tailwind,firebase,typescript,idea,vscode,docker,dart,flutter,python,&perline=6'
                                 className='m-4'
                             />

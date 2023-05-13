@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* font-family: 'Oswald', sans-serif; */
-@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+/* font-family: 'SpaceGrotesk', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 body {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }

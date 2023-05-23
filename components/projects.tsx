@@ -27,7 +27,7 @@ export default function Projects() {
     </section>
   );
 }
-// TODO: Image url for thr project card
+
 const ProjectCard = ({
   title,
   link,

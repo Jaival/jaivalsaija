@@ -12,8 +12,8 @@ const spaceGrotesk = Space_Grotesk({
 
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Welcome to Next.js',
+  title: 'Home - Jaival Saija',
+  description: 'I am a DevOps Engineer and a all tech lover.',
 };
 
 export default function RootLayout({

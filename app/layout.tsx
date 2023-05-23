@@ -2,10 +2,9 @@ import { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 import React from 'react';
 import { Providers } from '../lib/provider';
-import '../styles/globals.css';
+import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
-  style: 'normal',
   weight: 'variable',
   preload: false
 });

@@ -36,12 +36,12 @@ const userData = {
   ],
   about: {
     title:
-      "I'm a software developer that loves building products and web applications that impact millions of lives",
+      'I\'m a software developer that loves building products and web applications that impact millions of lives',
     description: [
-      `I've been interested in computer science since I was 15 years old, first is was because of the games and I dreamed of becoming a game developer or something related to computers. After few year of playing games and studying I got into a specialized bachelor's program in computer science for cloud computing.`,
-      `It was like a new world to open to exploration and [something] . As I was learning about cloud computing, how it works, why it works, how it came to existence; I was falling in love with it more and more.`,
-      `During my bachelor's program, I worked with many technologies like AWS, Azure, Google Cloud, Firebase, Flutter, Android and many more.`,
-      `The most exposure I got to cloud computing was through the projects in the last year of my college. I was a part of a team and I was responsible for the cloud operations such as creating the infrastructure, maintaining it, CI/CD, as well as selecting a DB for the application that was being developed.`,
+      'I\'ve been interested in computer science since I was 15 years old, first is was because of the games and I dreamed of becoming a game developer or something related to computers. After few year of playing games and studying I got into a specialized bachelor\'s program in computer science for cloud computing.',
+      'It was like a new world to open to exploration and [something] . As I was learning about cloud computing, how it works, why it works, how it came to existence; I was falling in love with it more and more.',
+      'During my bachelor\'s program, I worked with many technologies like AWS, Azure, Google Cloud, Firebase, Flutter, Android and many more.',
+      'The most exposure I got to cloud computing was through the projects in the last year of my college. I was a part of a team and I was responsible for the cloud operations such as creating the infrastructure, maintaining it, CI/CD, as well as selecting a DB for the application that was being developed.',
     ],
     currentProject: 'Know Me',
     currentProjectUrl: 'https://github.com/Jaival/know-me',

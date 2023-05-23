@@ -1,20 +1,25 @@
-import { RoughNotation } from "react-rough-notation";
+import { RoughNotation } from 'react-rough-notation';
 
+export const RoughNotationHero = ({
+  color,
+  children,
+}: {
+  color: any;
+  children: any;
+}) => {
+  // Change the animation duration depending on length of text we're animating (speed = distance / time)
+  const animationDuration = Math.floor(30 * children.length);
 
-export const RoughNotationHero = ({ color, children }: { color: any, children: any }) => {
-    // Change the animation duration depending on length of text we're animating (speed = distance / time)
-    const animationDuration = Math.floor(30 * children.length);
-
-    return (
-        <RoughNotation
-            type="highlight"
-            multiline={true}
-            padding={[0, 2]}
-            iterations={1}
-            animationDuration={animationDuration}
-            color={color}
-        >
-            {children}
-        </RoughNotation>
-    );
+  return (
+    <RoughNotation
+      type="highlight"
+      multiline={true}
+      padding={[0, 2]}
+      iterations={1}
+      animationDuration={animationDuration}
+      color={color}
+    >
+      {children}
+    </RoughNotation>
+  );
 };

@@ -1,0 +1,56 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+  ],
+  darkMode: ['class'],
+  theme: {
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
+    colors: {
+      'blue-line': '#3D405B',
+      'blue': '#31263E',
+      'blue-dark': '#172A47',
+      'blue-light': '#90E0EF',
+      'blue-gray': '#035E7B',
+      'blue-green': '#3F88C5',
+      'purple-dark': '#290628',
+      'white': '#F2F5FF',
+      'silver': '#C9C7C2',
+      'black-dark': '#0F0A0A',
+      'black-light': '#121619',
+      'orange-light': '#DD8F46',
+      'orange': '#F96E46',
+      'orange-dark': '#FF8552',
+      'red-light': '#E07A5F',
+      'red-dark': '#DA344D',
+      'green-light': '#85FFC7',
+      'green': '#BBDBB4',
+      'green-dark': '#81F495',
+      'yellow-light': '#F5FF90',
+      'yellow-dark': '#F2CC8F',
+      'yellow-orange': '#FBB13C',
+      'aero': '#6BBAEC',
+      'gray-dark': '#8e9aaf',
+      'gray-light': '#cbc0d3',
+      'gray': '#adb5bd',
+      'card-background': '#75D3D7',
+      'hero-font': '#1F7A8C'
+    },
+    extend: {
+      transitionDuration: {
+        0: '0ms',
+        2000: '2000ms',
+        4000: '4000ms',
+      },
+    },
+  },
+  plugins: [],
+}

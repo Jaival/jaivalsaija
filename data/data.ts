@@ -88,7 +88,7 @@ const userData = {
   socialLinks: {
     instagram: 'https://www.instagram.com/jaivalsaija/',
     twitter: 'https://twitter.com/Jaival469',
-    linkedin: 'https://www.linkedin.com/in/jaival-saija-113452152/',
+    linkedin: 'https://www.linkedin.com/in/jaivalsaija/',
     github: 'https://github.com/Jaival',
   },
 };

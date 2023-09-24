@@ -38,5 +38,5 @@ next-env.d.ts
 # jetbrains
 .idea
 
-# Issues file
-issue.todo
+# vscode
+.vscode

@@ -4,8 +4,12 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    dangerouslyAllowSVG: true,
-    domains: ['raw.githubusercontent.com', 'skillicons.dev'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'skillicons.dev',
+      },
+    ],
   },
 };
 

@@ -6,7 +6,8 @@ import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
   weight: 'variable',
-  preload: false
+  preload: true,
+  subsets: ['latin'],
 });
 
 

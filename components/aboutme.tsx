@@ -13,7 +13,7 @@ export default function AboutMe() {
       </div>
       <div className="-mt-10 bg-gray dark:bg-black-light">
         <div className="max-w-6xl pt-20 mx-auto text-container">
-          <p
+          <div
             className="mx-4 text-2xl font-semibold leading-loose md:text-4xl"
             style={{ lineHeight: '3rem' }}
           >
@@ -25,7 +25,7 @@ export default function AboutMe() {
             >
               {userData.about.currentProject} ✈️
             </Link>
-          </p>
+          </div>
         </div>
       </div>
       <div className="px-4 bg-gray dark:bg-black-light">

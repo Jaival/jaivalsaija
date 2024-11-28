@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 import userData from '../data/data';
 
 export default function Experience() {
@@ -13,9 +14,9 @@ export default function Experience() {
         <div className="grid max-w-xl grid-cols-1 pt-20 mx-auto dark:bg-black-light">
           {/* Experience card */}
           {userData.experience.map((exp, idx) => (
-            <>
+            <React.Fragment key={idx}>
               <ExperienceCard
-                key={idx}
+                key={exp.id}
                 title={exp.title}
                 desc={exp.desc}
                 year={exp.year}
@@ -31,7 +32,7 @@ export default function Experience() {
                   <div className="w-1 h-24 -mt-2 rounded-full bg-gray-dark dark:bg-gray-dark"></div>
                 </div>
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>

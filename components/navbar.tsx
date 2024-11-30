@@ -66,7 +66,7 @@ export default function Navbar() {
                 : 'text-purple-dark dark:text-silver font-normal '
               }`}
             >
-              Projects
+              Projects{' '}
               {pathName === '/projects' && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ export default function Navbar() {
                 : 'text-purple-dark dark:text-silver font-normal '
               }`}
             >
-              Contact Me
+              Contact Me{' '}
               {pathName === '/contactme' && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

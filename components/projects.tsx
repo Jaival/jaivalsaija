@@ -11,7 +11,7 @@ export default function Projects() {
         </h1>
       </div>
       {/* Grid starts here */}
-      <div className="-mt-10 bg-gray dark:bg-black-light">
+      <div className="-mt-10 bg-gray dark:bg-black-light px-8">
         <div className="grid max-w-6xl grid-cols-1 gap-8 py-20 pb-40 mx-auto md:grid-cols-2">
           {userData.projects.map((proj, idx) => (
             <ProjectCard

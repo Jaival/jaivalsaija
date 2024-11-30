@@ -6,11 +6,11 @@ import { RoughNotationHero } from './roughNotationHero';
 export default function Hero() {
   const colors = ['#FB9677', '#F1E2D2', '#CFE5C0', '#C8D9EB'];
   return (
-    <div className="flex flex-row items-start justify-center overflow-hidden bg-gray dark:bg-black-light">
+    <div className="flex flex-col md:flex-row items-center justify-center overflow-hidden bg-gray dark:bg-black-light">
       {/* Text container */}
       {/* TODO: Change Hero Text color */}
 
-      <div className="w-full mx-auto text-center md:w-1/2 md:text-left lg:p-20">
+      <div className="mx-auto text-center md:w-1/2 md:text-left lg:p-12">
         <RoughNotationGroup show={true}>
           <RoughNotationHero color={colors[0]}>
             <h1 className="my-4 text-3xl font-semibold md:text-8xl text-blue-dark dark:text-hero-font">
@@ -35,7 +35,7 @@ export default function Hero() {
         </RoughNotationGroup>
       </div>
       {/* Image container */}
-      <div className="relative hidden w-full mt-20 -mr-40 lg:block md:w-1/2">
+      <div className="flex md:mx-auto items-center justify-center mt-10 md:w-2/5">
         <div className="w-3/4 ">
           <Image
             src={userData.avatarUrl}
@@ -43,6 +43,9 @@ export default function Hero() {
             className="shadow"
             width={500}
             height={500}
+            placeholder='blur'
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMszN1aDwAE/gIUJRDHNgAAAABJRU5ErkJggg==="
+            priority={false}
           />
           <div className="flex flex-row justify-between mt-4">
             <div className="flex flex-row space-x-4">

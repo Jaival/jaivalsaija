@@ -10,7 +10,7 @@ export default function Experience() {
           Experience
         </h1>
       </div>
-      <div className="-mt-10 bg-gray dark:bg-black-light">
+      <div className="-mt-10 bg-gray dark:bg-black-light px-8">
         <div className="grid max-w-xl grid-cols-1 pt-20 mx-auto dark:bg-black-light">
           {/* Experience card */}
           {userData.experience.map((exp, idx) => (

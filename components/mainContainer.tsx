@@ -8,7 +8,7 @@ export default function ContainerMain({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full bg-silver dark:bg-blue-dark">
+    <main className="w-full h-full bg-silver dark:bg-blue-dark">
       <Navbar />
       <div>{children}</div>
       <Footer />

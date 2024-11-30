@@ -9,7 +9,7 @@ export default function ContactMe() {
           Contact
         </h1>
       </div>
-      <div className="relative z-10 max-w-6xl p-4 mx-auto mb-20 -mt-4 text-white rounded-md shadow-md bg-blue md:p-10 lg:p-20">
+      <div className="relative z-10 max-w-6xl p-4 mb-20 -mt-4 mx-2 md:mx-auto text-white rounded-md shadow-md bg-blue md:p-10 lg:p-20">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="md:ml-4">
             <header className="">

@@ -1,15 +1,14 @@
 import { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 import React from 'react';
-import { Providers } from '../lib/provider';
+import { ThemeProvider } from '../lib/provider';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
   weight: 'variable',
-  preload: true,
+  preload: false,
   subsets: ['latin'],
 });
-
 
 export const metadata: Metadata = {
   title: 'Home - Jaival Saija',
@@ -22,11 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={spaceGrotesk.className}>
-      <body>
-        <Providers>
+    <html lang="en">
+      <body className={spaceGrotesk.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
-        </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

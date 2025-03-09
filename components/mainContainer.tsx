@@ -2,16 +2,16 @@ import React from 'react';
 import Footer from './footer';
 import Navbar from './navbar';
 
-export default function ContainerMain({
-  children,
-}: {
+interface ContainerMainProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function ContainerMain({ children }: ContainerMainProps) {
   return (
-    <main className="w-full h-full bg-silver dark:bg-blue-dark">
+    <div className="w-full h-full bg-silver dark:bg-blue-dark">
       <Navbar />
       <div>{children}</div>
       <Footer />
-    </main>
+    </div>
   );
 }

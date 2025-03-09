@@ -6,145 +6,94 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import userData from '../data/data';
 
-export default function Navbar() {
+// NavLink component to avoid repetition
+const NavLink = ({ href, label }: { href: string; label: string }) => {
   const pathName = usePathname();
+  const isActive = pathName === href;
+
+  return (
+    <Link href={href}>
+      <span
+        className={`
+          text-base transition-colors duration-200
+          ${
+            isActive
+              ? 'text-purple-dark font-bold dark:text-silver'
+              : 'text-purple-dark dark:text-silver font-normal hover:text-gray-dark dark:hover:text-gray-light'
+          }
+        `}
+      >
+        {label}
+        {isActive && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="inline-block w-3 h-3 ml-1 bi bi-arrow-down"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+            />
+          </svg>
+        )}
+      </span>
+    </Link>
+  );
+};
+
+export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathName = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Navigation items to avoid repetition
+  const navigationItems = [
+    { href: '/aboutme', label: 'About Me' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/experience', label: 'Experience' },
+    { href: '/contactme', label: 'Contact Me' },
+  ];
+
   return (
-    <div className="max-w-6xl px-4 py-10 mx-auto md:py-20">
+    <nav className="max-w-6xl px-4 py-6 mx-auto sm:py-10 md:py-20">
       <div className="flex items-center justify-between md:flex-row">
-        {/* Logo / Home / Text */}
+        {/* Logo / Home */}
+        <Link href="/" className="flex flex-col">
+          <h1 className="text-xl font-semibold text-black-dark dark:text-silver transition-colors">
+            {userData.name}
+          </h1>
+          <p className="text-base font-light text-black-dark dark:text-silver transition-colors">
+            {userData.designation}
+          </p>
+        </Link>
 
-        <div className="flex flex-col">
-          <Link href="/">
-            <div>
-              <h1 className="text-xl font-semibold text-black-dark dark:text-silver">
-                {userData.name}
-              </h1>
-              <p className="text-base font-light text-black-dark dark:text-silver">
-                {userData.designation}
-              </p>
-            </div>
-          </Link>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex md:items-center space-x-8">
+          {navigationItems.map((item) => (
+            <NavLink key={item.href} href={item.href} label={item.label} />
+          ))}
         </div>
 
-        <div className="hidden space-x-8 md:block text-silver">
-          <Link href="/aboutme">
-            <text
-              className={`text-base  ${pathName === '/aboutme'
-                ? 'text-purple-dark font-bold dark:text-silver'
-                : 'text-purple-dark dark:text-silver font-normal '
-              }`}
-            >
-              About Me{' '}
-              {pathName === '/aboutme' && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="inline-block w-3 h-3 bi bi-arrow-down"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                  />
-                </svg>
-              )}
-            </text>
-          </Link>
-          <Link href="/projects">
-            <text
-              className={`text-base  ${pathName === '/projects'
-                ? 'text-purple-dark dark:text-silver font-bold  '
-                : 'text-purple-dark dark:text-silver font-normal '
-              }`}
-            >
-              Projects{' '}
-              {pathName === '/projects' && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="inline-block w-3 h-3 bi bi-arrow-down"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                  />
-                </svg>
-              )}
-            </text>
-          </Link>
-          <Link href="/experience">
-            <text
-              className={`text-base  ${pathName === '/experience'
-                ? 'text-purple-dark dark:text-silver font-bold  '
-                : 'text-purple-dark dark:text-silver font-normal '
-              }`}
-            >
-              Experience{' '}
-              {pathName === '/experience' && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="inline-block w-3 h-3 bi bi-arrow-down"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                  />
-                </svg>
-              )}
-            </text>
-          </Link>
-          <Link href="/contactme">
-            <text
-              className={`text-base  ${pathName === '/contactme'
-                ? 'text-purple-dark dark:text-silver font-bold  '
-                : 'text-purple-dark dark:text-silver font-normal '
-              }`}
-            >
-              Contact Me{' '}
-              {pathName === '/contactme' && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="inline-block w-3 h-3 bi bi-arrow-down"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                  />
-                </svg>
-              )}
-            </text>
-
-          </Link>
-        </div>
-
-        <div className="flex flex-row items-center space-x-4">
+        <div className="flex items-center space-x-4">
+          {/* Theme Toggle Button */}
           <button
             aria-label="Toggle Dark Mode"
             type="button"
-            className="w-10 h-10 p-3 rounded focus:outline-none"
-            onClick={() => {
-              setTheme(theme === 'dark' ? 'light' : 'dark');
-            }}
+            className="w-10 h-10 p-3 rounded-md focus:outline-hidden transition-colors"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
             {mounted && (
               <svg
@@ -153,6 +102,7 @@ export default function Navbar() {
                 fill="currentColor"
                 stroke="currentColor"
                 className="w-4 h-4 text-yellow-light dark:text-orange-dark"
+                aria-hidden="true"
               >
                 {theme === 'dark' ? (
                   <path
@@ -172,34 +122,64 @@ export default function Navbar() {
               </svg>
             )}
           </button>
+          {/* TODO: Update to use lucide*/}
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            className="p-2 md:hidden rounded-md text-purple-dark dark:text-silver"
+            onClick={toggleMobileMenu}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle mobile menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              {mobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
         </div>
       </div>
-      <div className="block mt-4 space-x-8 md:hidden">
-        <Link
-          href="/aboutme"
-          className="text-base font-normal text-purple-dark dark:text-silver"
-        >
-          About Me
-        </Link>
-        <Link
-          href="/projects"
-          className="text-base font-normal text-purple-dark dark:text-silver"
-        >
-          Projects
-        </Link>
-        <Link
-          href="/experience"
-          className="text-base font-normal text-purple-dark dark:text-silver"
-        >
-          Experience
-        </Link>
-        <Link
-          href="/contactme"
-          className="text-base font-normal text-purple-dark dark:text-silver"
-        >
-          Contact Me
-        </Link>
-      </div>
-    </div>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <div className="md:hidden mt-4 py-3 px-4 bg-gray-dark dark:bg-gray-light rounded-lg shadow-lg transition-all">
+          <div className="flex flex-col space-y-4">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-base py-2 px-3 rounded-md transition-colors ${
+                  pathName === item.href
+                    ? 'text-purple-dark dark:text-silver font-bold bg-gray-dark dark:bg-gray-light'
+                    : 'text-purple-dark dark:text-silver font-normal hover:bg-gray-dark dark:hover:bg-gray-light'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
   );
 }

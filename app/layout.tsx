@@ -5,14 +5,32 @@ import { ThemeProvider } from '../lib/provider';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
-  weight: 'variable',
-  preload: false,
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
 });
 
 export const metadata: Metadata = {
-  title: 'Home - Jaival Saija',
-  description: 'I am a DevOps Engineer and a all tech lover.',
+  title: 'Jaival Saija | DevOps Engineer',
+  description: 'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
+  keywords: ['DevOps', 'Engineer', 'Technology', 'Developer', 'Portfolio'],
+  authors: [{ name: 'Jaival Saija' }],
+  creator: 'Jaival Saija',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://jaivalsaija.com',
+    title: 'Jaival Saija | DevOps Engineer',
+    description: 'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
+    siteName: 'Jaival Saija',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaival Saija | DevOps Engineer',
+    description: 'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
+    creator: '@jaivalsaija',
+  },
 };
 
 export default function RootLayout({
@@ -21,10 +39,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={spaceGrotesk.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+    <html lang="en" className={spaceGrotesk.variable}>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <main className="flex min-h-screen flex-col">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

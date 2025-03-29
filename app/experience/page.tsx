@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import Experience from '../../components/experience';
-import ContainerMain from '../../components/mainContainer';
+import Experience from '@/components/experience';
+import PageWrapper from '@/components/pageWrapper';
 
 export const metadata: Metadata = {
   title: 'Experience - Jaival Saija',
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 export default function experience() {
   return (
-    <ContainerMain>
+    <PageWrapper>
       <Experience />
-    </ContainerMain>
+    </PageWrapper>
   );
 }

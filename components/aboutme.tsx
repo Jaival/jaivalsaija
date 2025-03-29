@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import userData from '../data/data';
+import userData from '@/data/data';
 
 // Reusable component for social links
 const SocialLink = ({ href, name }: { href: string; name: string }) => (
@@ -32,14 +32,12 @@ export default function AboutMe() {
           About Me.
         </h1>
       </div>
-      
+
       {/* Main content section */}
       <div className="-mt-10 bg-gray dark:bg-black-light">
         {/* Title and current project */}
         <div className="max-w-6xl pt-16 sm:pt-20 mx-auto">
-          <div
-            className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed md:leading-loose"
-          >
+          <div className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed md:leading-loose">
             {userData.about.title}. Currently working on{' '}
             <Link
               className="px-2 py-1 rounded-md bg-red-light hover:bg-red-400 transition-colors"
@@ -51,7 +49,7 @@ export default function AboutMe() {
           </div>
         </div>
       </div>
-      
+
       {/* Content grid */}
       <div className="px-4 bg-gray dark:bg-black-light">
         <div className="grid max-w-6xl grid-cols-1 pt-12 sm:pt-16 md:pt-20 mx-auto md:grid-cols-3 gap-y-12 md:gap-y-20 gap-x-8 md:gap-x-20">
@@ -71,7 +69,7 @@ export default function AboutMe() {
                 and I&apos;ll get back. I swear.
               </div>
             </div>
-            
+
             {/* Job opportunities section */}
             <div>
               <SectionHeader>Job Opportunities</SectionHeader>
@@ -89,19 +87,28 @@ export default function AboutMe() {
                 and I&apos;d love to work for you.
               </div>
             </div>
-            
+
             {/* Social Links */}
             <div>
               <SectionHeader>Social Links</SectionHeader>
               <div className="mt-2 ml-4 space-y-1">
-                <SocialLink href={userData.socialLinks.twitter} name="Twitter" />
+                <SocialLink
+                  href={userData.socialLinks.twitter}
+                  name="Twitter"
+                />
                 <SocialLink href={userData.socialLinks.github} name="GitHub" />
-                <SocialLink href={userData.socialLinks.linkedin} name="LinkedIn" />
-                <SocialLink href={userData.socialLinks.instagram} name="Instagram" />
+                <SocialLink
+                  href={userData.socialLinks.linkedin}
+                  name="LinkedIn"
+                />
+                <SocialLink
+                  href={userData.socialLinks.instagram}
+                  name="Instagram"
+                />
               </div>
             </div>
           </aside>
-          
+
           {/* Main content area */}
           <div className="col-span-1 md:col-span-2">
             {/* About me description */}

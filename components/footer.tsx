@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import userData from '../data/data';
+import userData from '@/data/data';
 
 export default function Footer() {
   return (
@@ -7,22 +7,21 @@ export default function Footer() {
       <div className="max-w-6xl px-4 py-10 mx-auto md:py-20">
         <div className="h-0.5 w-full bg-blue-line"></div>
         <div className="flex flex-col justify-between mt-8 space-y-4 md:space-y-0 md:flex-row md:items-center dark:text-gray">
-          <div className='flex'>
-            <span>
-            © {new Date().getFullYear() + '.'}&nbsp;
-            </span>
+          <div className="flex">
+            <span>© {new Date().getFullYear() + '.'}&nbsp;</span>
             {/* <span>&nbsp;Created by:&nbsp;</span> */}
             <span>
               <div
                 // href={'https://jaivalsaija.vercel.app/'}
-                className="flex flex-row items-center space-x-4 group">
+                className="flex flex-row items-center space-x-4 group"
+              >
                 <span className="relative overflow-hidden">
                   <div className="absolute h-0.5 w-full bg-orange-dark bottom-0 transform -translate-x-24 group-hover:translate-x-0 transition duration-300"></div>
-                Jaival Saija.&nbsp;
+                  Jaival Saija.&nbsp;
                 </span>
               </div>
             </span>
-          All Rights Reserved.
+            All Rights Reserved.
           </div>
           <div className="flex flex-row items-center space-x-4">
             <Link

@@ -1,7 +1,7 @@
 import React from 'react';
-import AboutMe from '../../components/aboutme';
-import ContainerMain from '../../components/mainContainer';
-import {Metadata} from 'next';
+import AboutMe from '@/components/aboutme';
+import PageWrapper from '@/components/pageWrapper';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About - Jaival Saija',
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function aboutMe() {
   return (
-    <ContainerMain>
+    <PageWrapper>
       <AboutMe />
-    </ContainerMain>
+    </PageWrapper>
   );
 }

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import userData from '../data/data';
+import userData from '@/data/data';
 import { useState } from 'react';
 
 // Define types for project data
@@ -46,7 +46,7 @@ const ProjectCard = ({
               group-hover:scale-110
               ${isLoading ? 'blur-sm' : 'blur-0'}
             `}
-            onLoadingComplete={() => setIsLoading(false)}
+            onLoad={() => setIsLoading(false)}
           />
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 animate-pulse">

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import userData from '../data/data';
+import userData from '@/data/data';
 
 export default function ContactMe() {
   return (
@@ -20,10 +20,11 @@ export default function ContactMe() {
                 Get in touch, let&apos;s talk.
               </h2>
               <p className="mt-2 text-sm md:text-base font-light">
-                Fill in the details and I&apos;ll get back to you as soon as I can.
+                Fill in the details and I&apos;ll get back to you as soon as I
+                can.
               </p>
             </header>
-            
+
             <div className="flex flex-col space-y-4">
               <div className="flex flex-row items-center p-3 md:p-4 space-x-4 border rounded-md border-blue hover:border-aero transition-colors duration-300">
                 <svg
@@ -38,7 +39,7 @@ export default function ContactMe() {
                 </svg>
                 <p className="text-sm font-light truncate">{userData.email}</p>
               </div>
-              
+
               <div className="flex flex-row items-center p-3 md:p-4 space-x-4 border rounded-md border-blue hover:border-aero transition-colors duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +54,7 @@ export default function ContactMe() {
                 <p className="text-sm font-light">{userData.address}</p>
               </div>
             </div>
-            
+
             <div className="flex flex-row space-x-4 pt-4">
               <Link
                 href={userData.socialLinks.twitter}

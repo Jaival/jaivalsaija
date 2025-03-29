@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import userData from '../data/data';
+import userData from '@/data/data';
 
 export default function Experience() {
   return (

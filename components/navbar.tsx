@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import userData from '../data/data';
+import userData from '@/data/data';
 
 // NavLink component to avoid repetition
 const NavLink = ({ href, label }: { href: string; label: string }) => {
@@ -71,7 +71,7 @@ export default function Navbar() {
     <nav className="max-w-6xl px-4 py-6 mx-auto sm:py-10 md:py-20">
       <div className="flex items-center justify-between md:flex-row">
         {/* Logo / Home */}
-        <Link href="/" className="flex flex-col">
+        <Link href="/" className="flex flex-col" aria-label="Go to homepage">
           <h1 className="text-xl font-semibold text-black-dark dark:text-silver transition-colors">
             {userData.name}
           </h1>

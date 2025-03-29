@@ -1,17 +1,25 @@
 import Image from 'next/image';
 import { RoughNotationGroup } from 'react-rough-notation';
-import userData from '../data/data';
+import userData from '@/data/data';
 import { RoughNotationHero } from './roughNotationHero';
 
 export default function Hero() {
   const colors = ['#FB9677', '#F1E2D2', '#CFE5C0', '#C8D9EB'];
-  
+
   return (
-    <section aria-label="Hero Section" className="flex flex-col md:flex-row items-center justify-center py-10 md:py-16 overflow-hidden bg-gray dark:bg-black-light">
+    <section
+      aria-label="Hero Section"
+      className="flex flex-col md:flex-row items-center justify-center py-10 md:py-16 overflow-hidden bg-gray dark:bg-black-light"
+    >
       {/* Text container */}
       <div className="w-full px-4 md:px-4 md:w-1/2 text-center md:text-left lg:p-12 animate-fade-in-up">
         <RoughNotationGroup show={true}>
-          {['DevOps Engineer.', 'Moody Developer.', 'Cloud Enthusiastic.', 'UI Hobbyist.'].map((text, index) => (
+          {[
+            'DevOps Engineer.',
+            'Moody Developer.',
+            'Cloud Enthusiastic.',
+            'UI Hobbyist.',
+          ].map((text, index) => (
             <RoughNotationHero color={colors[index]} key={index}>
               <h1 className="my-3 md:my-4 sm:text-4xl md:text-8xl font-semibold text-blue-dark dark:text-hero-font transition-colors">
                 {text}
@@ -20,7 +28,7 @@ export default function Hero() {
           ))}
         </RoughNotationGroup>
       </div>
-      
+
       {/* Image container */}
       <div className="w-full md:w-2/5 flex justify-center items-center mt-8 md:mt-0">
         <div className="w-4/5 sm:w-3/5 md:w-4/5 max-w-md transition-transform hover:scale-[1.02] duration-300">

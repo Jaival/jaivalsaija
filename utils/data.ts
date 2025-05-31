@@ -15,7 +15,7 @@ const userData = {
     // },
     {
       title: 'Jigna Saija Portfolio',
-      link: 'https://jigna-saija.vercel.app/',
+      link: 'https://jignasaija.vercel.app/',
       imgUrl: '/projects/jigna-saija-portfolio.png',
     },
     {
@@ -36,7 +36,7 @@ const userData = {
   ],
   about: {
     title:
-      "I'm a software developer that loves building products and web applications that impact millions of lives",
+      'I am a DevOps Engineer focused on optimizing cloud infrastructure and building scalable, automated systems for reliable products and web applications.',
     description: [
       "I've been interested in computer science since I was 15 years old, first is was because of the games and I dreamed of becoming a game developer or something related to computers. After few year of playing games and studying I got into a specialized bachelor's program in computer science for cloud computing.",
       'It was like a new world to open to exploration and [something] . As I was learning about cloud computing, how it works, why it works, how it came to existence; I was falling in love with it more and more.',

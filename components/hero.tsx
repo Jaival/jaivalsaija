@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { RoughNotationGroup } from 'react-rough-notation';
-import userData from '@/data/data';
+import userData from 'utils/data';
 import { RoughNotationHero } from './roughNotationHero';
 
 export default function Hero() {

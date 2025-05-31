@@ -2,20 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import userData from '@/data/data';
+import userData from 'utils/data';
 import { useState } from 'react';
-
-// Define types for project data
-interface Project {
-  title: string;
-  link: string;
-  imgUrl: string;
-  description?: string;
-}
-
-interface ProjectCardProps extends Project {
-  number: string;
-}
+import { ProjectCardProps } from '@/data/interface';
 
 // Extract ProjectCard to its own component for better organization
 const ProjectCard = ({

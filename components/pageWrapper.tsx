@@ -1,10 +1,7 @@
 import React from 'react';
 import Footer from './footer';
 import Navbar from './navbar';
-
-interface PageWrapperProps {
-  children: React.ReactNode;
-}
+import { PageWrapperProps } from '@/data/interface';
 
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (

@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import userData from '@/data/data';
+import userData from 'utils/data';
 
 // NavLink component to avoid repetition
 const NavLink = ({ href, label }: { href: string; label: string }) => {

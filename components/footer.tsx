@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import userData from '@/data/data';
+import userData from 'utils/data';
 
 export default function Footer() {
   return (

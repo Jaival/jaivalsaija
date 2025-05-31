@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import userData from '@/data/data';
+import userData from 'utils/data';
 
 // Reusable component for social links
 const SocialLink = ({ href, name }: { href: string; name: string }) => (
@@ -37,8 +37,8 @@ export default function AboutMe() {
       <div className="-mt-10 bg-gray dark:bg-black-light">
         {/* Title and current project */}
         <div className="max-w-6xl pt-16 sm:pt-20 mx-auto">
-          <div className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed md:leading-loose">
-            {userData.about.title}. Currently working on{' '}
+          <div className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed">
+            {userData.about.title} Currently working on{' '}
             <Link
               className="px-2 py-1 rounded-md bg-red-light hover:bg-red-400 transition-colors"
               href={userData.about.currentProjectUrl}

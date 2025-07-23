@@ -10,7 +10,7 @@ const nextConfig = {
 
   // Basic image optimization (essential for portfolio)
   images: {
-    formats: ['image/webp', 'image/avif'],
+    // formats: ['image/avif', 'image/webp', 'image/png', 'image/jpeg'],
     remotePatterns: [
       {
         protocol: 'https',

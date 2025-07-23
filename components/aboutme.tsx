@@ -8,7 +8,7 @@ import userData from 'utils/data';
 import PageHeader from './PageHeader';
 import { sharedVariants } from '@/utils/animations';
 import { containerStyles } from '@/utils/styles';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 // Modernized social link component with animations
 const SocialLink = ({ href, name }: { href: string; name: string }) => (

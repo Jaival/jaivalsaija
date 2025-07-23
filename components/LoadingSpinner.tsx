@@ -18,7 +18,7 @@ export default function LoadingSpinner() {
           <motion.div
             className="absolute inset-0 border-2 border-transparent rounded-full"
             style={{
-              background: `conic-gradient(from 0deg, transparent, #1f7a8c, #3f88c5, transparent)`,
+              background: 'conic-gradient(from 0deg, transparent, #1f7a8c, #3f88c5, transparent)',
             }}
             animate={{ rotate: 360 }}
             transition={{

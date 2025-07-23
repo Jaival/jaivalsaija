@@ -8,8 +8,7 @@ import userData from 'utils/data';
 import { RoughNotationHero } from './roughNotationHero';
 import BackgroundElements from './backgroundElements';
 import { sharedVariants, hoverAnimations } from '@/utils/animations';
-import { titleStyles, gradientText, buttonStyles } from '@/utils/styles';
-import LoadingSpinner from './LoadingSpinner';
+import { titleStyles, gradientText } from '@/utils/styles';
 
 export default function Hero() {
   const [showRoughNotation, setShowRoughNotation] = useState(false);

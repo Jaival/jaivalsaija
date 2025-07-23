@@ -58,7 +58,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             </motion.div>
 
             <motion.h2
-              className="text-2xl font-bold text-gray-dark dark:text-gray-light mb-4"
+              className="text-2xl font-bold text-blue-dark dark:text-gray-light mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -67,7 +67,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             </motion.h2>
 
             <motion.p
-              className="text-gray-dark dark:text-gray-light mb-6"
+              className="text-blue-dark dark:text-gray-light mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}

@@ -204,19 +204,9 @@ const ExperienceCard = ({
 
       {/* Content */}
       <div className="pt-4">
-        <motion.h2
-          className="text-xl md:text-2xl font-bold text-gray-dark dark:text-white mb-2 cursor-default"
-          whileHover={{
-            x: 2,
-          }}
-          transition={{
-            type: 'tween',
-            duration: 0.2,
-            ease: 'easeOut',
-          }}
-        >
+        <h3 className="text-xl md:text-2xl font-bold text-blue-dark dark:text-white mb-2 cursor-default">
           {title}
-        </motion.h2>
+        </h3>
 
         <motion.div
           whileHover={{
@@ -237,7 +227,7 @@ const ExperienceCard = ({
         </motion.div>
 
         <motion.p
-          className="text-gray-dark dark:text-gray-light leading-relaxed text-base md:text-lg cursor-default"
+          className="text-blue-dark dark:text-gray-light leading-relaxed text-base md:text-lg cursor-default"
           initial={{ opacity: 0.8, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

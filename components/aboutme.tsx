@@ -8,6 +8,7 @@ import userData from 'utils/data';
 import PageHeader from './PageHeader';
 import { sharedVariants } from '@/utils/animations';
 import { containerStyles } from '@/utils/styles';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 
 // Modernized social link component with animations
 const SocialLink = ({ href, name }: { href: string; name: string }) => (
@@ -18,13 +19,13 @@ const SocialLink = ({ href, name }: { href: string; name: string }) => (
   >
     <Link href={href} className="flex flex-row items-center space-x-4 group">
       <motion.div
-        className="my-4 text-hero-font dark:text-blue-light"
-        animate={{ x: [0, 4, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        className="my-4"
+        animate={{ x: [0, 5, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
       >
-        &rarr;
+        <ChevronRight className="w-5 h-5 text-blue-dark dark:text-hero-font transition-colors" />
       </motion.div>
-      <div className="relative overflow-hidden font-mono text-lg text-gray-dark dark:text-gray-light">
+      <div className="relative overflow-hidden font-mono text-lg text-blue-dark dark:text-gray-light">
         <motion.div className="absolute h-0.5 w-full bg-gradient-to-r from-orange-light to-red-light bottom-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
         <motion.span
           whileHover={{ scale: 1.05 }}
@@ -86,7 +87,7 @@ export default function AboutMe() {
         {/* Title and current project */}
         <div className="max-w-6xl pt-16 sm:pt-20 mx-auto">
           <motion.div
-            className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed text-gray-dark dark:text-gray-light"
+            className="mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed text-blue-dark dark:text-gray-light"
             variants={itemVariants}
           >
             {userData.about.title} Currently working on{' '}
@@ -133,7 +134,7 @@ export default function AboutMe() {
               transition={{ duration: 0.2 }}
             >
               <SectionHeader>Contact</SectionHeader>
-              <div className="text-base sm:text-lg text-gray-dark dark:text-gray-light">
+              <div className="text-base sm:text-lg text-blue-dark dark:text-gray-light">
                 For any sort help / enquiry, shoot a{' '}
                 <motion.span
                   whileHover={{ scale: 1.05 }}
@@ -157,7 +158,7 @@ export default function AboutMe() {
               transition={{ duration: 0.2 }}
             >
               <SectionHeader>Job Opportunities</SectionHeader>
-              <div className="text-base sm:text-lg text-gray-dark dark:text-gray-light">
+              <div className="text-base sm:text-lg text-blue-dark dark:text-gray-light">
                 I&apos;m looking for a job currently, If you see me as a good
                 fit, check my{' '}
                 <motion.span
@@ -215,7 +216,7 @@ export default function AboutMe() {
               {userData.about.description?.map((desc, idx) => (
                 <motion.p
                   key={idx}
-                  className="text-base sm:text-lg md:text-xl text-gray-dark dark:text-gray-light leading-relaxed"
+                  className="text-base sm:text-lg md:text-xl text-blue-dark dark:text-gray-light leading-relaxed"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

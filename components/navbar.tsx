@@ -16,7 +16,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   const linkClasses = `relative text-base font-medium transition-colors duration-300 px-3 py-2 rounded-lg ${
     isActive
       ? 'text-hero-font dark:text-blue-light'
-      : 'text-gray-dark dark:text-gray-light hover:text-hero-font dark:hover:text-blue-light'
+      : 'text-blue-dark dark:text-gray-light hover:text-hero-font dark:hover:text-blue-light'
   }`;
 
   // Static animation variants (no need to memoize)
@@ -297,7 +297,7 @@ export default function Navbar() {
                   <h1 className="text-xl font-bold bg-gradient-to-r from-blue-dark via-hero-font to-blue-green bg-clip-text text-transparent dark:from-white dark:via-blue-light dark:to-aero transition-all duration-300">
                     {name}
                   </h1>
-                  <p className="text-sm font-medium text-gray-dark dark:text-gray-light group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-300">
+                  <p className="text-sm font-medium text-blue-dark dark:text-gray-light group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-300">
                     {designation}
                   </p>
                 </motion.div>
@@ -364,7 +364,7 @@ export default function Navbar() {
                           className={`block text-base py-3 px-4 rounded-xl transition-all duration-200 ${
                             pathName === item.href
                               ? 'text-hero-font dark:text-blue-light font-semibold bg-gradient-to-r from-hero-font/15 to-blue-green/15 border border-hero-font/30 shadow-sm'
-                              : 'text-gray-dark dark:text-gray-light font-medium hover:text-hero-font dark:hover:text-blue-light hover:bg-gray-light/40 dark:hover:bg-blue-line/40 hover:scale-[1.02] active:scale-[0.98]'
+                              : 'text-blue-dark dark:text-gray-light font-medium hover:text-hero-font dark:hover:text-blue-light hover:bg-gray-light/40 dark:hover:bg-blue-line/40 hover:scale-[1.02] active:scale-[0.98]'
                           }`}
                           onClick={closeMobileMenu}
                         >

@@ -45,7 +45,7 @@ export const cardStyles = {
 
 // Form input styling
 export const inputStyles = {
-  base: 'w-full px-4 py-3 bg-white/10 dark:bg-blue-dark/20 border rounded-xl backdrop-blur-sm transition-all duration-300 resize-none focus:ring-2 focus:ring-hero-font/30 focus:border-hero-font placeholder:text-gray-dark/60 dark:placeholder:text-gray-light/60 text-gray-dark dark:text-gray-light',
+  base: 'w-full px-4 py-3 bg-white/10 dark:bg-blue-dark/20 border rounded-xl backdrop-blur-sm transition-all duration-300 resize-none focus:ring-2 focus:ring-hero-font/30 focus:border-hero-font placeholder:text-blue-dark/60 dark:placeholder:text-gray-light/60 text-blue-dark dark:text-gray-light',
   error: 'border-red-light focus:ring-red-light/30 focus:border-red-light',
   normal:
     'border-gray-light/30 dark:border-blue-line/30 hover:border-hero-font/50',

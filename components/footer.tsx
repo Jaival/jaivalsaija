@@ -36,7 +36,7 @@ export default function Footer() {
 
         {/* Centered copyright and name section */}
         <motion.div
-          className="flex flex-wrap items-center justify-center text-base text-gray-dark dark:text-gray-light"
+          className="flex flex-wrap items-center justify-center text-base text-blue-dark dark:text-gray-light"
           variants={itemVariants}
         >
           <span className="mr-2">© {new Date().getFullYear()}.</span>

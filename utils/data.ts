@@ -146,7 +146,7 @@ const userData: UserData = {
     'https://drive.google.com/file/d/1-SmecqmoMsASfEkmqytU_YXc2M3JO5aa/view?usp=sharing',
   socialLinks: {
     instagram: 'https://www.instagram.com/jaivalsaija/',
-    twitter: 'https://twitter.com/Jaival469',
+    twitter: 'https://x.com/Jaival469',
     linkedin: 'https://www.linkedin.com/in/jaivalsaija/',
     github: 'https://github.com/Jaival',
   },

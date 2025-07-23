@@ -9,6 +9,7 @@ import { RoughNotationHero } from './roughNotationHero';
 import BackgroundElements from './backgroundElements';
 import { sharedVariants, hoverAnimations } from '@/utils/animations';
 import { titleStyles, gradientText, buttonStyles } from '@/utils/styles';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function Hero() {
   const [showRoughNotation, setShowRoughNotation] = useState(false);
@@ -98,7 +99,7 @@ export default function Hero() {
           >
             <motion.a
               href="/projects"
-              className={buttonStyles.primary}
+              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >
@@ -106,7 +107,7 @@ export default function Hero() {
             </motion.a>
             <motion.a
               href="/contactme"
-              className={buttonStyles.secondary}
+              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border border-hero-font dark:border-blue-light text-hero-font dark:text-blue-light hover:bg-hero-font hover:text-white dark:hover:bg-blue-light dark:hover:text-blue-dark transition-all duration-300"
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >

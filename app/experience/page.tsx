@@ -1,15 +1,11 @@
-import { Metadata } from 'next';
+import React from 'react';
 import Experience from '@/components/experience';
-import PageWrapper from '@/components/pageWrapper';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Experience - Jaival Saija',
 };
 
-export default function experience() {
-  return (
-    <PageWrapper>
-      <Experience />
-    </PageWrapper>
-  );
+export default function ExperiencePage() {
+  return <Experience />;
 }

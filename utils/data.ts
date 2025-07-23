@@ -1,37 +1,83 @@
-// TODO: Add type definitions for data.ts, imgUrl's, Company link's, etc.
-const userData = {
+// Enhanced type definitions for better type safety
+export interface Project {
+  title: string;
+  link: string;
+  imgUrl: string;
+  description?: string;
+}
+
+export interface Experience {
+  id: number;
+  title: string;
+  company: string;
+  year: string;
+  companyLink: string;
+  desc: string;
+}
+
+export interface About {
+  title: string;
+  description: string[];
+  currentProject: string;
+  currentProjectUrl: string;
+}
+
+export interface SocialLinks {
+  instagram: string;
+  twitter: string;
+  linkedin: string;
+  github: string;
+}
+
+export interface UserData {
+  githubUsername: string;
+  name: string;
+  designation: string;
+  avatarUrl: string;
+  email: string;
+  address: string;
+  projects: Project[];
+  about: About;
+  experience: Experience[];
+  resumeUrl: string;
+  socialLinks: SocialLinks;
+}
+
+// Static user data - safe for client components
+const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
   designation: 'Cloud Engineer',
   avatarUrl: '/avatar.JPG',
   email: 'saijajaival@gmail.com',
-  // phone: "+91 8155060477",
   address: 'Ahmedabad, Gujarat, India',
   projects: [
-    // {
-    //   title: 'Portfolio',
-    //   link: 'https://github.com/Jaival',
-    //   imgUrl: '/projects/portfolio.png',
-    // },
     {
       title: 'Jigna Saija Portfolio',
       link: 'https://jignasaija.vercel.app/',
       imgUrl: '/projects/jigna-saija-portfolio.png',
+      description:
+        'A modern portfolio website built with Next.js showcasing design and development work.',
     },
     {
       title: 'Portfolio',
       link: 'https://github.com/Jaival',
       imgUrl: '/projects/portfolio.png',
+      description:
+        'Personal portfolio website showcasing projects and experience.',
     },
     {
       title: 'Taskly',
       link: 'https://taskly-dc4e2.web.app/',
       imgUrl: '/projects/taskly.png',
+      description:
+        'A task management application built with Flutter and Firebase.',
     },
     {
       title: 'VS Code Flat Theme',
       link: 'https://marketplace.visualstudio.com/items?itemName=JaivalSaija.flat',
       imgUrl: '/projects/flat-theme.png',
+      description: 'A clean and minimalist theme for Visual Studio Code.',
     },
   ],
   about: {
@@ -93,7 +139,7 @@ const userData = {
       company: 'Karma Foundation',
       year: '2018',
       companyLink: '#',
-      desc: 'Our responsibility was to conduct survey about the “Pay and Use Toilet” under the Right to Cleanliness initiative of Karma Foundation',
+      desc: 'Our responsibility was to conduct survey about the "Pay and Use Toilet" under the Right to Cleanliness initiative of Karma Foundation',
     },
   ],
   resumeUrl:

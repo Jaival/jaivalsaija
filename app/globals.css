@@ -54,6 +54,20 @@
   }
 }
 
+/* View Transition API - Theme Animation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Dark mode helper */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
 /* Essential modern features */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

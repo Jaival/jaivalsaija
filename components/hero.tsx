@@ -1,14 +1,14 @@
 'use client';
 
-import Image from 'next/image';
+import { hoverAnimations, sharedVariants } from '@/utils/animations';
+import { gradientText, titleStyles } from '@/utils/styles';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { RoughNotationGroup } from 'react-rough-notation';
-import { useState, useEffect } from 'react';
 import userData from 'utils/data';
-import { RoughNotationHero } from './roughNotationHero';
 import BackgroundElements from './backgroundElements';
-import { sharedVariants, hoverAnimations } from '@/utils/animations';
-import { titleStyles, gradientText } from '@/utils/styles';
+import { RoughNotationHero } from './roughNotationHero';
 
 export default function Hero() {
   const [showRoughNotation, setShowRoughNotation] = useState(false);

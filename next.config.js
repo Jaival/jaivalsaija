@@ -10,6 +10,7 @@ const nextConfig = {
 
   // Basic image optimization (essential for portfolio)
   images: {
+    dangerouslyAllowSVG: true,
     // formats: ['image/avif', 'image/webp', 'image/png', 'image/jpeg'],
     remotePatterns: [
       {

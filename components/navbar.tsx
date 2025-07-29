@@ -1,12 +1,13 @@
 'use client';
 
-import { useTheme } from 'next-themes';
+import { transitions } from '@/utils/animations';
+import { AnimatePresence, motion } from 'framer-motion';
+// import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import userData from 'utils/data';
-import { transitions } from '@/utils/animations';
+import { useViewTransitionTheme } from '../hooks/useViewTransitionTheme';
 
 // Simple NavLink component with optimized animations
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -88,16 +89,13 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 // Simple theme toggle button component
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { toggleTheme, buttonRef, currentTheme } = useViewTransitionTheme();
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
 
   const buttonVariants = {
     hover: { scale: 1.1 },
@@ -112,6 +110,7 @@ function ThemeToggle() {
 
   return (
     <motion.button
+      ref={buttonRef}
       aria-label="Toggle Dark Mode"
       type="button"
       className="relative w-10 h-10 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-all duration-300 hover:shadow-lg hover:scale-105"
@@ -122,7 +121,7 @@ function ThemeToggle() {
       <AnimatePresence mode="wait">
         {mounted && (
           <motion.div
-            key={theme}
+            key={currentTheme}
             initial={iconVariants.initial}
             animate={iconVariants.animate}
             exit={iconVariants.exit}
@@ -137,7 +136,7 @@ function ThemeToggle() {
               className="w-full h-full text-yellow-orange dark:text-yellow-light"
               aria-hidden="true"
             >
-              {theme === 'dark' ? (
+              {currentTheme === 'dark' ? (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -158,9 +157,7 @@ function ThemeToggle() {
       </AnimatePresence>
     </motion.button>
   );
-}
-
-// Simple mobile menu button component
+} // Simple mobile menu button component
 function MobileMenuButton({
   isOpen,
   onToggle,

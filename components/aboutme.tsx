@@ -1,14 +1,14 @@
 'use client';
 
+import { sharedVariants } from '@/utils/animations';
+import { containerStyles } from '@/utils/styles';
+import { motion } from 'framer-motion';
+import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { motion } from 'framer-motion';
 import userData from 'utils/data';
 import PageHeader from './PageHeader';
-import { sharedVariants } from '@/utils/animations';
-import { containerStyles } from '@/utils/styles';
-import { ChevronRight } from 'lucide-react';
 
 // Modernized social link component with animations
 const SocialLink = ({ href, name }: { href: string; name: string }) => (
@@ -26,7 +26,7 @@ const SocialLink = ({ href, name }: { href: string; name: string }) => (
         <ChevronRight className="w-5 h-5 text-blue-dark dark:text-hero-font transition-colors" />
       </motion.div>
       <div className="relative overflow-hidden font-mono text-lg text-blue-dark dark:text-gray-light">
-        <motion.div className="absolute h-0.5 w-full bg-gradient-to-r from-orange-light to-red-light bottom-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+        <motion.div className="absolute h-0.5 w-full bg-gradient-to-r from-red-light to-orange-light bottom-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
         <motion.span
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
@@ -96,7 +96,7 @@ export default function AboutMe() {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                className="px-3 py-2 rounded-xl bg-gradient-to-r from-orange-light to-red-light hover:from-red-light hover:to-orange-dark text-white shadow-lg transition-all duration-300 hover:shadow-xl inline-flex items-center space-x-2"
+                className="px-3 py-2 rounded-xl bg-gradient-to-r from-red-light to-red-dark hover:from-red-dark hover:to-orange text-white shadow-lg transition-all duration-300 hover:shadow-xl inline-flex items-center space-x-2"
                 href={userData.about.currentProjectUrl}
                 aria-label={`Current project: ${userData.about.currentProject}`}
               >
@@ -232,7 +232,7 @@ export default function AboutMe() {
               className="bg-white/20 dark:bg-black-light/20 rounded-2xl p-8 shadow-lg"
               variants={sharedVariants.item}
             >
-              <motion.h3 className="inline-block px-4 py-2 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-red-light to-orange-dark rounded-xl text-white shadow-lg mb-8">
+              <motion.h3 className="inline-block px-4 py-2 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-red-light via-orange-light to-red-dark rounded-xl text-white shadow-lg mb-8">
                 Tech Stack
               </motion.h3>
               <motion.div

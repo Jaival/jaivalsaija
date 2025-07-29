@@ -22,23 +22,45 @@ export function useViewTransitionTheme() {
       return;
     }
 
+    // Verify we have the correct button
+    const button = buttonRef.current;
+    if (!button || button.getAttribute('aria-label') !== 'Toggle Dark Mode') {
+      console.warn('Button ref is not pointing to the theme toggle button');
+      setTheme(targetTheme);
+      return;
+    }
+
+    // Force a reflow to ensure accurate positioning
+    button.offsetHeight;
+
+    const rect = button.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    // Debug logging
+    console.log('Theme button position:', {
+      x,
+      y,
+      rect,
+      ariaLabel: button.getAttribute('aria-label'),
+      className: button.className,
+    });
+
+    // Calculate maximum radius to cover entire viewport from button position
+    const maxRadius = Math.hypot(
+      Math.max(rect.left, window.innerWidth - rect.left),
+      Math.max(rect.top, window.innerHeight - rect.top),
+    );
+
     // Start the view transition
-    await (document as any).startViewTransition(() => {
+    const transition = (document as any).startViewTransition(() => {
       flushSync(() => {
         setTheme(targetTheme);
       });
-    }).ready;
+    });
 
-    // Get button position for circular animation origin
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect();
-    const x = left + width / 2;
-    const y = top + height / 2;
-
-    // Calculate maximum radius to cover entire viewport
-    const right = window.innerWidth - left;
-    const bottom = window.innerHeight - top;
-    const maxRadius = Math.hypot(Math.max(left, right), Math.max(top, bottom));
+    // Wait for the transition to be ready, then animate
+    await transition.ready;
 
     // Animate the circular clip-path from button position
     document.documentElement.animate(

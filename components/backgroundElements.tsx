@@ -1,0 +1,161 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { memo, useMemo } from 'react';
+
+interface BackgroundElementsProps {
+  variant?: 'default' | 'contact' | 'minimal' | 'hero';
+  className?: string;
+}
+
+const BackgroundElements = memo<BackgroundElementsProps>(
+  ({ variant = 'default', className = '' }) => {
+    // Memoize base elements to prevent recreation on each render
+    const baseElements = useMemo(
+      () => [
+        {
+          id: 'blue-primary',
+          className:
+            'absolute top-10 right-10 w-24 h-24 bg-blue-light/20 rounded-full blur-xl',
+          animate: {
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          },
+          transition: {
+            duration: 4,
+            repeat: Infinity,
+          },
+        },
+        {
+          id: 'orange-primary',
+          className:
+            'absolute bottom-5 left-16 w-32 h-32 bg-orange-light/20 rounded-full blur-xl',
+          animate: {
+            scale: [1.2, 1, 1.2],
+            opacity: [0.4, 0.2, 0.4],
+          },
+          transition: {
+            duration: 5,
+            repeat: Infinity,
+          },
+        },
+      ],
+      [],
+    );
+
+    // Memoize variant-specific elements
+    const variantElements = useMemo(
+      () => ({
+        contact: [
+          {
+            id: 'aero-floating',
+            className:
+              'absolute top-1/2 left-1/4 w-20 h-20 bg-aero/15 rounded-full blur-lg',
+            animate: {
+              scale: [0.8, 1.1, 0.8],
+              opacity: [0.2, 0.5, 0.2],
+              x: [0, 10, 0],
+              y: [0, -10, 0],
+            },
+            transition: {
+              duration: 8,
+              repeat: Infinity,
+            },
+          },
+          {
+            id: 'green-drift',
+            className:
+              'absolute bottom-20 left-1/3 w-16 h-16 bg-green-light/15 rounded-full blur-lg',
+            animate: {
+              scale: [1, 0.7, 1],
+              opacity: [0.3, 0.6, 0.3],
+              x: [0, -15, 0],
+              y: [0, 5, 0],
+            },
+            transition: {
+              duration: 7,
+              repeat: Infinity,
+            },
+          },
+        ],
+        default: [],
+        minimal: [],
+        hero: [],
+      }),
+      [],
+    );
+
+    // Memoize hero page elements
+    const heroElements = useMemo(
+      () => [
+        {
+          id: 'blue-hero',
+          className:
+            'absolute top-20 left-10 w-32 h-32 bg-blue-light/20 rounded-full blur-xl',
+          animate: {
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          },
+          transition: {
+            duration: 4,
+            repeat: Infinity,
+          },
+        },
+        {
+          id: 'orange-hero',
+          className:
+            'absolute bottom-20 right-10 w-40 h-40 bg-orange-light/20 rounded-full blur-xl',
+          animate: {
+            scale: [1.2, 1, 1.2],
+            opacity: [0.4, 0.2, 0.4],
+          },
+          transition: {
+            duration: 5,
+            repeat: Infinity,
+          },
+        },
+      ],
+      [],
+    );
+
+    // Memoize final element selection logic
+    const finalElements = useMemo(() => {
+      // Use hero elements for hero page (detected by className containing specific indicators)
+      const isHeroPage =
+        className.includes('hero') || className.includes('overflow-hidden');
+
+      if (isHeroPage) {
+        return heroElements;
+      }
+
+      // Select elements based on variant
+      switch (variant) {
+      case 'contact':
+        return [...baseElements, ...variantElements.contact];
+      case 'minimal':
+        return [baseElements[0]]; // Only one element for minimal
+      case 'hero':
+        return heroElements;
+      default:
+        return baseElements;
+      }
+    }, [variant, className, baseElements, variantElements, heroElements]);
+
+    return (
+      <>
+        {finalElements.map((element) => (
+          <motion.div
+            key={element.id}
+            className={element.className}
+            animate={element.animate}
+            transition={element.transition}
+          />
+        ))}
+      </>
+    );
+  },
+);
+
+BackgroundElements.displayName = 'BackgroundElements';
+
+export default BackgroundElements;

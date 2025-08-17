@@ -47,19 +47,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={spaceGrotesk.variable}>
-      <body className="min-h-screen text-foreground antialiased">
+    <html lang='en' className={spaceGrotesk.variable}>
+      <body className='min-h-screen text-foreground antialiased'>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute='class'
+          defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col grow app-bg">
+          <div className='flex min-h-screen flex-col grow app-bg'>
             {/* Subtle noise overlay for depth */}
-            <div className="noise-overlay" />
+            <div className='noise-overlay' />
             <Navbar />
-            <main className="flex-1">
+            <main className='flex-1'>
               <ErrorBoundary>
                 <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
               </ErrorBoundary>

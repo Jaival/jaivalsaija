@@ -143,7 +143,7 @@ const BackgroundElements = memo<BackgroundElementsProps>(
 
     return (
       <>
-        {finalElements.map((element) => (
+        {finalElements.map(element => (
           <motion.div
             key={element.id}
             className={element.className}

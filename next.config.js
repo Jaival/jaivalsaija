@@ -56,7 +56,9 @@ const nextConfig = {
       },
     ];
   },
-
+  eslint: {
+    ignoreDuringBuilds: false, // Enable ESLint in builds for better code quality
+  },
   // Enable gzip compression
   compress: true,
 };

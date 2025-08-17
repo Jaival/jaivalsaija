@@ -217,9 +217,21 @@
 .app-bg {
   background-color: var(--background);
   background-image:
-    radial-gradient(1200px 800px at 10% -10%, var(--ring) / 0.18, transparent 60%),
-    radial-gradient(1000px 600px at 110% 10%, var(--primary) / 0.10, transparent 60%),
-    radial-gradient(800px 500px at 20% 120%, var(--accent) / 0.12, transparent 60%);
+    radial-gradient(
+      1200px 800px at 10% -10%,
+      var(--ring) / 0.18,
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 600px at 110% 10%,
+      var(--primary) / 0.1,
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 500px at 20% 120%,
+      var(--accent) / 0.12,
+      transparent 60%
+    );
   background-attachment: fixed;
 }
 

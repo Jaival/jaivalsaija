@@ -11,7 +11,7 @@ function TooltipProvider({
 }: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
   return (
     <TooltipPrimitive.Provider
-      data-slot="tooltip-provider"
+      data-slot='tooltip-provider'
       delayDuration={delayDuration}
       {...props}
     />
@@ -23,7 +23,7 @@ function Tooltip({
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return (
     <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+      <TooltipPrimitive.Root data-slot='tooltip' {...props} />
     </TooltipProvider>
   );
 }
@@ -31,7 +31,7 @@ function Tooltip({
 function TooltipTrigger({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
+  return <TooltipPrimitive.Trigger data-slot='tooltip-trigger' {...props} />;
 }
 
 interface TooltipContentProps
@@ -49,7 +49,7 @@ function TooltipContent({
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
-        data-slot="tooltip-content"
+        data-slot='tooltip-content'
         sideOffset={sideOffset}
         className={cn(
           // Base styling with modern design
@@ -77,45 +77,45 @@ function TooltipContent({
           // Variant-specific styles with improved contrast and readability
           variant === 'brand'
             ? cn(
-                'bg-gradient-to-br from-hero-font/95 to-blue-green/95 dark:from-blue-light/95 dark:to-aero/95',
-                'text-white dark:text-blue-dark font-medium',
-                'backdrop-blur-lg border border-hero-font/30 dark:border-blue-light/30',
-                'shadow-lg shadow-hero-font/20 dark:shadow-blue-light/20',
-              )
+              'bg-gradient-to-br from-hero-font/95 to-blue-green/95 dark:from-blue-light/95 dark:to-aero/95',
+              'text-white dark:text-blue-dark font-medium',
+              'backdrop-blur-lg border border-hero-font/30 dark:border-blue-light/30',
+              'shadow-lg shadow-hero-font/20 dark:shadow-blue-light/20',
+            )
             : variant === 'success'
               ? cn(
-                  'bg-gradient-to-br from-green/95 to-green-dark/95 dark:from-green-light/95 dark:to-green-dark/95',
-                  'text-white dark:text-blue-dark font-medium',
-                  'backdrop-blur-lg border border-green/30 dark:border-green-light/30',
-                  'shadow-lg shadow-green/20 dark:shadow-green-light/20',
-                )
+                'bg-gradient-to-br from-green/95 to-green-dark/95 dark:from-green-light/95 dark:to-green-dark/95',
+                'text-white dark:text-blue-dark font-medium',
+                'backdrop-blur-lg border border-green/30 dark:border-green-light/30',
+                'shadow-lg shadow-green/20 dark:shadow-green-light/20',
+              )
               : variant === 'warning'
                 ? cn(
-                    'bg-gradient-to-br from-yellow-orange/95 to-orange/95 dark:from-yellow-light/95 dark:to-yellow-orange/95',
-                    'text-white dark:text-blue-dark font-medium',
-                    'backdrop-blur-lg border border-yellow-orange/30 dark:border-yellow-light/30',
-                    'shadow-lg shadow-yellow-orange/20 dark:shadow-yellow-light/20',
-                  )
+                  'bg-gradient-to-br from-yellow-orange/95 to-orange/95 dark:from-yellow-light/95 dark:to-yellow-orange/95',
+                  'text-white dark:text-blue-dark font-medium',
+                  'backdrop-blur-lg border border-yellow-orange/30 dark:border-yellow-light/30',
+                  'shadow-lg shadow-yellow-orange/20 dark:shadow-yellow-light/20',
+                )
                 : variant === 'error'
                   ? cn(
-                      'bg-gradient-to-br from-red-dark/95 to-red-light/95 dark:from-red-dark/95 dark:to-red-light/95',
-                      'text-white font-medium',
-                      'backdrop-blur-lg border border-red-dark/30 dark:border-red-light/30',
-                      'shadow-lg shadow-red-dark/20 dark:shadow-red-light/20',
-                    )
+                    'bg-gradient-to-br from-red-dark/95 to-red-light/95 dark:from-red-dark/95 dark:to-red-light/95',
+                    'text-white font-medium',
+                    'backdrop-blur-lg border border-red-dark/30 dark:border-red-light/30',
+                    'shadow-lg shadow-red-dark/20 dark:shadow-red-light/20',
+                  )
                   : variant === 'info'
                     ? cn(
-                        'bg-gradient-to-br from-blue/95 to-aero/95 dark:from-blue-light/95 dark:to-aero/95',
-                        'text-white dark:text-blue-dark font-medium',
-                        'backdrop-blur-lg border border-blue/30 dark:border-blue-light/30',
-                        'shadow-lg shadow-blue/20 dark:shadow-blue-light/20',
-                      )
+                      'bg-gradient-to-br from-blue/95 to-aero/95 dark:from-blue-light/95 dark:to-aero/95',
+                      'text-white dark:text-blue-dark font-medium',
+                      'backdrop-blur-lg border border-blue/30 dark:border-blue-light/30',
+                      'shadow-lg shadow-blue/20 dark:shadow-blue-light/20',
+                    )
                     : cn(
-                        'bg-gray-dark/95 dark:bg-gray-light/95',
-                        'text-white dark:text-blue-dark font-medium',
-                        'backdrop-blur-lg border border-gray-dark/30 dark:border-gray-light/30',
-                        'shadow-lg shadow-gray-dark/20 dark:shadow-gray-light/20',
-                      ),
+                      'bg-gray-dark/95 dark:bg-gray-light/95',
+                      'text-white dark:text-blue-dark font-medium',
+                      'backdrop-blur-lg border border-gray-dark/30 dark:border-gray-light/30',
+                      'shadow-lg shadow-gray-dark/20 dark:shadow-gray-light/20',
+                    ),
 
           className,
         )}

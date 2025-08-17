@@ -5,21 +5,25 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\'size-\'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:ring-destructive/30 dark:aria-invalid:ring-destructive/50 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+          'bg-gradient-to-r from-hero-font to-blue-green text-white shadow-md hover:shadow-lg hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark active:scale-95 transform',
         destructive:
-          'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+          'bg-gradient-to-r from-red-dark to-orange shadow-md hover:shadow-lg hover:from-orange hover:to-red-dark text-white focus-visible:ring-red-light/30 dark:focus-visible:ring-red-light/50 active:scale-95 transform',
         outline:
-          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+          'border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform',
         secondary:
-          'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+          'bg-gradient-to-r from-gray-light/20 to-gray/20 text-gray-dark border border-gray-light/40 shadow-sm hover:shadow-md hover:from-gray-light/30 hover:to-gray/30 dark:from-blue-line/30 dark:to-gray-dark/30 dark:text-gray-light dark:border-blue-line/50 backdrop-blur-sm active:scale-95 transform',
         ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'hover:bg-gradient-to-r hover:from-hero-font/10 hover:to-blue-green/10 hover:text-hero-font dark:hover:from-blue-light/10 dark:hover:to-aero/10 dark:hover:text-blue-light backdrop-blur-sm active:scale-95 transform',
+        link: 'text-hero-font underline-offset-4 hover:underline hover:text-blue-green dark:text-blue-light dark:hover:text-aero',
+        premium:
+          'bg-gradient-to-r from-yellow-orange via-orange to-red-light text-white shadow-lg hover:shadow-xl hover:from-orange hover:via-red-light hover:to-yellow-orange dark:from-yellow-light dark:via-green-light dark:to-blue-light dark:text-blue-dark border border-yellow-orange/20 dark:border-yellow-light/20 active:scale-95 transform',
+        glass:
+          'bg-white/10 dark:bg-black-light/20 backdrop-blur-md border border-white/20 dark:border-blue-line/30 text-hero-font dark:text-blue-light shadow-lg hover:shadow-xl hover:bg-white/20 dark:hover:bg-black-light/30 active:scale-95 transform',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

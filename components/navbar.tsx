@@ -276,7 +276,7 @@ export default function Navbar() {
   return (
     <div className="sticky top-0 z-50 p-4">
       <motion.nav
-        className="w-full bg-white/70 dark:bg-black-light/40 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-2xl shadow-lg"
+        className="w-full rounded-2xl shadow-lg backdrop-blur-md border border-white/15 dark:border-white/10 bg-white/60 dark:bg-black-light/35 [@supports(backdrop-filter:blur(0))]:bg-white/50 [@supports(backdrop-filter:blur(0))]:dark:bg-black-light/30"
         initial="hidden"
         animate="visible"
         variants={navVariants}

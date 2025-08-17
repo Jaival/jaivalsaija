@@ -54,23 +54,26 @@ const ContactInfoCard = ({
 }) => {
   const CardWrapper = (
     <motion.div
+      className="pb-2"
       whileHover={{
-        y: -5,
-        scale: 1.02,
+        y: -2,
+        scale: 1.01,
         transition: { duration: 0.2 },
       }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.99 }}
     >
-      <Card className="bg-white/10 dark:bg-blue-dark/20 backdrop-blur-sm border-gray-light/20 dark:border-blue-line/20 hover:border-hero-font/30 transition-all duration-300 group cursor-pointer">
-        <CardContent className="flex items-center space-x-4 pt-6">
-          <div className="flex-shrink-0 p-3 bg-gradient-to-br from-hero-font/20 to-blue-green/20 rounded-xl group-hover:from-hero-font/30 group-hover:to-blue-green/30 transition-all duration-300">
-            {icon}
+      <Card className="bg-white/15 dark:bg-black-light/15 backdrop-blur-md border border-white/25 dark:border-blue-line/25 hover:border-hero-font/40 dark:hover:border-blue-light/40 transition-all duration-300 group cursor-pointer overflow-hidden shadow-sm hover:shadow-md">
+        <CardContent className="flex items-center gap-5 px-6 py-4">
+          <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-hero-font/20 to-blue-green/20 dark:from-blue-light/20 dark:to-aero/20 rounded-2xl group-hover:from-hero-font/30 group-hover:to-blue-green/30 dark:group-hover:from-blue-light/30 dark:group-hover:to-aero/30 transition-all duration-300 group-hover:scale-105 shadow-sm">
+            <div className="text-hero-font dark:text-blue-light group-hover:text-blue-green dark:group-hover:text-aero transition-colors duration-300">
+              {icon}
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-blue-dark dark:text-gray-light">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-semibold text-blue-dark dark:text-gray-light mb-1 leading-tight group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-300">
               {title}
             </h3>
-            <p className="text-sm text-blue-dark/80 dark:text-gray-light/80 break-all">
+            <p className="text-sm text-blue-dark/75 dark:text-gray-light/75 break-words leading-relaxed group-hover:text-blue-dark dark:group-hover:text-gray-light transition-colors duration-300">
               {content}
             </p>
           </div>
@@ -213,7 +216,7 @@ export default function ContactMe() {
               <ContactInfoCard
                 icon={
                   <svg
-                    className="w-6 h-6 text-hero-font"
+                    className="w-5 h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -229,7 +232,7 @@ export default function ContactMe() {
               <ContactInfoCard
                 icon={
                   <svg
-                    className="w-6 h-6 text-hero-font"
+                    className="w-6 h-6"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -256,9 +259,9 @@ export default function ContactMe() {
 
           {/* Contact Form */}
           <motion.div variants={itemVariants}>
-            <Card className="bg-white/10 dark:bg-blue-dark/20 backdrop-blur-xl border-gray-light/20 dark:border-blue-line/20 shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-blue-dark dark:text-gray-light">
+            <Card className="bg-white/15 dark:bg-black-light/15 backdrop-blur-lg border border-white/25 dark:border-blue-line/25 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl font-semibold text-blue-dark dark:text-gray-light">
                   Send a Message
                 </CardTitle>
               </CardHeader>
@@ -281,7 +284,7 @@ export default function ContactMe() {
                               <Input
                                 placeholder="Your full name"
                                 {...field}
-                                className="bg-white/10 dark:bg-blue-dark/20 border-gray-light/30 dark:border-blue-line/30 focus:border-hero-font text-blue-dark dark:text-gray-light placeholder:text-blue-dark/60 dark:placeholder:text-gray-light/60"
+                                className="h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base"
                               />
                             </FormControl>
                             <FormMessage />
@@ -301,7 +304,7 @@ export default function ContactMe() {
                                 placeholder="your@email.com"
                                 type="email"
                                 {...field}
-                                className="bg-white/10 dark:bg-blue-dark/20 border-gray-light/30 dark:border-blue-line/30 focus:border-hero-font text-blue-dark dark:text-gray-light placeholder:text-blue-dark/60 dark:placeholder:text-gray-light/60"
+                                className="h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base"
                               />
                             </FormControl>
                             <FormMessage />
@@ -322,7 +325,7 @@ export default function ContactMe() {
                             <Input
                               placeholder="What's this about?"
                               {...field}
-                              className="bg-white/10 dark:bg-blue-dark/20 border-gray-light/30 dark:border-blue-line/30 focus:border-hero-font text-blue-dark dark:text-gray-light placeholder:text-blue-dark/60 dark:placeholder:text-gray-light/60"
+                              className="h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base"
                             />
                           </FormControl>
                           <FormMessage />
@@ -341,9 +344,9 @@ export default function ContactMe() {
                           <FormControl>
                             <Textarea
                               placeholder="Tell me about your project or idea..."
-                              rows={5}
+                              rows={6}
                               {...field}
-                              className="bg-white/10 dark:bg-blue-dark/20 border-gray-light/30 dark:border-blue-line/30 focus:border-hero-font text-blue-dark dark:text-gray-light placeholder:text-blue-dark/60 dark:placeholder:text-gray-light/60 resize-none"
+                              className="min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 resize-none text-base leading-relaxed"
                             />
                           </FormControl>
                           <FormMessage />
@@ -355,7 +358,7 @@ export default function ContactMe() {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 px-6 bg-gradient-to-r from-hero-font to-blue-green text-white font-semibold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full h-12 py-4 px-6 bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark text-white font-medium rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2 text-base"
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                     >

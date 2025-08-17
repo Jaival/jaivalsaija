@@ -207,7 +207,7 @@ export default function SocialLinks({
               </TooltipTrigger>
 
               {!showLabels && (
-                <TooltipContent side="bottom" sideOffset={8}>
+                <TooltipContent variant="neutral" side="bottom" sideOffset={10}>
                   {platform.name}
                 </TooltipContent>
               )}

@@ -26,7 +26,7 @@ export default function PageHeader({
       <BackgroundElements />
 
       <motion.h1
-        className={`${titleStyles.page} ${gradientText.primary} px-4 md:px-8`}
+        className={`${titleStyles.page} ${gradientText.hero} px-4 md:px-8`}
         variants={sharedVariants.header}
       >
         {title}

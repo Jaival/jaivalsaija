@@ -55,7 +55,7 @@ export default function Hero() {
 
           {/* Name */}
           <motion.h1
-            className={`${titleStyles.hero} ${gradientText.primary}`}
+            className={`${titleStyles.hero} ${gradientText.hero}`}
             variants={sharedVariants.hero.item}
           >
             {userData.name}
@@ -98,7 +98,7 @@ export default function Hero() {
           >
             <motion.a
               href="/projects"
-              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2"
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >
@@ -106,7 +106,7 @@ export default function Hero() {
             </motion.a>
             <motion.a
               href="/contactme"
-              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border border-hero-font dark:border-blue-light text-hero-font dark:text-blue-light hover:bg-hero-font hover:text-white dark:hover:bg-blue-light dark:hover:text-blue-dark transition-all duration-300"
+              className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform transition-all duration-300 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2"
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >
@@ -132,12 +132,12 @@ export default function Hero() {
           >
             {/* Decorative rings */}
             <motion.div
-              className="absolute -inset-4 bg-gradient-to-r from-blue-light to-aero rounded-full opacity-30 blur-md"
+              className="absolute -inset-4 bg-gradient-to-r from-blue-light to-aero rounded-full opacity-25 blur-md"
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity }}
             />
             <motion.div
-              className="absolute -inset-8 bg-gradient-to-r from-orange-light to-yellow-orange rounded-full opacity-20 blur-lg"
+              className="absolute -inset-8 bg-gradient-to-r from-hero-font to-blue-green rounded-full opacity-15 blur-lg"
               animate={{ rotate: -360 }}
               transition={{ duration: 25, repeat: Infinity }}
             />

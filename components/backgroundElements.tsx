@@ -16,26 +16,26 @@ const BackgroundElements = memo<BackgroundElementsProps>(
         {
           id: 'blue-primary',
           className:
-            'absolute top-10 right-10 w-24 h-24 bg-blue-light/20 rounded-full blur-xl',
+            'absolute top-10 right-10 w-28 h-28 bg-blue-light/15 dark:bg-aero/15 rounded-full blur-2xl',
           animate: {
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.12, 1],
+            opacity: [0.25, 0.45, 0.25],
           },
           transition: {
-            duration: 4,
+            duration: 6,
             repeat: Infinity,
           },
         },
         {
-          id: 'orange-primary',
+          id: 'teal-primary',
           className:
-            'absolute bottom-5 left-16 w-32 h-32 bg-orange-light/20 rounded-full blur-xl',
+            'absolute bottom-5 left-16 w-40 h-40 bg-blue-green/15 dark:bg-blue-green/20 rounded-full blur-2xl',
           animate: {
-            scale: [1.2, 1, 1.2],
-            opacity: [0.4, 0.2, 0.4],
+            scale: [1.06, 1, 1.06],
+            opacity: [0.3, 0.18, 0.3],
           },
           transition: {
-            duration: 5,
+            duration: 7,
             repeat: Infinity,
           },
         },
@@ -50,30 +50,30 @@ const BackgroundElements = memo<BackgroundElementsProps>(
           {
             id: 'aero-floating',
             className:
-              'absolute top-1/2 left-1/4 w-20 h-20 bg-aero/15 rounded-full blur-lg',
+              'absolute top-1/2 left-1/4 w-24 h-24 bg-aero/12 rounded-full blur-2xl',
             animate: {
-              scale: [0.8, 1.1, 0.8],
-              opacity: [0.2, 0.5, 0.2],
-              x: [0, 10, 0],
+              scale: [0.9, 1.05, 0.9],
+              opacity: [0.18, 0.4, 0.18],
+              x: [0, 12, 0],
               y: [0, -10, 0],
             },
             transition: {
-              duration: 8,
+              duration: 9,
               repeat: Infinity,
             },
           },
           {
             id: 'green-drift',
             className:
-              'absolute bottom-20 left-1/3 w-16 h-16 bg-green-light/15 rounded-full blur-lg',
+              'absolute bottom-20 left-1/3 w-16 h-16 bg-green-light/12 rounded-full blur-2xl',
             animate: {
-              scale: [1, 0.7, 1],
-              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 0.9, 1],
+              opacity: [0.22, 0.4, 0.22],
               x: [0, -15, 0],
               y: [0, 5, 0],
             },
             transition: {
-              duration: 7,
+              duration: 8,
               repeat: Infinity,
             },
           },
@@ -130,20 +130,20 @@ const BackgroundElements = memo<BackgroundElementsProps>(
 
       // Select elements based on variant
       switch (variant) {
-      case 'contact':
-        return [...baseElements, ...variantElements.contact];
-      case 'minimal':
-        return [baseElements[0]]; // Only one element for minimal
-      case 'hero':
-        return heroElements;
-      default:
-        return baseElements;
+        case 'contact':
+          return [...baseElements, ...variantElements.contact];
+        case 'minimal':
+          return [baseElements[0]]; // Only one element for minimal
+        case 'hero':
+          return heroElements;
+        default:
+          return baseElements;
       }
     }, [variant, className, baseElements, variantElements, heroElements]);
 
     return (
       <>
-        {finalElements.map((element) => (
+        {finalElements.map(element => (
           <motion.div
             key={element.id}
             className={element.className}

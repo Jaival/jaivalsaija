@@ -40,6 +40,7 @@ export interface UserData {
   about: About;
   experience: Experience[];
   resumeUrl: string;
+  coverLetterUrl: string;
   socialLinks: SocialLinks;
 }
 
@@ -144,6 +145,8 @@ const userData: UserData = {
   ],
   resumeUrl:
     'https://drive.google.com/file/d/1-SmecqmoMsASfEkmqytU_YXc2M3JO5aa/view?usp=sharing',
+  coverLetterUrl:
+    'https://drive.google.com/file/d/1ImeVzPK66tjdttiXjG4JUWiP3hPMOqlP/view?usp=sharing',
   socialLinks: {
     instagram: 'https://www.instagram.com/jaivalsaija/',
     twitter: 'https://x.com/Jaival469',

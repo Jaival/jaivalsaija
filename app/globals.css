@@ -250,3 +250,55 @@
 .dark .noise-overlay {
   opacity: 0.05;
 }
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Preserve View Transition API functionality */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Improved focus indicators for accessibility */
+:focus-visible {
+  outline: 3px solid var(--color-hero-font);
+  outline-offset: 3px;
+  border-radius: 0.375rem;
+}
+
+.dark :focus-visible {
+  outline-color: var(--color-blue-light);
+}
+
+/* Button focus override for better visibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-hero-font);
+  outline-offset: 2px;
+}
+
+.dark button:focus-visible,
+.dark a:focus-visible {
+  outline-color: var(--color-blue-light);
+}
+
+/* Safe area insets for mobile devices with notches */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

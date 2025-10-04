@@ -12,6 +12,8 @@ import { RoughNotationHero } from './roughNotationHero';
 
 export default function Hero() {
   const [showRoughNotation, setShowRoughNotation] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   // Reset state on component mount to prevent issues during navigation
   useEffect(() => {
@@ -98,7 +100,7 @@ export default function Hero() {
           >
             <motion.a
               href='/projects'
-              className='inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2'
+              className='inline-flex items-center justify-center min-h-[44px] px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >
@@ -106,7 +108,7 @@ export default function Hero() {
             </motion.a>
             <motion.a
               href='/contactme'
-              className='inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform transition-all duration-300 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2'
+              className='inline-flex items-center justify-center min-h-[44px] px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform transition-all duration-300 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
               whileHover={hoverAnimations.scale}
               whileTap={{ scale: 0.95 }}
             >
@@ -147,14 +149,47 @@ export default function Hero() {
               className='relative z-10'
               whileHover={hoverAnimations.scale}
             >
+              {/* Skeleton loader */}
+              {!imageLoaded && !imageError && (
+                <div className='absolute inset-0 rounded-full bg-gradient-to-br from-gray-light/30 to-blue-line/30 dark:from-blue-dark/50 dark:to-blue-line/50 animate-pulse' />
+              )}
+
+              {/* Error state */}
+              {imageError && (
+                <div className='absolute inset-0 rounded-full bg-gradient-to-br from-gray-light to-blue-line dark:from-blue-dark dark:to-blue-line flex items-center justify-center'>
+                  <svg
+                    className='w-20 h-20 text-gray-dark dark:text-gray-light'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
+                    />
+                  </svg>
+                </div>
+              )}
+
               <Image
-                src={userData.avatarUrl}
+                src={
+                  imageError ? '/avatar-placeholder.jpg' : userData.avatarUrl
+                }
                 alt={`${userData.name}'s profile picture`}
-                className='rounded-full shadow-2xl object-cover border-4 border-white dark:border-blue-dark'
+                className={`rounded-full shadow-2xl object-cover border-4 border-white dark:border-blue-dark transition-opacity duration-300 ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
                 width={320}
                 height={320}
                 priority={true}
                 sizes='(max-width: 768px) 280px, 320px'
+                onLoad={() => setImageLoaded(true)}
+                onError={() => {
+                  setImageError(true);
+                  setImageLoaded(true);
+                }}
               />
             </motion.div>
 

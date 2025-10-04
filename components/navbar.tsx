@@ -97,6 +97,9 @@ function ThemeToggle() {
     setMounted(true);
   }, []);
 
+  const themeLabel =
+    currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+
   const buttonVariants = {
     hover: { scale: 1.1 },
     tap: { scale: 0.95 },
@@ -111,9 +114,9 @@ function ThemeToggle() {
   return (
     <motion.button
       ref={buttonRef}
-      aria-label='Toggle Dark Mode'
+      aria-label={themeLabel}
       type='button'
-      className='relative w-10 h-10 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-all duration-300 hover:shadow-lg hover:scale-105'
+      className='relative w-12 h-12 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-all duration-300 hover:shadow-lg hover:scale-105'
       onClick={toggleTheme}
       whileHover={buttonVariants.hover}
       whileTap={buttonVariants.tap}
@@ -161,9 +164,11 @@ function ThemeToggle() {
 function MobileMenuButton({
   isOpen,
   onToggle,
+  'aria-label': ariaLabel,
 }: {
   isOpen: boolean;
   onToggle: () => void;
+  'aria-label'?: string;
 }) {
   const buttonVariants = {
     hover: { scale: 1.1 },
@@ -178,10 +183,10 @@ function MobileMenuButton({
   return (
     <motion.button
       type='button'
-      className='relative md:hidden w-10 h-10 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-all duration-300'
+      className='relative md:hidden w-12 h-12 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-all duration-300'
       onClick={onToggle}
       aria-expanded={isOpen}
-      aria-label='Toggle mobile menu'
+      aria-label={ariaLabel || 'Toggle mobile menu'}
       whileHover={buttonVariants.hover}
       whileTap={buttonVariants.tap}
     >
@@ -214,6 +219,73 @@ function MobileMenuButton({
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathName = usePathname();
+  const mobileMenuRef = React.useRef<HTMLDivElement>(null);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathName]);
+
+  // Handle keyboard events (Escape key to close)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (!mobileMenuOpen || !mobileMenuRef.current) {
+      return;
+    }
+
+    const menuElement = mobileMenuRef.current;
+    const focusableElements = menuElement.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])',
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') {
+        return;
+      }
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    menuElement.addEventListener('keydown', handleTabKey as EventListener);
+    firstElement?.focus();
+
+    return () => {
+      menuElement.removeEventListener('keydown', handleTabKey as EventListener);
+    };
+  }, [mobileMenuOpen]);
 
   // Static navigation items (no need to memoize)
   const navigationItems = [
@@ -322,6 +394,7 @@ export default function Navbar() {
               <MobileMenuButton
                 isOpen={mobileMenuOpen}
                 onToggle={toggleMobileMenu}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               />
             </motion.div>
           </div>
@@ -330,11 +403,15 @@ export default function Navbar() {
           <AnimatePresence mode='wait'>
             {mobileMenuOpen && (
               <motion.div
+                ref={mobileMenuRef}
                 className='md:hidden mt-4'
                 initial={mobileMenuVariants.initial}
                 animate={mobileMenuVariants.animate}
                 exit={mobileMenuVariants.exit}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
+                role='dialog'
+                aria-label='Mobile navigation menu'
+                aria-modal='true'
               >
                 <motion.div
                   className='py-4 px-4 bg-white/95 dark:bg-blue-dark/95 backdrop-blur-xl rounded-2xl border border-gray-light/30 dark:border-blue-line/30 shadow-2xl'

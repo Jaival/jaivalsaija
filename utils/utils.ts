@@ -23,7 +23,9 @@ export function truncateText(
   length: number,
   suffix: string = '...',
 ): string {
-  if (text.length <= length) return text;
+  if (text.length <= length) {
+    return text;
+  }
   return text.slice(0, length - suffix.length) + suffix;
 }
 
@@ -64,7 +66,11 @@ export function sleep(ms: number): Promise<void> {
  * Simple error message parser
  */
 export function getErrorMessage(error: unknown): string {
-  if (typeof error === 'string') return error;
-  if (error instanceof Error) return error.message;
+  if (typeof error === 'string') {
+    return error;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
   return 'An error occurred';
 }

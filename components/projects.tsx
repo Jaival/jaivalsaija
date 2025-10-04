@@ -25,11 +25,13 @@ function ProjectCard({
   description,
 }: ProjectCardProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
   const numberPadded = parseInt(number);
 
   // Reset loading state when component mounts (for better navigation)
   useEffect(() => {
     setIsLoading(true);
+    setImageError(false);
   }, [imgUrl]);
 
   return (
@@ -52,20 +54,41 @@ function ProjectCard({
 
             {/* Image container */}
             <div className='relative h-48 bg-gradient-to-br from-gray-light/10 to-blue-line/10 dark:from-blue-dark/20 dark:to-purple-dark/20'>
-              {isLoading && (
+              {isLoading && !imageError && (
                 <div className='absolute inset-0 flex items-center justify-center'>
                   <div className='w-8 h-8 border-2 border-hero-font/30 border-t-hero-font rounded-full animate-spin' />
                 </div>
               )}
+              {imageError && (
+                <div className='absolute inset-0 flex flex-col items-center justify-center text-gray-dark dark:text-gray-light'>
+                  <svg
+                    className='w-16 h-16 mb-2'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={1.5}
+                      d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+                    />
+                  </svg>
+                  <span className='text-sm'>Image unavailable</span>
+                </div>
+              )}
               <Image
-                src={imgUrl}
+                src={imageError ? '/projects/placeholder.png' : imgUrl}
                 alt={`${title} project preview`}
                 fill
                 className={`object-cover transition-all duration-700 group-hover:scale-110 ${
                   isLoading ? 'opacity-0' : 'opacity-100'
                 }`}
                 onLoad={() => setIsLoading(false)}
-                onError={() => setIsLoading(false)}
+                onError={() => {
+                  setImageError(true);
+                  setIsLoading(false);
+                }}
                 sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               />
               {/* Overlay gradient */}
@@ -182,35 +205,66 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div
-          className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'
-          variants={containerVariants}
-        >
-          {userData.projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.8,
-                    delay: index * 0.1,
+        {userData.projects.length === 0 ? (
+          <motion.div
+            className='text-center py-20'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className='mb-6'>
+              <svg
+                className='w-24 h-24 mx-auto text-gray-dark dark:text-gray-light opacity-50'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={1.5}
+                  d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+                />
+              </svg>
+            </div>
+            <p className='text-xl md:text-2xl text-gray-dark dark:text-gray-light mb-4'>
+              No projects to display yet
+            </p>
+            <p className='text-base text-gray-dark/70 dark:text-gray-light/70'>
+              Check back soon for exciting new projects!
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div
+            className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'
+            variants={containerVariants}
+          >
+            {userData.projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                variants={{
+                  hidden: { opacity: 0, y: 50 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.8,
+                      delay: index * 0.1,
+                    },
                   },
-                },
-              }}
-            >
-              <ProjectCard
-                title={project.title}
-                link={project.link}
-                imgUrl={project.imgUrl}
-                number={(index + 1).toString()}
-                description={project.description}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+                }}
+              >
+                <ProjectCard
+                  title={project.title}
+                  link={project.link}
+                  imgUrl={project.imgUrl}
+                  number={(index + 1).toString()}
+                  description={project.description}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* View More on GitHub Button */}
         <motion.div

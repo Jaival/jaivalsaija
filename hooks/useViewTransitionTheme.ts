@@ -14,37 +14,45 @@ export function useViewTransitionTheme() {
     // Check if View Transition API is supported and user doesn't prefer reduced motion
     if (
       !buttonRef.current ||
-      !(document as any).startViewTransition ||
+      !('startViewTransition' in document) ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
       // Fallback: just change theme without animation
+      // This respects user's accessibility preference for reduced motion
       setTheme(targetTheme);
       return;
     }
 
     // Verify we have the correct button
     const button = buttonRef.current;
-    if (!button || button.getAttribute('aria-label') !== 'Toggle Dark Mode') {
+    const ariaLabel = button.getAttribute('aria-label');
+    if (
+      !button ||
+      !ariaLabel ||
+      (!ariaLabel.includes('light mode') && !ariaLabel.includes('dark mode'))
+    ) {
       console.warn('Button ref is not pointing to the theme toggle button');
       setTheme(targetTheme);
       return;
     }
 
     // Force a reflow to ensure accurate positioning
-    button.offsetHeight;
+    void button.offsetHeight;
 
     const rect = button.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
 
-    // Debug logging
-    console.log('Theme button position:', {
-      x,
-      y,
-      rect,
-      ariaLabel: button.getAttribute('aria-label'),
-      className: button.className,
-    });
+    // Debug logging (development only)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Theme button position:', {
+        x,
+        y,
+        rect,
+        ariaLabel: button.getAttribute('aria-label'),
+        className: button.className,
+      });
+    }
 
     // Calculate maximum radius to cover entire viewport from button position
     const maxRadius = Math.hypot(
@@ -53,6 +61,7 @@ export function useViewTransitionTheme() {
     );
 
     // Start the view transition
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const transition = (document as any).startViewTransition(() => {
       flushSync(() => {
         setTheme(targetTheme);

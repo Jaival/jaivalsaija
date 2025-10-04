@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import BackgroundElements from './backgroundElements';
 import userData from 'utils/data';
+import { submitContactForm, ContactFormData } from '@/actions/contact';
 
 import {
   Form,
@@ -37,8 +38,6 @@ const contactFormSchema = z.object({
     message: 'Message must be at least 10 characters.',
   }),
 });
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
 
 // Contact info card component using shadcn Card
 const ContactInfoCard = ({
@@ -113,19 +112,21 @@ export default function ContactMe() {
     },
   });
 
-  const onSubmit = async (_data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Call the server action
+      const result = await submitContactForm(data);
 
-      // Here you would typically send the form data to your backend
-      // console.log('Form submitted:', data); // Remove in production
-
-      setSubmitStatus('success');
-      form.reset();
+      if (result.success) {
+        setSubmitStatus('success');
+        form.reset();
+      } else {
+        setSubmitStatus('error');
+        console.error('Submission error:', result.message);
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
@@ -275,7 +276,7 @@ export default function ContactMe() {
                       <FormField
                         control={form.control}
                         name='name'
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                           <FormItem>
                             <FormLabel className='text-blue-dark dark:text-gray-light'>
                               Name
@@ -284,17 +285,21 @@ export default function ContactMe() {
                               <Input
                                 placeholder='Your full name'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                                aria-invalid={fieldState.invalid}
+                                aria-describedby={
+                                  fieldState.error ? 'name-error' : undefined
+                                }
+                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base aria-[invalid=true]:border-red-dark dark:aria-[invalid=true]:border-red-light'
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage id='name-error' />
                           </FormItem>
                         )}
                       />
                       <FormField
                         control={form.control}
                         name='email'
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                           <FormItem>
                             <FormLabel className='text-blue-dark dark:text-gray-light'>
                               Email
@@ -304,10 +309,14 @@ export default function ContactMe() {
                                 placeholder='your@email.com'
                                 type='email'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                                aria-invalid={fieldState.invalid}
+                                aria-describedby={
+                                  fieldState.error ? 'email-error' : undefined
+                                }
+                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base aria-[invalid=true]:border-red-dark dark:aria-[invalid=true]:border-red-light'
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage id='email-error' />
                           </FormItem>
                         )}
                       />
@@ -316,7 +325,7 @@ export default function ContactMe() {
                     <FormField
                       control={form.control}
                       name='subject'
-                      render={({ field }) => (
+                      render={({ field, fieldState }) => (
                         <FormItem>
                           <FormLabel className='text-blue-dark dark:text-gray-light'>
                             Subject
@@ -325,10 +334,14 @@ export default function ContactMe() {
                             <Input
                               placeholder="What's this about?"
                               {...field}
-                              className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                              aria-invalid={fieldState.invalid}
+                              aria-describedby={
+                                fieldState.error ? 'subject-error' : undefined
+                              }
+                              className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base aria-[invalid=true]:border-red-dark dark:aria-[invalid=true]:border-red-light'
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage id='subject-error' />
                         </FormItem>
                       )}
                     />
@@ -336,7 +349,7 @@ export default function ContactMe() {
                     <FormField
                       control={form.control}
                       name='message'
-                      render={({ field }) => (
+                      render={({ field, fieldState }) => (
                         <FormItem>
                           <FormLabel className='text-blue-dark dark:text-gray-light'>
                             Message
@@ -346,10 +359,14 @@ export default function ContactMe() {
                               placeholder='Tell me about your project or idea...'
                               rows={6}
                               {...field}
-                              className='min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 resize-none text-base leading-relaxed'
+                              aria-invalid={fieldState.invalid}
+                              aria-describedby={
+                                fieldState.error ? 'message-error' : undefined
+                              }
+                              className='min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 resize-none text-base leading-relaxed aria-[invalid=true]:border-red-dark dark:aria-[invalid=true]:border-red-light'
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage id='message-error' />
                         </FormItem>
                       )}
                     />

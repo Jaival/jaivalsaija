@@ -41,6 +41,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Viewport configuration for better mobile experience
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5, // Allow zoom for accessibility
+  userScalable: true,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#1f7a8c' },
+    { media: '(prefers-color-scheme: dark)', color: '#90e0ef' },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {

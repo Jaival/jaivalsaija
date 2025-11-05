@@ -83,7 +83,7 @@ const userData: UserData = {
   ],
   about: {
     title:
-      'I am a DevOps Engineer focused on optimizing cloud infrastructure and building scalable, automated systems for reliable products and web applications.',
+      'I am a DevOps Engineer focused on building dependable systems in the cloud — with automation, precision, and purpose.',
     description: [
       "I've been interested in computer science since I was 15 years old, first is was because of the games and I dreamed of becoming a game developer or something related to computers. After few year of playing games and studying I got into a specialized bachelor's program in computer science for cloud computing.",
       'It was like a new world to open to exploration and [something] . As I was learning about cloud computing, how it works, why it works, how it came to existence; I was falling in love with it more and more.',

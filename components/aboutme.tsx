@@ -90,24 +90,25 @@ export default function AboutMe() {
             className='mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-relaxed text-blue-dark dark:text-gray-light'
             variants={itemVariants}
           >
-            {userData.about.title} Currently working on{' '}
+            {userData.about.title} Currently pursuing my Masters in Computer
+            Science at{' '}
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link
+              {/* <Link
                 className='px-3 py-2 rounded-xl bg-gradient-to-r from-red-light to-red-dark hover:from-red-dark hover:to-orange text-white shadow-lg transition-all duration-300 hover:shadow-xl inline-flex items-center space-x-2'
                 href={userData.about.currentProjectUrl}
                 aria-label={`Current project: ${userData.about.currentProject}`}
+              > */}
+              <span>RPTU</span>
+              <motion.span
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
-                <span>{userData.about.currentProject}</span>
-                <motion.span
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  ✈️
-                </motion.span>
-              </Link>
+                ✈️
+              </motion.span>
+              {/* </Link> */}
             </motion.span>
           </motion.div>
         </div>

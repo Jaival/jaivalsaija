@@ -144,7 +144,7 @@ const userData: UserData = {
     },
   ],
   resumeUrl:
-    'https://drive.google.com/file/d/1-SmecqmoMsASfEkmqytU_YXc2M3JO5aa/view?usp=sharing',
+    'https://drive.google.com/file/d/1FTAVOxPSRb_0cRQaYSl-V2NUo_K41Dtn/view?usp=sharing',
   coverLetterUrl:
     'https://drive.google.com/file/d/1ImeVzPK66tjdttiXjG4JUWiP3hPMOqlP/view?usp=sharing',
   socialLinks: {

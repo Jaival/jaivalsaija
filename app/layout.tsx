@@ -15,6 +15,14 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
 });
 
+// Resolve the canonical site URL. On Vercel this follows the project's own
+// production domain, so it stays correct if a custom domain is added later.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? `https://${process.env.NEXT_PUBLIC_SITE_URL.replace(/^https?:\/\//, '')}`
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:3000';
+
 export const metadata: Metadata = {
   title: 'Jaival Saija | DevOps Engineer',
   description:
@@ -22,11 +30,11 @@ export const metadata: Metadata = {
   keywords: ['DevOps', 'Engineer', 'Technology', 'Developer', 'Portfolio'],
   authors: [{ name: 'Jaival Saija' }],
   creator: 'Jaival Saija',
-  metadataBase: new URL('https://jaivalsaija.com'),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://jaivalsaija.com',
+    url: siteUrl,
     title: 'Jaival Saija | DevOps Engineer',
     description:
       'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',

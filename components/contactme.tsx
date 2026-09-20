@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { durations, easeOut } from '@/utils/animations';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -53,33 +54,25 @@ const ContactInfoCard = ({
   href?: string;
 }) => {
   const CardWrapper = (
-    <motion.div
-      className='pb-2'
-      whileHover={{
-        y: -2,
-        scale: 1.01,
-        transition: { duration: 0.2 },
-      }}
-      whileTap={{ scale: 0.99 }}
-    >
-      <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-md border border-white/25 dark:border-blue-line/25 hover:border-hero-font/40 dark:hover:border-blue-light/40 transition-all duration-300 group cursor-pointer overflow-hidden shadow-sm hover:shadow-md'>
+    <div className='pb-2 transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]'>
+      <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-md border border-white/25 dark:border-blue-line/25 hover:border-hero-font/40 dark:hover:border-blue-light/40 transition-[border-color,box-shadow] duration-200 ease-out group overflow-hidden shadow-sm hover:shadow-md'>
         <CardContent className='flex items-center gap-5 px-6 py-4'>
-          <div className='flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-hero-font/20 to-blue-green/20 dark:from-blue-light/20 dark:to-aero/20 rounded-2xl group-hover:from-hero-font/30 group-hover:to-blue-green/30 dark:group-hover:from-blue-light/30 dark:group-hover:to-aero/30 transition-all duration-300 group-hover:scale-105 shadow-sm'>
-            <div className='text-hero-font dark:text-blue-light group-hover:text-blue-green dark:group-hover:text-aero transition-colors duration-300'>
+          <div className='flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-hero-font/20 to-blue-green/20 dark:from-blue-light/20 dark:to-aero/20 rounded-2xl group-hover:from-hero-font/30 group-hover:to-blue-green/30 dark:group-hover:from-blue-light/30 dark:group-hover:to-aero/30 transition-colors duration-200 ease-out shadow-sm'>
+            <div className='text-hero-font dark:text-blue-light group-hover:text-blue-green dark:group-hover:text-aero transition-colors duration-200 ease-out'>
               {icon}
             </div>
           </div>
           <div className='flex-1 min-w-0'>
-            <h3 className='text-lg font-semibold text-blue-dark dark:text-gray-light mb-1 leading-tight group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-300'>
+            <h3 className='text-lg font-semibold tracking-tight text-blue-dark dark:text-gray-light mb-1 leading-tight group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-200 ease-out'>
               {title}
             </h3>
-            <p className='text-sm text-blue-dark/75 dark:text-gray-light/75 break-words leading-relaxed group-hover:text-blue-dark dark:group-hover:text-gray-light transition-colors duration-300'>
+            <p className='text-sm text-blue-dark/75 dark:text-gray-light/75 break-words leading-relaxed'>
               {content}
             </p>
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 
   return href ? (
@@ -96,12 +89,6 @@ export default function ContactMe() {
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
-
-  // Reset form state when component mounts (for better navigation)
-  useEffect(() => {
-    setIsSubmitting(false);
-    setSubmitStatus('idle');
-  }, []);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -134,81 +121,44 @@ export default function ContactMe() {
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
   return (
-    <motion.section
-      className='min-h-screen'
-      initial='hidden'
-      animate='visible'
-      variants={containerVariants}
-    >
+    <section className='min-h-svh'>
       <div className='relative max-w-7xl mx-auto px-4 py-16 md:py-24'>
         <BackgroundElements variant='contact' />
         {/* Header Section */}
-        <motion.div className='text-center mb-16' variants={itemVariants}>
+        <div className='text-center mb-16'>
           <div className='relative inline-block'>
-            <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-hero-font via-blue-green to-aero bg-clip-text text-transparent mb-6 leading-tight'>
+            <h1 className='animate-enter text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] bg-gradient-to-r from-hero-font via-blue-green to-aero bg-clip-text text-transparent mb-6'>
               Get In Touch
             </h1>
-            <motion.div
+            {/* Static glow. It used to breathe on a 4s loop behind the text. */}
+            <div
+              aria-hidden
               className='absolute -inset-4 bg-gradient-to-r from-hero-font/20 to-blue-green/20 rounded-3xl blur-2xl -z-10'
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.5, 0.8, 0.5],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
             />
           </div>
-          <motion.p
-            className='text-lg md:text-xl text-blue-dark/90 dark:text-gray-light/80 max-w-2xl mx-auto'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+          <p
+            className='animate-enter text-lg md:text-xl text-blue-dark/90 dark:text-gray-light/80 max-w-2xl mx-auto'
+            style={{ '--stagger': 1 } as CSSProperties}
           >
-            Have a project in mind? Let&apos;s discuss how we can bring your
-            ideas to life.
-          </motion.p>
-        </motion.div>
+            I&apos;m looking for DevOps and cloud infrastructure work in
+            Germany. If that&apos;s why you&apos;re here, say hello.
+          </p>
+        </div>
 
-        <motion.div
-          className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16'
-          variants={containerVariants}
-          initial='hidden'
-          animate='visible'
-        >
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16'>
           {/* Contact Information */}
-          <motion.div variants={itemVariants} className='space-y-8'>
+          <div
+            className='animate-enter space-y-8'
+            style={{ '--stagger': 2 } as CSSProperties}
+          >
             <div>
-              <h2 className='text-2xl md:text-3xl font-bold text-blue-dark dark:text-gray-light mb-6'>
+              <h2 className='text-2xl md:text-3xl font-bold tracking-tight text-blue-dark dark:text-gray-light mb-6'>
                 Let&apos;s Connect
               </h2>
               <p className='text-blue-dark/80 dark:text-gray-light/80 mb-8'>
-                I&apos;m always open to discussing new opportunities,
-                interesting projects, and potential collaborations. Feel free to
-                reach out!
+                Mail reaches me fastest and I do answer, usually within a
+                day. LinkedIn works too if that&apos;s easier for you.
               </p>
             </div>
 
@@ -249,27 +199,25 @@ export default function ContactMe() {
             </div>
 
             {/* Social Links */}
-            <motion.div className='pt-8' variants={itemVariants}>
-              <h3 className='text-lg font-semibold text-blue-dark dark:text-gray-light mb-4'>
+            <div className='pt-8'>
+              <h3 className='text-lg font-semibold tracking-tight text-blue-dark dark:text-gray-light mb-4'>
                 Connect on Social
               </h3>
               <SocialLinks iconSize={26} />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Contact Form */}
-          <motion.div variants={itemVariants}>
-            <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-lg border border-white/25 dark:border-blue-line/25 shadow-lg hover:shadow-xl transition-all duration-300'>
+          <div
+            className='animate-enter'
+            style={{ '--stagger': 3 } as CSSProperties}
+          >
+            <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-lg border border-white/25 dark:border-blue-line/25 shadow-lg hover:shadow-xl transition-shadow duration-200 ease-out'>
               <CardHeader className='pb-6'>
-                <CardTitle className='text-2xl font-semibold text-blue-dark dark:text-gray-light'>
+                <CardTitle className='text-2xl font-semibold tracking-tight text-blue-dark dark:text-gray-light'>
                   Send a Message
                 </CardTitle>
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className='mt-4 p-4 bg-amber-50/80 dark:bg-amber-900/20 border-2 border-amber-400/60 dark:border-amber-600/60 rounded-lg'
-                >
+                <div className='mt-4 p-4 bg-amber-50/80 dark:bg-amber-900/20 border-2 border-amber-400/60 dark:border-amber-600/60 rounded-lg'>
                   <div className='flex items-start space-x-3'>
                     <svg
                       className='w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5'
@@ -287,12 +235,12 @@ export default function ContactMe() {
                         Under Construction
                       </p>
                       <p className='text-xs text-amber-700 dark:text-amber-400 mt-1'>
-                        This contact form is currently being set up. Please
-                        reach out via email or social media in the meantime.
+                        This form isn&apos;t wired up yet. Email or LinkedIn
+                        works in the meantime.
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -312,8 +260,10 @@ export default function ContactMe() {
                             <FormControl>
                               <Input
                                 placeholder='Your full name'
+                                autoComplete='name'
+                                enterKeyHint='next'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                               />
                             </FormControl>
                             <FormMessage />
@@ -332,8 +282,11 @@ export default function ContactMe() {
                               <Input
                                 placeholder='your@email.com'
                                 type='email'
+                                autoComplete='email'
+                                inputMode='email'
+                                enterKeyHint='next'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                               />
                             </FormControl>
                             <FormMessage />
@@ -353,8 +306,10 @@ export default function ContactMe() {
                           <FormControl>
                             <Input
                               placeholder="What's this about?"
+                              autoComplete='off'
+                              enterKeyHint='next'
                               {...field}
-                              className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 text-base'
+                              className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                             />
                           </FormControl>
                           <FormMessage />
@@ -374,8 +329,9 @@ export default function ContactMe() {
                             <Textarea
                               placeholder='Tell me about your project or idea...'
                               rows={6}
+                              enterKeyHint='send'
                               {...field}
-                              className='min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-all duration-300 resize-none text-base leading-relaxed'
+                              className='min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out resize-none text-base leading-relaxed'
                             />
                           </FormControl>
                           <FormMessage />
@@ -384,45 +340,56 @@ export default function ContactMe() {
                     />
 
                     {/* Submit Button */}
-                    <motion.button
+                    <button
                       type='submit'
                       disabled={isSubmitting}
-                      className='w-full h-12 py-4 px-6 bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark text-white font-medium rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2 text-base'
-                      whileHover={{ y: -2 }}
-                      whileTap={{ y: 0 }}
+                      className='relative w-full h-12 py-4 px-6 bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark text-white font-medium rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2 text-base'
                     >
-                      <AnimatePresence mode='wait'>
+                      <AnimatePresence mode='popLayout' initial={false}>
                         {isSubmitting ? (
-                          <motion.div
+                          <motion.span
                             key='loading'
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ opacity: 0, filter: 'blur(4px)' }}
+                            animate={{ opacity: 1, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, filter: 'blur(4px)' }}
+                            transition={{
+                              duration: durations.fast,
+                              ease: easeOut,
+                            }}
                             className='flex items-center justify-center space-x-2'
                           >
-                            <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                            <span className='size-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
                             <span>Sending...</span>
-                          </motion.div>
+                          </motion.span>
                         ) : (
                           <motion.span
                             key='idle'
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ opacity: 0, filter: 'blur(4px)' }}
+                            animate={{ opacity: 1, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, filter: 'blur(4px)' }}
+                            transition={{
+                              duration: durations.fast,
+                              ease: easeOut,
+                            }}
+                            className='block'
                           >
                             Send Message
                           </motion.span>
                         )}
                       </AnimatePresence>
-                    </motion.button>
+                    </button>
 
                     {/* Status Messages */}
                     <AnimatePresence>
                       {submitStatus === 'success' && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{
+                            duration: durations.fast,
+                            ease: easeOut,
+                          }}
                           className='p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl'
                         >
                           <div className='flex items-center space-x-2'>
@@ -447,9 +414,13 @@ export default function ContactMe() {
 
                       {submitStatus === 'error' && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{
+                            duration: durations.fast,
+                            ease: easeOut,
+                          }}
                           className='p-4 bg-red-light/10 dark:bg-red-dark/20 border border-red-light/30 dark:border-red-dark/50 rounded-xl'
                         >
                           <div className='flex items-center space-x-2'>
@@ -476,9 +447,9 @@ export default function ContactMe() {
                 </Form>
               </CardContent>
             </Card>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

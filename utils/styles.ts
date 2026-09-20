@@ -85,18 +85,21 @@ export const inputStyles = {
 
 // Layout containers
 export const containerStyles = {
-  page: 'min-h-screen',
+  page: 'min-h-svh',
   content: 'container mx-auto max-w-6xl relative z-10',
   header: 'min-h-64 max-w-6xl mx-auto relative',
   centered: 'max-w-7xl mx-auto px-4 py-16 md:py-24',
 };
 
 // Page title patterns
+// Display sizes need negative tracking and tight leading: type set for body
+// copy looks loose and gappy once it is 60px tall.
 export const titleStyles = {
-  hero: 'text-4xl md:text-6xl lg:text-7xl font-bold text-blue-dark dark:text-white mb-4',
-  page: 'pt-12 sm:pt-16 md:pt-20 pb-4 text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold text-center md:text-left leading-tight',
-  section: 'text-4xl md:text-6xl lg:text-7xl font-bold mb-6',
-  card: 'text-xl md:text-2xl font-bold text-gray-dark dark:text-white mb-2',
+  hero: 'text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-blue-dark dark:text-white mb-4',
+  page: 'pt-12 sm:pt-16 md:pt-20 pb-4 text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold tracking-tighter leading-[0.95] text-center md:text-left',
+  section:
+    'text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] mb-6',
+  card: 'text-xl md:text-2xl font-bold tracking-tight text-gray-dark dark:text-white mb-2',
 };
 
 // Decorative elements

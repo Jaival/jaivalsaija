@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import userData from 'utils/data';
 import {
   Tooltip,
@@ -135,35 +132,18 @@ export default function SocialLinks({
   showLabels = false,
 }: SocialLinksProps) {
   return (
-    <motion.div
-      className={`flex items-center space-x-3 ${className}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, staggerChildren: 0.1 }}
-    >
-      {socialPlatforms.map((platform, index) => {
+    <div className={`flex items-center space-x-3 ${className}`}>
+      {socialPlatforms.map(platform => {
         const Icon = platform.icon;
 
         return (
-          <motion.div
-            key={platform.name}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.4,
-              delay: index * 0.1,
-              type: 'spring',
-              stiffness: 300,
-              damping: 25,
-            }}
-          >
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <motion.a
-                  href={platform.href}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={`
+          <Tooltip key={platform.name}>
+            <TooltipTrigger asChild>
+              <a
+                href={platform.href}
+                target='_blank'
+                rel='noopener noreferrer'
+                className={`
                     p-2.5
                     relative group
                     rounded-lg
@@ -171,51 +151,35 @@ export default function SocialLinks({
                     ${platform.bgClass}
                     ${platform.colorClass}
                     backdrop-blur-sm
-                    transition-all duration-200 ease-out
+                    transition-[color,background-color,box-shadow,transform] duration-200 ease-out
+                    hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0
                     shadow-sm hover:shadow-md
                     flex items-center justify-center space-x-2
                     ${showLabels ? 'px-3' : ''}
                   `}
-                  whileHover={{
-                    y: -1,
-                    scale: 1.02,
-                    transition: {
-                      duration: 0.2,
-                      type: 'spring',
-                      stiffness: 400,
-                    },
-                  }}
-                  whileTap={{
-                    scale: 0.98,
-                    transition: { duration: 0.1 },
-                  }}
-                  aria-label={`Visit my ${platform.name} profile`}
-                >
-                  <div className='flex items-center justify-center'>
-                    <Icon
-                      size={iconSize}
-                      className='transition-transform duration-200 group-hover:scale-110'
-                    />
-                  </div>
+                aria-label={`Visit my ${platform.name} profile`}
+              >
+                <span className='flex items-center justify-center'>
+                  <Icon size={iconSize} />
+                </span>
 
-                  {showLabels && (
-                    <span className='text-sm font-medium whitespace-nowrap'>
-                      {platform.name}
-                    </span>
-                  )}
-                </motion.a>
-              </TooltipTrigger>
+                {showLabels && (
+                  <span className='text-sm font-medium whitespace-nowrap'>
+                    {platform.name}
+                  </span>
+                )}
+              </a>
+            </TooltipTrigger>
 
-              {!showLabels && (
-                <TooltipContent variant='neutral' side='bottom' sideOffset={10}>
-                  {platform.name}
-                </TooltipContent>
-              )}
-            </Tooltip>
-          </motion.div>
+            {!showLabels && (
+              <TooltipContent variant='neutral' side='bottom' sideOffset={10}>
+                {platform.name}
+              </TooltipContent>
+            )}
+          </Tooltip>
         );
       })}
-    </motion.div>
+    </div>
   );
 }
 
@@ -238,7 +202,7 @@ export function SocialLink({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <motion.a
+        <a
           href={href}
           target='_blank'
           rel='noopener noreferrer'
@@ -248,21 +212,13 @@ export function SocialLink({
             border border-gray-200 dark:border-gray-700
             hover:bg-gray-50 dark:hover:bg-gray-800
             text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100
-            transition-all duration-200 ease-out
+            transition-[color,background-color,box-shadow,transform] duration-200 ease-out
+            hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0
             shadow-sm hover:shadow-md
             flex items-center justify-center
             ${className}
           `}
           style={iconColor ? { color: iconColor } : {}}
-          whileHover={{
-            y: -1,
-            scale: 1.02,
-            transition: { duration: 0.2 },
-          }}
-          whileTap={{
-            scale: 0.98,
-            transition: { duration: 0.1 },
-          }}
           aria-label={`Visit ${label} profile`}
         >
           <div
@@ -277,7 +233,7 @@ export function SocialLink({
               backgroundColor: 'currentColor',
             }}
           />
-        </motion.a>
+        </a>
       </TooltipTrigger>
       <TooltipContent side='bottom'>{label}</TooltipContent>
     </Tooltip>

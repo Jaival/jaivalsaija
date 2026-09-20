@@ -4,65 +4,65 @@ import { useTheme } from 'next-themes';
 import { useCallback, useRef } from 'react';
 import { flushSync } from 'react-dom';
 
+/** Matches --ease-in-out in globals.css: on-screen movement. */
+const EASE_IN_OUT = 'cubic-bezier(0.77, 0, 0.175, 1)';
+
+/** Keeps the mobile browser chrome in step with a manual theme change. */
+function syncThemeColor(theme: 'light' | 'dark') {
+  const color = theme === 'dark' ? '#020618' : '#ffffff';
+  document
+    .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+    .forEach(meta => {
+      meta.removeAttribute('media');
+      meta.content = color;
+    });
+}
+
 export function useViewTransitionTheme() {
-  const { theme, setTheme } = useTheme();
+  // `resolvedTheme`, not `theme` — when the stored theme is `system`, `theme`
+  // is the literal string 'system' and the toggle would jump the wrong way.
+  const { resolvedTheme, setTheme } = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const toggleTheme = useCallback(async () => {
-    const targetTheme = theme === 'dark' ? 'light' : 'dark';
-
-    // Check if View Transition API is supported and user doesn't prefer reduced motion
-    if (
-      !buttonRef.current ||
-      !(document as any).startViewTransition ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      // Fallback: just change theme without animation
-      setTheme(targetTheme);
-      return;
-    }
-
-    // Verify we have the correct button
+    const targetTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
     const button = buttonRef.current;
-    if (!button || button.getAttribute('aria-label') !== 'Toggle Dark Mode') {
-      console.warn('Button ref is not pointing to the theme toggle button');
+
+    const canAnimate =
+      button &&
+      'startViewTransition' in document &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!canAnimate) {
       setTheme(targetTheme);
+      syncThemeColor(targetTheme);
       return;
     }
-
-    // Force a reflow to ensure accurate positioning
-    button.offsetHeight;
 
     const rect = button.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
 
-    // Debug logging
-    console.log('Theme button position:', {
-      x,
-      y,
-      rect,
-      ariaLabel: button.getAttribute('aria-label'),
-      className: button.className,
-    });
-
-    // Calculate maximum radius to cover entire viewport from button position
+    // Radius that reaches the furthest viewport corner from the button.
     const maxRadius = Math.hypot(
-      Math.max(rect.left, window.innerWidth - rect.left),
-      Math.max(rect.top, window.innerHeight - rect.top),
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
     );
 
-    // Start the view transition
-    const transition = (document as any).startViewTransition(() => {
+    const transition = (
+      document as Document & {
+        startViewTransition: (cb: () => void) => { ready: Promise<void> };
+      }
+    ).startViewTransition(() => {
       flushSync(() => {
         setTheme(targetTheme);
+        syncThemeColor(targetTheme);
       });
     });
 
-    // Wait for the transition to be ready, then animate
     await transition.ready;
 
-    // Animate the circular clip-path from button position
+    // Circular reveal: the new theme wipes out from the button that caused it.
     document.documentElement.animate(
       {
         clipPath: [
@@ -72,15 +72,15 @@ export function useViewTransitionTheme() {
       },
       {
         duration: 500,
-        easing: 'ease-in-out',
+        easing: EASE_IN_OUT,
         pseudoElement: '::view-transition-new(root)',
       },
     );
-  }, [theme, setTheme]);
+  }, [resolvedTheme, setTheme]);
 
   return {
     toggleTheme,
     buttonRef,
-    currentTheme: theme,
+    currentTheme: resolvedTheme,
   };
 }

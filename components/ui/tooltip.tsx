@@ -6,7 +6,7 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cn } from '@/utils/utils';
 
 function TooltipProvider({
-  delayDuration = 0,
+  delayDuration = 200,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
   return (
@@ -18,14 +18,13 @@ function TooltipProvider({
   );
 }
 
+// No Provider here on purpose: the app mounts a single TooltipProvider in
+// `utils/provider.tsx`. A provider per tooltip meant the "skip the delay for
+// the next tooltip" grace window never applied between siblings.
 function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  return (
-    <TooltipProvider>
-      <TooltipPrimitive.Root data-slot='tooltip' {...props} />
-    </TooltipProvider>
-  );
+  return <TooltipPrimitive.Root data-slot='tooltip' {...props} />;
 }
 
 function TooltipTrigger({
@@ -34,8 +33,9 @@ function TooltipTrigger({
   return <TooltipPrimitive.Trigger data-slot='tooltip-trigger' {...props} />;
 }
 
-interface TooltipContentProps
-  extends React.ComponentProps<typeof TooltipPrimitive.Content> {
+interface TooltipContentProps extends React.ComponentProps<
+  typeof TooltipPrimitive.Content
+> {
   variant?: 'brand' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
 }
 
@@ -52,8 +52,10 @@ function TooltipContent({
         data-slot='tooltip-content'
         sideOffset={sideOffset}
         className={cn(
-          // Base styling with modern design
-          'z-50 w-fit origin-(--radix-tooltip-content-transform-origin)',
+          // Base styling. The enter/exit animation lives in globals.css on
+          // [data-slot='tooltip-content'] so it can key off Radix's own
+          // data-state (including `instant-open`, which gets no animation).
+          'z-50 w-fit',
 
           // Modern rounded corners and spacing
           'rounded-lg px-3 py-2',
@@ -63,16 +65,6 @@ function TooltipContent({
 
           // Enhanced shadows for depth
           'shadow-lg shadow-black/25 dark:shadow-black/40',
-
-          // Smooth animations
-          'animate-in fade-in-0 zoom-in-95 duration-200',
-          'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-150',
-
-          // Directional slide animations
-          'data-[side=bottom]:slide-in-from-top-2',
-          'data-[side=left]:slide-in-from-right-2',
-          'data-[side=right]:slide-in-from-left-2',
-          'data-[side=top]:slide-in-from-bottom-2',
 
           // Variant-specific styles with improved contrast and readability
           variant === 'brand'

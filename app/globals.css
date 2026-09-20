@@ -1,8 +1,15 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant reduced-transparency (@media (prefers-reduced-transparency: reduce));
 
 @theme {
+  /* Motion tokens — overriding Tailwind's ease-out / ease-in-out so the
+     utilities use the stronger curves everywhere */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
   /* Essential breakpoints */
   --breakpoint-*: initial;
   --breakpoint-sm: 640px;
@@ -61,11 +68,13 @@
   mix-blend-mode: normal;
 }
 
-/* Dark mode helper */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-  }
+/* Native form controls and scrollbars follow the active theme class */
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 /* Essential modern features */
@@ -192,9 +201,31 @@
     outline-offset: 2px;
   }
 
-  /* Smooth scrolling */
   html {
-    scroll-behavior: smooth;
+    /* No gray flash on tap — every control has its own :active state */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Skip the double-tap-zoom wait on controls */
+  a,
+  button,
+  [role='button'] {
+    touch-action: manipulation;
+  }
+
+  /* Long-press shouldn't select a control's label (content stays selectable) */
+  button,
+  [role='button'] {
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   /* Line clamping utility */
@@ -213,26 +244,109 @@
   }
 }
 
-/* Layered, subtle radial gradient background that adapts to theme */
-.app-bg {
-  background-color: var(--background);
+/* Layered, subtle radial gradient background that adapts to theme.
+   Painted on a fixed layer instead of background-attachment: fixed, which
+   repaints on every scroll frame (and is ignored on iOS). */
+.app-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
     radial-gradient(
       1200px 800px at 10% -10%,
-      var(--ring) / 0.18,
+      color-mix(in oklch, var(--ring) 18%, transparent),
       transparent 60%
     ),
     radial-gradient(
       1000px 600px at 110% 10%,
-      var(--primary) / 0.1,
+      color-mix(in oklch, var(--primary) 10%, transparent),
       transparent 60%
     ),
     radial-gradient(
       800px 500px at 20% 120%,
-      var(--accent) / 0.12,
+      color-mix(in oklch, var(--accent) 12%, transparent),
       transparent 60%
     );
-  background-attachment: fixed;
+}
+
+/* Page entrance: pure CSS so server-rendered content animates in without
+   waiting for hydration, and stays smooth while the main thread is busy.
+   Stagger siblings with style={{ '--stagger': index }}. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@utility animate-enter {
+  animation: enter 500ms var(--ease-out) both;
+  animation-delay: calc(var(--stagger, 0) * 60ms);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-name: fade-in;
+    animation-duration: 200ms;
+  }
+}
+
+/* Loading spinner: CSS so it keeps spinning while a route is loading.
+   Fades in late so fast loads never flash it. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-spinner {
+  animation:
+    spin 700ms linear infinite,
+    fade-in 200ms var(--ease-out) 200ms both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: fade-in 200ms var(--ease-out) 200ms both;
+  }
+}
+
+/* Radix tooltip: quick scale-in from the trigger; instant-open (moving
+   between adjacent tooltips) skips animation entirely. */
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes tooltip-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+[data-slot='tooltip-content'] {
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+
+[data-slot='tooltip-content'][data-state='delayed-open'] {
+  animation: tooltip-in 150ms var(--ease-out);
+}
+
+[data-slot='tooltip-content'][data-state='closed'] {
+  animation: tooltip-out 100ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot='tooltip-content'][data-state='delayed-open'] {
+    animation-name: fade-in;
+  }
 }
 
 /* Subtle noise overlay for depth */

@@ -1,152 +1,117 @@
 'use client';
 
-import { hoverAnimations, sharedVariants } from '@/utils/animations';
 import { gradientText, titleStyles } from '@/utils/styles';
+import { springPlayful } from '@/utils/animations';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { RoughNotationGroup } from 'react-rough-notation';
 import userData from 'utils/data';
 import BackgroundElements from './backgroundElements';
 import { RoughNotationHero } from './roughNotationHero';
 
+// Static data
+const colors = ['#FB9677', '#F1E2D2', '#CFE5C0', '#C8D9EB'];
+const roles = [
+  'DevOps Engineer.',
+  'AWS Cloud & Security.',
+  'Incident Responder.',
+  'Runbook Writer.',
+];
+
+const primaryCta =
+  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark shadow-lg hover:shadow-xl transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2';
+
+const secondaryCta =
+  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm transition-[color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2';
+
+/** Entrance stagger step for the hero column, in `.animate-enter` units. */
+const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
+
 export default function Hero() {
   const [showRoughNotation, setShowRoughNotation] = useState(false);
 
-  // Reset state on component mount to prevent issues during navigation
+  // The hand-drawn highlight is drawn once the entrance has settled.
   useEffect(() => {
-    setShowRoughNotation(false);
-    // Show rough notation after a delay
-    const timer = setTimeout(() => setShowRoughNotation(true), 1500);
+    const timer = setTimeout(() => setShowRoughNotation(true), 900);
     return () => clearTimeout(timer);
   }, []);
 
-  // Static data
-  const colors = ['#FB9677', '#F1E2D2', '#CFE5C0', '#C8D9EB'];
-  const roles = [
-    'DevOps Engineer.',
-    'Moody Developer.',
-    'Cloud Enthusiastic.',
-    'UI Hobbyist.',
-  ];
-
   return (
-    <motion.section
-      className='relative min-h-screen flex items-center justify-center py-20 px-4 overflow-hidden'
-      variants={sharedVariants.hero.container}
-      initial='hidden'
-      animate='visible'
-    >
+    // Above the fold: the entrance is CSS, so this is painted and readable
+    // before any JS arrives.
+    <section className='relative min-h-svh flex items-center justify-center py-20 px-4 overflow-hidden'>
       <BackgroundElements variant='hero' className='hero overflow-hidden' />
 
       <div className='container mx-auto flex flex-col md:flex-row items-center justify-between max-w-6xl relative z-10'>
         {/* Text Content */}
-        <motion.div
-          className='w-full md:w-1/2 text-center md:text-left space-y-6'
-          variants={sharedVariants.hero.item}
-        >
-          {/* Greeting */}
-          <motion.div
-            className='text-base md:text-lg font-mono text-hero-font dark:text-blue-light'
-            variants={sharedVariants.hero.item}
+        <div className='w-full md:w-1/2 text-center md:text-left space-y-6'>
+          <div
+            className='animate-enter text-base md:text-lg font-mono text-hero-font dark:text-blue-light'
+            style={step(0)}
           >
             👋 Hello, I&apos;m
-          </motion.div>
+          </div>
 
-          {/* Name */}
-          <motion.h1
-            className={`${titleStyles.hero} ${gradientText.hero}`}
-            variants={sharedVariants.hero.item}
+          <h1
+            className={`${titleStyles.hero} ${gradientText.hero} animate-enter`}
+            style={step(1)}
           >
             {userData.name}
-          </motion.h1>
+          </h1>
 
-          {/* Roles with rough notation */}
-          <motion.div
-            className='space-y-3'
-            variants={sharedVariants.hero.item}
-            onAnimationComplete={() => {
-              setTimeout(() => setShowRoughNotation(true), 200);
-            }}
-          >
+          <div className='animate-enter space-y-3' style={step(2)}>
             <RoughNotationGroup show={showRoughNotation}>
               {roles.map((text, index) => (
-                <div key={index} className='flex'>
+                <div key={text} className='flex'>
                   <RoughNotationHero color={colors[index]}>
-                    <span className='text-xl md:text-3xl lg:text-4xl font-semibold text-blue-dark dark:text-hero-font transition-colors'>
+                    <span className='text-xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-blue-dark dark:text-hero-font'>
                       {text}
                     </span>
                   </RoughNotationHero>
                 </div>
               ))}
             </RoughNotationGroup>
-          </motion.div>
+          </div>
 
-          {/* Description */}
-          <motion.p
-            className='text-lg md:text-xl text-gray-dark dark:text-gray-light max-w-2xl leading-relaxed'
-            variants={sharedVariants.hero.item}
+          <p
+            className='animate-enter text-lg md:text-xl text-gray-dark dark:text-gray-light max-w-2xl leading-relaxed'
+            style={step(3)}
           >
-            Focused on optimizing cloud infrastructure and building scalable,
-            automated systems for reliable products and web applications.
-          </motion.p>
+            I look after AWS infrastructure across dev, stage and production,
+            and I go through the logs when it breaks. Based in Kaiserslautern,
+            finishing a Masters in Computer Science.
+          </p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            className='flex flex-col sm:flex-row gap-4 pt-6'
-            variants={sharedVariants.hero.item}
+          {/* CTAs: real links, so navigation stays client-side. Hover and
+              press are CSS only — one owner per transform. */}
+          <div
+            className='animate-enter flex flex-col sm:flex-row gap-4 pt-6'
+            style={step(4)}
           >
-            <motion.a
-              href='/projects'
-              className='inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:scale-95 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2'
-              whileHover={hoverAnimations.scale}
-              whileTap={{ scale: 0.95 }}
-            >
+            <Link href='/projects' className={primaryCta}>
               View My Work
-            </motion.a>
-            <motion.a
-              href='/contactme'
-              className='inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform transition-all duration-300 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2'
-              whileHover={hoverAnimations.scale}
-              whileTap={{ scale: 0.95 }}
-            >
+            </Link>
+            <Link href='/contactme' className={secondaryCta}>
               Get In Touch
-            </motion.a>
-          </motion.div>
-        </motion.div>
+            </Link>
+          </div>
+        </div>
 
         {/* Profile Image */}
-        <motion.div
-          className='w-full md:w-2/5 flex justify-center items-center mt-8 md:mt-0'
-          variants={sharedVariants.hero.image}
+        <div
+          className='animate-enter w-full md:w-2/5 flex justify-center items-center mt-8 md:mt-0'
+          style={step(2)}
         >
-          <motion.div
-            className='relative'
-            animate={{
-              y: [-10, 10, -10],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-            }}
-          >
-            {/* Decorative rings */}
-            <motion.div
-              className='absolute -inset-4 bg-gradient-to-r from-blue-light to-aero rounded-full opacity-25 blur-md'
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity }}
-            />
-            <motion.div
-              className='absolute -inset-8 bg-gradient-to-r from-hero-font to-blue-green rounded-full opacity-15 blur-lg'
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity }}
+          <div className='relative'>
+            {/* Static glow — the rings used to rotate forever for no reason. */}
+            <div
+              aria-hidden
+              className='absolute -inset-6 bg-gradient-to-r from-hero-font/20 via-blue-light/20 to-aero/20 rounded-full blur-xl'
             />
 
-            {/* Main image */}
-            <motion.div
-              className='relative z-10'
-              whileHover={hoverAnimations.scale}
-            >
+            <div className='relative z-10'>
               <Image
                 src={userData.avatarUrl}
                 alt={`${userData.name}'s profile picture`}
@@ -156,22 +121,23 @@ export default function Hero() {
                 priority={true}
                 sizes='(max-width: 768px) 280px, 320px'
               />
-            </motion.div>
+            </div>
 
-            {/* "That's me" indicator */}
+            {/* The one bouncy moment on the site: seen once per visit, on a
+                purely decorative badge. */}
             <motion.div
-              className='absolute -bottom-4 -right-4 bg-white dark:bg-blue-dark px-4 py-2 rounded-full shadow-lg border border-gray-light dark:border-blue-light'
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 2, duration: 0.5 }}
+              className='absolute -bottom-4 -right-4 origin-bottom-right bg-white dark:bg-blue-dark px-4 py-2 rounded-full shadow-lg border border-gray-light dark:border-blue-light'
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ ...springPlayful, delay: 1.2 }}
             >
               <span className='text-sm font-medium text-blue-dark dark:text-blue-light'>
                 That&apos;s me! 👋
               </span>
             </motion.div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

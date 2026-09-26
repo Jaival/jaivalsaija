@@ -98,10 +98,10 @@ function ThemeToggle() {
       {/* Both icons are in the DOM; the theme class crossfades between
           them. Doing this in CSS means the correct icon is painted on the
           server, with no post-hydration flash. */}
-      <span className='absolute inset-2 block transition-[opacity,transform,filter] duration-200 ease-out opacity-0 scale-75 blur-[3px] dark:opacity-100 dark:scale-100 dark:blur-0'>
+      <span className='absolute inset-2 block transition-[opacity,transform,filter] duration-200 ease-out opacity-0 scale-75 blur-[3px] dark:opacity-100 dark:scale-100 dark:blur-none'>
         <SunIcon />
       </span>
-      <span className='absolute inset-2 block transition-[opacity,transform,filter] duration-200 ease-out opacity-100 scale-100 blur-0 dark:opacity-0 dark:scale-75 dark:blur-[3px]'>
+      <span className='absolute inset-2 block transition-[opacity,transform,filter] duration-200 ease-out opacity-100 scale-100 blur-none dark:opacity-0 dark:scale-75 dark:blur-[3px]'>
         <MoonIcon />
       </span>
     </button>

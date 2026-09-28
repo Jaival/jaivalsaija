@@ -3,17 +3,15 @@
 // Project-related interfaces
 export interface Project {
   title: string;
-  link: string;
-  imgUrl: string;
-  description?: string;
+  description: string;
+  imgUrl?: string;
+  githubUrl?: string;
+  websiteUrl?: string;
+  websiteLabel?: string;
 }
 
-export interface ProjectCardProps {
-  title: string;
-  link: string;
-  number: string;
-  imgUrl: string;
-  description?: string;
+export interface ProjectCardProps extends Project {
+  number: number;
 }
 
 // Experience-related interfaces

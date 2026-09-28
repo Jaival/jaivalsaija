@@ -81,6 +81,8 @@ const ExperienceCard = ({
 
         <Link
           href={companyLink}
+          target='_blank'
+          rel='noopener noreferrer'
           className='inline-block text-hero-font dark:text-blue-light font-semibold hover:text-blue-green dark:hover:text-aero transition-colors duration-200 ease-out mb-3 border-b border-transparent hover:border-hero-font dark:hover:border-blue-light'
         >
           {company}

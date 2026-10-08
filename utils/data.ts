@@ -72,6 +72,20 @@ const userData: UserData = {
       githubUrl: 'https://github.com/Jaival/NextGleis',
     },
     {
+      title: 'Taskly',
+      description:
+        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2021 internship project and rewritten on Flutter, Riverpod and Firebase.',
+      imgUrl: '/projects/taskly.webp',
+      githubUrl: 'https://github.com/Jaival/taskly-flutter',
+      websiteUrl: 'https://jaival.github.io/taskly-flutter/',
+    },
+    {
+      title: 'mdgloss',
+      description:
+        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
+      githubUrl: 'https://github.com/Jaival/mdgloss',
+    },
+    {
       title: 'Jigna Saija Portfolio',
       description:
         'A portfolio site for architect and interior designer Jigna Saija, showcasing more than twenty of her architecture and interior projects. Next.js, Tailwind CSS and Motion.',

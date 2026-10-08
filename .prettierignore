@@ -49,6 +49,8 @@ bun.lock
 # Generated files
 *.tsbuildinfo
 .eslintcache
+# next dev rewrites its block in AGENTS.md unwrapped
+AGENTS.md
 
 # Environment files
 .env

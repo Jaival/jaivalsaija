@@ -21,53 +21,53 @@ const glows: Record<
     {
       id: 'blue-primary',
       className:
-        'absolute top-10 right-10 w-28 h-28 bg-blue-light/15 dark:bg-aero/15 rounded-full blur-2xl opacity-40',
+        'absolute top-10 right-10 w-28 h-28 bg-primary/15 rounded-full blur-2xl opacity-40',
     },
     {
       id: 'teal-primary',
       className:
-        'absolute bottom-5 left-16 w-40 h-40 bg-blue-green/15 dark:bg-blue-green/20 rounded-full blur-2xl opacity-30',
+        'absolute bottom-5 left-16 w-40 h-40 bg-brand-to/15 rounded-full blur-2xl opacity-30',
     },
   ],
   contact: [
     {
       id: 'blue-primary',
       className:
-        'absolute top-10 right-10 w-28 h-28 bg-blue-light/15 dark:bg-aero/15 rounded-full blur-2xl opacity-40',
+        'absolute top-10 right-10 w-28 h-28 bg-primary/15 rounded-full blur-2xl opacity-40',
     },
     {
       id: 'teal-primary',
       className:
-        'absolute bottom-5 left-16 w-40 h-40 bg-blue-green/15 dark:bg-blue-green/20 rounded-full blur-2xl opacity-30',
+        'absolute bottom-5 left-16 w-40 h-40 bg-brand-to/15 rounded-full blur-2xl opacity-30',
     },
     {
       id: 'aero-floating',
       className:
-        'absolute top-1/2 left-1/4 w-24 h-24 bg-aero/12 rounded-full blur-2xl opacity-30',
+        'absolute top-1/2 left-1/4 w-24 h-24 bg-brand-to/12 rounded-full blur-2xl opacity-30',
     },
     {
       id: 'green-drift',
       className:
-        'absolute bottom-20 left-1/3 w-16 h-16 bg-green-light/12 rounded-full blur-2xl opacity-30',
+        'absolute bottom-20 left-1/3 w-16 h-16 bg-highlight/12 rounded-full blur-2xl opacity-30',
     },
   ],
   minimal: [
     {
       id: 'blue-primary',
       className:
-        'absolute top-10 right-10 w-28 h-28 bg-blue-light/15 dark:bg-aero/15 rounded-full blur-2xl opacity-40',
+        'absolute top-10 right-10 w-28 h-28 bg-primary/15 rounded-full blur-2xl opacity-40',
     },
   ],
   hero: [
     {
       id: 'blue-hero',
       className:
-        'absolute top-20 left-10 w-32 h-32 bg-blue-light/20 rounded-full blur-xl opacity-45',
+        'absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-full blur-xl opacity-45',
     },
     {
       id: 'orange-hero',
       className:
-        'absolute bottom-20 right-10 w-40 h-40 bg-orange-light/20 rounded-full blur-xl opacity-30',
+        'absolute bottom-20 right-10 w-40 h-40 bg-highlight/20 rounded-full blur-xl opacity-30',
     },
   ],
 };

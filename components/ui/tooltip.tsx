@@ -39,6 +39,27 @@ interface TooltipContentProps extends React.ComponentProps<
   variant?: 'brand' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
 }
 
+type TooltipVariant = NonNullable<TooltipContentProps['variant']>;
+
+const surfaces: Record<TooltipVariant, string> = {
+  brand:
+    'bg-gradient-to-br from-brand-from to-brand-to text-primary-foreground',
+  neutral: 'bg-foreground text-background',
+  success: 'bg-success text-success-foreground',
+  warning: 'bg-warning text-warning-foreground',
+  error: 'bg-destructive text-destructive-foreground',
+  info: 'bg-brand-to text-primary-foreground',
+};
+
+const arrows: Record<TooltipVariant, string> = {
+  brand: 'fill-brand-from',
+  neutral: 'fill-foreground',
+  success: 'fill-success',
+  warning: 'fill-warning',
+  error: 'fill-destructive',
+  info: 'fill-brand-to',
+};
+
 function TooltipContent({
   className,
   sideOffset = 8,
@@ -64,50 +85,10 @@ function TooltipContent({
           'text-xs font-medium',
 
           // Enhanced shadows for depth
-          'shadow-lg shadow-black/25 dark:shadow-black/40',
+          'shadow-lg shadow-black/25',
 
-          // Variant-specific styles with improved contrast and readability
-          variant === 'brand'
-            ? cn(
-              'bg-gradient-to-br from-hero-font/95 to-blue-green/95 dark:from-blue-light/95 dark:to-aero/95',
-              'text-white dark:text-blue-dark font-medium',
-              'backdrop-blur-lg border border-hero-font/30 dark:border-blue-light/30',
-              'shadow-lg shadow-hero-font/20 dark:shadow-blue-light/20',
-            )
-            : variant === 'success'
-              ? cn(
-                'bg-gradient-to-br from-green/95 to-green-dark/95 dark:from-green-light/95 dark:to-green-dark/95',
-                'text-white dark:text-blue-dark font-medium',
-                'backdrop-blur-lg border border-green/30 dark:border-green-light/30',
-                'shadow-lg shadow-green/20 dark:shadow-green-light/20',
-              )
-              : variant === 'warning'
-                ? cn(
-                  'bg-gradient-to-br from-yellow-orange/95 to-orange/95 dark:from-yellow-light/95 dark:to-yellow-orange/95',
-                  'text-white dark:text-blue-dark font-medium',
-                  'backdrop-blur-lg border border-yellow-orange/30 dark:border-yellow-light/30',
-                  'shadow-lg shadow-yellow-orange/20 dark:shadow-yellow-light/20',
-                )
-                : variant === 'error'
-                  ? cn(
-                    'bg-gradient-to-br from-red-dark/95 to-red-light/95 dark:from-red-dark/95 dark:to-red-light/95',
-                    'text-white font-medium',
-                    'backdrop-blur-lg border border-red-dark/30 dark:border-red-light/30',
-                    'shadow-lg shadow-red-dark/20 dark:shadow-red-light/20',
-                  )
-                  : variant === 'info'
-                    ? cn(
-                      'bg-gradient-to-br from-blue/95 to-aero/95 dark:from-blue-light/95 dark:to-aero/95',
-                      'text-white dark:text-blue-dark font-medium',
-                      'backdrop-blur-lg border border-blue/30 dark:border-blue-light/30',
-                      'shadow-lg shadow-blue/20 dark:shadow-blue-light/20',
-                    )
-                    : cn(
-                      'bg-gray-dark/95 dark:bg-gray-light/95',
-                      'text-white dark:text-blue-dark font-medium',
-                      'backdrop-blur-lg border border-gray-dark/30 dark:border-gray-light/30',
-                      'shadow-lg shadow-gray-dark/20 dark:shadow-gray-light/20',
-                    ),
+          // Variant colours come from the theme tokens
+          surfaces[variant],
 
           className,
         )}
@@ -116,17 +97,7 @@ function TooltipContent({
         {children}
         <TooltipPrimitive.Arrow
           className={cn(
-            variant === 'brand'
-              ? 'fill-hero-font dark:fill-blue-light'
-              : variant === 'success'
-                ? 'fill-green dark:fill-green-light'
-                : variant === 'warning'
-                  ? 'fill-yellow-orange dark:fill-yellow-light'
-                  : variant === 'error'
-                    ? 'fill-red-dark dark:fill-red-light'
-                    : variant === 'info'
-                      ? 'fill-blue dark:fill-blue-light'
-                      : 'fill-gray-dark dark:fill-gray-light',
+            arrows[variant],
             'z-50 size-2.5 translate-y-[calc(-50%_-_1px)] rotate-45 rounded-sm',
             'drop-shadow-lg',
           )}

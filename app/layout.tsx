@@ -26,8 +26,20 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 export const metadata: Metadata = {
   title: 'Jaival Saija | DevOps Engineer',
   description:
-    'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
-  keywords: ['DevOps', 'Engineer', 'Technology', 'Developer', 'Portfolio'],
+    'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
+  keywords: [
+    'DevOps Engineer',
+    'AWS',
+    'Cloud Security',
+    'CI/CD',
+    'GitHub Actions',
+    'Terraform',
+    'Linux',
+    'Docker',
+    'Kubernetes',
+    'Kaiserslautern',
+    'Germany',
+  ],
   authors: [{ name: 'Jaival Saija' }],
   creator: 'Jaival Saija',
   metadataBase: new URL(siteUrl),
@@ -37,15 +49,15 @@ export const metadata: Metadata = {
     url: siteUrl,
     title: 'Jaival Saija | DevOps Engineer',
     description:
-      'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
+      'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Jaival Saija | DevOps Engineer',
     description:
-      'Personal website of Jaival Saija, a DevOps Engineer and technology enthusiast.',
-    creator: '@jaivalsaija',
+      'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
+    creator: '@Jaival469',
   },
 };
 
@@ -53,8 +65,8 @@ export const metadata: Metadata = {
 // The navbar keeps these in sync when the theme is toggled by hand.
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#020618' },
+    { media: '(prefers-color-scheme: light)', color: '#f7fbfb' },
+    { media: '(prefers-color-scheme: dark)', color: '#071318' },
   ],
   colorScheme: 'light dark',
 };

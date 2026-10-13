@@ -55,18 +55,18 @@ const ContactInfoCard = ({
 }) => {
   const CardWrapper = (
     <div className='pb-2 transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]'>
-      <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-md border border-white/25 dark:border-blue-line/25 hover:border-hero-font/40 dark:hover:border-blue-light/40 transition-[border-color,box-shadow] duration-200 ease-out group overflow-hidden shadow-sm hover:shadow-md'>
+      <Card className='bg-card/50 backdrop-blur-md border border-border hover:border-primary/40 transition-[border-color,box-shadow] duration-200 ease-out group overflow-hidden shadow-sm hover:shadow-md'>
         <CardContent className='flex items-center gap-5 px-6 py-4'>
-          <div className='flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-hero-font/20 to-blue-green/20 dark:from-blue-light/20 dark:to-aero/20 rounded-2xl group-hover:from-hero-font/30 group-hover:to-blue-green/30 dark:group-hover:from-blue-light/30 dark:group-hover:to-aero/30 transition-colors duration-200 ease-out shadow-sm'>
-            <div className='text-hero-font dark:text-blue-light group-hover:text-blue-green dark:group-hover:text-aero transition-colors duration-200 ease-out'>
+          <div className='flex-shrink-0 w-12 h-12 flex items-center justify-center bg-primary/15 rounded-2xl group-hover:bg-primary/25 transition-colors duration-200 ease-out shadow-sm'>
+            <div className='text-primary group-hover:text-brand-to transition-colors duration-200 ease-out'>
               {icon}
             </div>
           </div>
           <div className='flex-1 min-w-0'>
-            <h3 className='text-lg font-semibold tracking-tight text-blue-dark dark:text-gray-light mb-1 leading-tight group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-200 ease-out'>
+            <h3 className='text-lg font-semibold tracking-tight text-card-foreground mb-1 leading-tight group-hover:text-primary transition-colors duration-200 ease-out'>
               {title}
             </h3>
-            <p className='text-sm text-blue-dark/75 dark:text-gray-light/75 break-words leading-relaxed'>
+            <p className='text-sm text-muted-foreground break-words leading-relaxed'>
               {content}
             </p>
           </div>
@@ -100,16 +100,20 @@ export default function ContactMe() {
     },
   });
 
-  const onSubmit = async (_data: ContactFormData) => {
+  // There's no backend: submitting hands the message to the visitor's email
+  // app, so it actually reaches me instead of vanishing.
+  const onSubmit = (data: ContactFormData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const body = `${data.message}
 
-      // Here you would typically send the form data to your backend
-      // console.log('Form submitted:', data); // Remove in production
+${data.name}
+${data.email}`;
+      window.location.href = `mailto:${userData.email}?subject=${encodeURIComponent(
+        data.subject,
+      )}&body=${encodeURIComponent(body)}`;
 
       setSubmitStatus('success');
       form.reset();
@@ -128,17 +132,17 @@ export default function ContactMe() {
         {/* Header Section */}
         <div className='text-center mb-16'>
           <div className='relative inline-block'>
-            <h1 className='animate-enter text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] bg-gradient-to-r from-hero-font via-blue-green to-aero bg-clip-text text-transparent mb-6'>
+            <h1 className='animate-enter text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6'>
               Get In Touch
             </h1>
             {/* Static glow. It used to breathe on a 4s loop behind the text. */}
             <div
               aria-hidden
-              className='absolute -inset-4 bg-gradient-to-r from-hero-font/20 to-blue-green/20 rounded-3xl blur-2xl -z-10'
+              className='absolute -inset-4 bg-gradient-to-r from-brand-from/20 to-brand-to/20 rounded-3xl blur-2xl -z-10'
             />
           </div>
           <p
-            className='animate-enter text-lg md:text-xl text-blue-dark/90 dark:text-gray-light/80 max-w-2xl mx-auto'
+            className='animate-enter text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto'
             style={{ '--stagger': 1 } as CSSProperties}
           >
             I&apos;m looking for DevOps and cloud infrastructure work in
@@ -153,12 +157,12 @@ export default function ContactMe() {
             style={{ '--stagger': 2 } as CSSProperties}
           >
             <div>
-              <h2 className='text-2xl md:text-3xl font-bold tracking-tight text-blue-dark dark:text-gray-light mb-6'>
+              <h2 className='text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-6'>
                 Let&apos;s Connect
               </h2>
-              <p className='text-blue-dark/80 dark:text-gray-light/80 mb-8'>
-                Mail reaches me fastest and I do answer, usually within a
-                day. LinkedIn works too if that&apos;s easier for you.
+              <p className='text-muted-foreground mb-8'>
+                Mail reaches me fastest and I do answer, usually within a day.
+                LinkedIn works too if that&apos;s easier for you.
               </p>
             </div>
 
@@ -200,7 +204,7 @@ export default function ContactMe() {
 
             {/* Social Links */}
             <div className='pt-8'>
-              <h3 className='text-lg font-semibold tracking-tight text-blue-dark dark:text-gray-light mb-4'>
+              <h3 className='text-lg font-semibold tracking-tight text-foreground mb-4'>
                 Connect on Social
               </h3>
               <SocialLinks iconSize={26} />
@@ -212,31 +216,31 @@ export default function ContactMe() {
             className='animate-enter'
             style={{ '--stagger': 3 } as CSSProperties}
           >
-            <Card className='bg-white/15 dark:bg-black-light/15 backdrop-blur-lg border border-white/25 dark:border-blue-line/25 shadow-lg hover:shadow-xl transition-shadow duration-200 ease-out'>
+            <Card className='bg-card/50 backdrop-blur-lg border border-border shadow-lg hover:shadow-xl transition-shadow duration-200 ease-out'>
               <CardHeader className='pb-6'>
-                <CardTitle className='text-2xl font-semibold tracking-tight text-blue-dark dark:text-gray-light'>
+                <CardTitle className='text-2xl font-semibold tracking-tight text-card-foreground'>
                   Send a Message
                 </CardTitle>
-                <div className='mt-4 p-4 bg-amber-50/80 dark:bg-amber-900/20 border-2 border-amber-400/60 dark:border-amber-600/60 rounded-lg'>
+                <div className='mt-4 p-4 bg-primary/5 border border-primary/30 rounded-lg'>
                   <div className='flex items-start space-x-3'>
                     <svg
-                      className='w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5'
+                      className='w-5 h-5 text-primary flex-shrink-0 mt-0.5'
                       fill='currentColor'
                       viewBox='0 0 20 20'
                     >
                       <path
                         fillRule='evenodd'
-                        d='M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z'
+                        d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
                         clipRule='evenodd'
                       />
                     </svg>
                     <div>
-                      <p className='text-sm font-semibold text-amber-800 dark:text-amber-300'>
-                        Under Construction
+                      <p className='text-sm font-semibold text-foreground'>
+                        Sends through your email app
                       </p>
-                      <p className='text-xs text-amber-700 dark:text-amber-400 mt-1'>
-                        This form isn&apos;t wired up yet. Email or LinkedIn
-                        works in the meantime.
+                      <p className='text-xs text-muted-foreground mt-1'>
+                        Submitting opens your email app with this message filled
+                        in. Nothing is stored on this site.
                       </p>
                     </div>
                   </div>
@@ -254,7 +258,7 @@ export default function ContactMe() {
                         name='name'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className='text-blue-dark dark:text-gray-light'>
+                            <FormLabel className='text-foreground'>
                               Name
                             </FormLabel>
                             <FormControl>
@@ -263,7 +267,7 @@ export default function ContactMe() {
                                 autoComplete='name'
                                 enterKeyHint='next'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
+                                className='h-12 px-4 py-3 bg-background/60 border border-input hover:border-primary/60 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 text-foreground placeholder:text-muted-foreground backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                               />
                             </FormControl>
                             <FormMessage />
@@ -275,7 +279,7 @@ export default function ContactMe() {
                         name='email'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className='text-blue-dark dark:text-gray-light'>
+                            <FormLabel className='text-foreground'>
                               Email
                             </FormLabel>
                             <FormControl>
@@ -286,7 +290,7 @@ export default function ContactMe() {
                                 inputMode='email'
                                 enterKeyHint='next'
                                 {...field}
-                                className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
+                                className='h-12 px-4 py-3 bg-background/60 border border-input hover:border-primary/60 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 text-foreground placeholder:text-muted-foreground backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                               />
                             </FormControl>
                             <FormMessage />
@@ -300,7 +304,7 @@ export default function ContactMe() {
                       name='subject'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className='text-blue-dark dark:text-gray-light'>
+                          <FormLabel className='text-foreground'>
                             Subject
                           </FormLabel>
                           <FormControl>
@@ -309,7 +313,7 @@ export default function ContactMe() {
                               autoComplete='off'
                               enterKeyHint='next'
                               {...field}
-                              className='h-12 px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
+                              className='h-12 px-4 py-3 bg-background/60 border border-input hover:border-primary/60 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 text-foreground placeholder:text-muted-foreground backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out text-base'
                             />
                           </FormControl>
                           <FormMessage />
@@ -322,16 +326,16 @@ export default function ContactMe() {
                       name='message'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className='text-blue-dark dark:text-gray-light'>
+                          <FormLabel className='text-foreground'>
                             Message
                           </FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder='Tell me about your project or idea...'
+                              placeholder='Tell me about the role, or whatever brought you here.'
                               rows={6}
                               enterKeyHint='send'
                               {...field}
-                              className='min-h-[120px] px-4 py-3 bg-white/15 dark:bg-blue-dark/25 border border-gray-light/40 dark:border-blue-line/40 hover:border-hero-font/60 dark:hover:border-blue-light/60 focus:border-hero-font dark:focus:border-blue-light focus:ring-2 focus:ring-hero-font/40 dark:focus:ring-blue-light/40 text-blue-dark dark:text-gray-light placeholder:text-blue-dark/70 dark:placeholder:text-gray-light/70 backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out resize-none text-base leading-relaxed'
+                              className='min-h-[120px] px-4 py-3 bg-background/60 border border-input hover:border-primary/60 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 text-foreground placeholder:text-muted-foreground backdrop-blur-md transition-[border-color,box-shadow] duration-200 ease-out resize-none text-base leading-relaxed'
                             />
                           </FormControl>
                           <FormMessage />
@@ -343,7 +347,7 @@ export default function ContactMe() {
                     <button
                       type='submit'
                       disabled={isSubmitting}
-                      className='relative w-full h-12 py-4 px-6 bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark text-white font-medium rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2 text-base'
+                      className='relative w-full h-12 py-4 px-6 bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-to hover:to-brand-from text-primary-foreground font-medium rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background text-base'
                     >
                       <AnimatePresence mode='popLayout' initial={false}>
                         {isSubmitting ? (
@@ -358,8 +362,8 @@ export default function ContactMe() {
                             }}
                             className='flex items-center justify-center space-x-2'
                           >
-                            <span className='size-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
-                            <span>Sending...</span>
+                            <span className='size-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin' />
+                            <span>Opening your email app...</span>
                           </motion.span>
                         ) : (
                           <motion.span
@@ -373,7 +377,7 @@ export default function ContactMe() {
                             }}
                             className='block'
                           >
-                            Send Message
+                            Send via email
                           </motion.span>
                         )}
                       </AnimatePresence>
@@ -390,11 +394,11 @@ export default function ContactMe() {
                             duration: durations.fast,
                             ease: easeOut,
                           }}
-                          className='p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl'
+                          className='p-4 bg-success/10 border border-success/40 rounded-xl'
                         >
                           <div className='flex items-center space-x-2'>
                             <svg
-                              className='w-5 h-5 text-green-600 dark:text-green-400'
+                              className='w-5 h-5 text-success'
                               fill='currentColor'
                               viewBox='0 0 20 20'
                             >
@@ -404,9 +408,10 @@ export default function ContactMe() {
                                 clipRule='evenodd'
                               />
                             </svg>
-                            <span className='text-green-700 dark:text-green-300 font-medium'>
-                              Message sent successfully! I&apos;ll get back to
-                              you soon.
+                            <span className='text-foreground font-medium'>
+                              Your email app should have opened with the message
+                              ready. Hit send there and I&apos;ll get back to
+                              you within a day or so.
                             </span>
                           </div>
                         </motion.div>
@@ -421,11 +426,11 @@ export default function ContactMe() {
                             duration: durations.fast,
                             ease: easeOut,
                           }}
-                          className='p-4 bg-red-light/10 dark:bg-red-dark/20 border border-red-light/30 dark:border-red-dark/50 rounded-xl'
+                          className='p-4 bg-destructive/10 border border-destructive/40 rounded-xl'
                         >
                           <div className='flex items-center space-x-2'>
                             <svg
-                              className='w-5 h-5 text-red-dark dark:text-red-light'
+                              className='w-5 h-5 text-destructive'
                               fill='currentColor'
                               viewBox='0 0 20 20'
                             >
@@ -435,9 +440,9 @@ export default function ContactMe() {
                                 clipRule='evenodd'
                               />
                             </svg>
-                            <span className='text-red-dark dark:text-red-light font-medium'>
-                              Failed to send message. Please try again or
-                              contact me directly.
+                            <span className='text-foreground font-medium'>
+                              Your email app didn&apos;t open. Write to{' '}
+                              {userData.email} directly instead.
                             </span>
                           </div>
                         </motion.div>

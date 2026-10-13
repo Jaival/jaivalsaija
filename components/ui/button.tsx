@@ -10,20 +10,20 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-gradient-to-r from-hero-font to-blue-green text-white shadow-md hover:shadow-lg hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark active:scale-95 transform',
+          'bg-gradient-to-r from-brand-from to-brand-to text-primary-foreground shadow-md hover:shadow-lg hover:from-brand-to hover:to-brand-from active:scale-95 transform',
         destructive:
-          'bg-gradient-to-r from-red-dark to-orange shadow-md hover:shadow-lg hover:from-orange hover:to-red-dark text-white focus-visible:ring-red-light/30 dark:focus-visible:ring-red-light/50 active:scale-95 transform',
+          'bg-destructive text-destructive-foreground shadow-md hover:shadow-lg hover:bg-destructive/90 focus-visible:ring-destructive/40 active:scale-95 transform',
         outline:
-          'border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm active:scale-95 transform',
+          'border-2 border-primary text-primary bg-transparent shadow-sm hover:bg-primary hover:text-primary-foreground backdrop-blur-sm active:scale-95 transform',
         secondary:
-          'bg-gradient-to-r from-gray-light/20 to-gray/20 text-gray-dark border border-gray-light/40 shadow-sm hover:shadow-md hover:from-gray-light/30 hover:to-gray/30 dark:from-blue-line/30 dark:to-gray-dark/30 dark:text-gray-light dark:border-blue-line/50 backdrop-blur-sm active:scale-95 transform',
+          'bg-secondary text-secondary-foreground border border-border shadow-sm hover:shadow-md hover:bg-secondary/80 backdrop-blur-sm active:scale-95 transform',
         ghost:
-          'hover:bg-gradient-to-r hover:from-hero-font/10 hover:to-blue-green/10 hover:text-hero-font dark:hover:from-blue-light/10 dark:hover:to-aero/10 dark:hover:text-blue-light backdrop-blur-sm active:scale-95 transform',
-        link: 'text-hero-font underline-offset-4 hover:underline hover:text-blue-green dark:text-blue-light dark:hover:text-aero',
+          'hover:bg-accent hover:text-accent-foreground backdrop-blur-sm active:scale-95 transform',
+        link: 'text-primary underline-offset-4 hover:underline hover:text-brand-to',
         premium:
-          'bg-gradient-to-r from-yellow-orange via-orange to-red-light text-white shadow-lg hover:shadow-xl hover:from-orange hover:via-red-light hover:to-yellow-orange dark:from-yellow-light dark:via-green-light dark:to-blue-light dark:text-blue-dark border border-yellow-orange/20 dark:border-yellow-light/20 active:scale-95 transform',
+          'bg-highlight text-highlight-foreground shadow-lg hover:shadow-xl hover:bg-highlight/90 border border-highlight/20 active:scale-95 transform',
         glass:
-          'bg-white/10 dark:bg-black-light/20 backdrop-blur-md border border-white/20 dark:border-blue-line/30 text-hero-font dark:text-blue-light shadow-lg hover:shadow-xl hover:bg-white/20 dark:hover:bg-black-light/30 active:scale-95 transform',
+          'bg-card/40 backdrop-blur-md border border-border text-primary shadow-lg hover:shadow-xl hover:bg-card/60 active:scale-95 transform',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

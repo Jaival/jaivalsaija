@@ -33,9 +33,9 @@ export default class ErrorBoundary extends Component<Props, State> {
         // nothing reads as a cartoon, not as UI.
         <div className='min-h-svh flex items-center justify-center px-4'>
           <div className='animate-enter text-center max-w-md mx-auto'>
-            <div className='w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-red-light to-orange-light rounded-full flex items-center justify-center'>
+            <div className='w-24 h-24 mx-auto mb-6 bg-destructive rounded-full flex items-center justify-center'>
               <svg
-                className='w-12 h-12 text-white'
+                className='w-12 h-12 text-destructive-foreground'
                 fill='none'
                 stroke='currentColor'
                 viewBox='0 0 24 24'
@@ -50,20 +50,20 @@ export default class ErrorBoundary extends Component<Props, State> {
               </svg>
             </div>
 
-            <h2 className='text-2xl font-bold tracking-tight text-blue-dark dark:text-gray-light mb-4'>
-              Oops! Something went wrong
+            <h2 className='text-2xl font-bold tracking-tight text-foreground mb-4'>
+              This page broke
             </h2>
 
-            <p className='text-blue-dark dark:text-gray-light mb-6'>
-              Don&apos;t worry, this is just a temporary glitch. Try refreshing
-              the page or go back to the homepage.
+            <p className='text-muted-foreground mb-6'>
+              Refreshing usually fixes it. If it doesn&apos;t, the homepage
+              should still work.
             </p>
 
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <button
                 type='button'
                 onClick={() => window.location.reload()}
-                className='px-6 py-3 bg-gradient-to-r from-hero-font to-blue-green text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200 ease-out active:scale-[0.97]'
+                className='px-6 py-3 bg-gradient-to-r from-brand-from to-brand-to text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200 ease-out active:scale-[0.97]'
               >
                 Refresh Page
               </button>
@@ -71,7 +71,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               <button
                 type='button'
                 onClick={() => (window.location.href = '/')}
-                className='px-6 py-3 bg-transparent border-2 border-hero-font dark:border-blue-light text-hero-font dark:text-blue-light font-semibold rounded-xl hover:bg-hero-font hover:text-white dark:hover:bg-blue-light dark:hover:text-blue-dark transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.97]'
+                className='px-6 py-3 bg-transparent border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-primary-foreground transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.97]'
               >
                 Go Home
               </button>

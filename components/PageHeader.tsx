@@ -30,7 +30,7 @@ export default function PageHeader({
 
       {subtitle && (
         <p
-          className='animate-enter text-lg md:text-xl text-gray-dark dark:text-gray-light max-w-3xl mx-auto leading-relaxed text-center md:text-left px-4 md:px-8'
+          className='animate-enter text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed text-center md:text-left px-4 md:px-8'
           style={{ '--stagger': 1 } as CSSProperties}
         >
           {subtitle}

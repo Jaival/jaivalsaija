@@ -33,7 +33,7 @@ function GitHubIcon({ className }: { className?: string }) {
 }
 
 const projectAction =
-  'relative z-10 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-hero-font dark:text-blue-light bg-hero-font/10 dark:bg-blue-light/10 hover:bg-hero-font/20 dark:hover:bg-blue-light/20 transition-[background-color,transform] duration-200 ease-out active:scale-[0.97]';
+  'relative z-10 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 transition-[background-color,transform] duration-200 ease-out active:scale-[0.97]';
 
 // Hover lift is CSS on the card itself — one owner per property, and no JS
 // involved in something that fires on every pointer move. The title link is
@@ -53,17 +53,17 @@ function ProjectCard({
 
   return (
     <div className='h-full transition-transform duration-200 ease-out hover:-translate-y-2'>
-      <Card className='group relative h-full bg-white/5 dark:bg-blue-dark/10 backdrop-blur-sm border-gray-light/20 dark:border-blue-line/20 hover:border-hero-font/30 shadow-lg hover:shadow-2xl overflow-hidden transition-[border-color,box-shadow] duration-200 ease-out'>
+      <Card className='group relative h-full bg-card/50 backdrop-blur-sm border-border hover:border-primary/40 shadow-lg hover:shadow-2xl overflow-hidden transition-[border-color,box-shadow] duration-200 ease-out'>
         <div className='relative overflow-hidden'>
           {/* Project number badge */}
           <div className='absolute top-4 left-4 z-10'>
-            <div className='w-8 h-8 bg-gradient-to-br from-hero-font to-blue-green rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg'>
+            <div className='w-8 h-8 bg-gradient-to-br from-brand-from to-brand-to rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold shadow-lg'>
               {number}
             </div>
           </div>
 
           {/* Image container */}
-          <div className='relative h-48 bg-gradient-to-br from-gray-light/10 to-blue-line/10 dark:from-blue-dark/20 dark:to-purple-dark/20'>
+          <div className='relative h-48 bg-muted'>
             {imgUrl ? (
               <Image
                 src={imgUrl}
@@ -80,20 +80,20 @@ function ProjectCard({
             ) : (
               <div
                 aria-hidden='true'
-                className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-hero-font via-blue-green to-aero transition-transform duration-300 ease-out group-hover:scale-105'
+                className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-from to-brand-to transition-transform duration-300 ease-out group-hover:scale-105'
               >
-                <span className='text-3xl md:text-4xl font-bold tracking-tight text-white drop-shadow'>
+                <span className='text-3xl md:text-4xl font-bold tracking-tight text-primary-foreground drop-shadow'>
                   {title}
                 </span>
               </div>
             )}
             {/* Overlay gradient */}
-            <div className='absolute inset-0 bg-gradient-to-t from-blue-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out' />
+            <div className='absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out' />
           </div>
         </div>
 
         <CardHeader>
-          <CardTitle className='text-xl font-bold tracking-tight text-blue-dark dark:text-gray-light group-hover:text-hero-font transition-colors duration-200 ease-out'>
+          <CardTitle className='text-xl font-bold tracking-tight text-card-foreground group-hover:text-primary transition-colors duration-200 ease-out'>
             {primaryUrl ? (
               <Link
                 href={primaryUrl}
@@ -107,7 +107,7 @@ function ProjectCard({
               title
             )}
           </CardTitle>
-          <CardDescription className='text-blue-dark/90 dark:text-gray-light/80'>
+          <CardDescription className='text-muted-foreground'>
             {description}
           </CardDescription>
         </CardHeader>
@@ -152,17 +152,17 @@ export default function Projects() {
         {/* Above the fold: CSS entrance, no hydration wait. */}
         <div className='text-center mb-16'>
           <h1 className='animate-enter text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] mb-6'>
-            <span className='bg-gradient-to-r from-hero-font via-blue-green to-aero bg-clip-text text-transparent'>
+            <span className='bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent'>
               My Projects
             </span>
           </h1>
 
           <p
-            className='animate-enter text-lg md:text-xl text-blue-dark/75 dark:text-gray-light max-w-3xl mx-auto leading-relaxed'
+            className='animate-enter text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed'
             style={{ '--stagger': 1 } as CSSProperties}
           >
-            A collection of projects I&apos;ve worked on, showcasing different
-            technologies and approaches to solving real-world problems.
+            Apps, a client site and VS Code themes I&apos;ve built outside work.
+            The code for each one is on GitHub.
           </p>
         </div>
 
@@ -180,7 +180,7 @@ export default function Projects() {
             href={`https://github.com/${userData.githubUsername}`}
             target='_blank'
             rel='noopener noreferrer'
-            className='inline-flex items-center space-x-3 bg-gradient-to-r from-hero-font to-blue-green text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0'
+            className='inline-flex items-center space-x-3 bg-gradient-to-r from-brand-from to-brand-to text-primary-foreground px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0'
           >
             <GitHubIcon className='w-5 h-5' />
             <span>View More on GitHub</span>

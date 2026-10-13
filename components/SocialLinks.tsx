@@ -84,39 +84,35 @@ const InstagramIcon = ({ className = '', size = 24 }: IconProps) => (
   </svg>
 );
 
-// Social platform data with custom brand colors
+// Social platforms, each tinted with one of the theme tokens
 const socialPlatforms = [
   {
     name: 'GitHub',
     href: userData.socialLinks.github,
     icon: GitHubIcon,
-    colorClass:
-      'text-blue-dark hover:text-hero-font dark:text-gray-light dark:hover:text-blue-light',
-    bgClass: 'hover:bg-hero-font/10 dark:hover:bg-blue-light/10',
+    colorClass: 'text-foreground hover:text-primary',
+    bgClass: 'hover:bg-primary/10',
   },
   {
     name: 'LinkedIn',
     href: userData.socialLinks.linkedin,
     icon: LinkedInIcon,
-    colorClass:
-      'text-blue-green hover:text-blue-light dark:text-aero dark:hover:text-blue-light',
-    bgClass: 'hover:bg-blue-green/10 dark:hover:bg-aero/10',
+    colorClass: 'text-primary hover:text-brand-to',
+    bgClass: 'hover:bg-primary/10',
   },
   {
     name: 'Twitter',
     href: userData.socialLinks.twitter,
     icon: TwitterIcon,
-    colorClass:
-      'text-aero hover:text-blue-light dark:text-blue-light dark:hover:text-aero',
-    bgClass: 'hover:bg-aero/10 dark:hover:bg-blue-light/10',
+    colorClass: 'text-brand-to hover:text-primary',
+    bgClass: 'hover:bg-brand-to/10',
   },
   {
     name: 'Instagram',
     href: userData.socialLinks.instagram,
     icon: InstagramIcon,
-    colorClass:
-      'text-orange hover:text-orange-light dark:text-orange-light dark:hover:text-orange',
-    bgClass: 'hover:bg-orange/10 dark:hover:bg-orange-light/10',
+    colorClass: 'text-highlight-strong hover:text-highlight-strong/80',
+    bgClass: 'hover:bg-highlight/15',
   },
 ];
 
@@ -147,7 +143,7 @@ export default function SocialLinks({
                     p-2.5
                     relative group
                     rounded-lg
-                    border border-gray-200 dark:border-gray-700
+                    border border-border
                     ${platform.bgClass}
                     ${platform.colorClass}
                     backdrop-blur-sm
@@ -209,9 +205,9 @@ export function SocialLink({
           className={`
             p-2.5 
             rounded-lg
-            border border-gray-200 dark:border-gray-700
-            hover:bg-gray-50 dark:hover:bg-gray-800
-            text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100
+            border border-border
+            hover:bg-accent
+            text-muted-foreground hover:text-foreground
             transition-[color,background-color,box-shadow,transform] duration-200 ease-out
             hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0
             shadow-sm hover:shadow-md

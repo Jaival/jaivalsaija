@@ -29,16 +29,14 @@ function NavLink({ href, label }: { href: string; label: string }) {
       href={href}
       aria-current={isActive ? 'page' : undefined}
       className={`relative px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 ease-out ${
-        isActive
-          ? 'text-hero-font dark:text-blue-light'
-          : 'text-blue-dark dark:text-gray-light hover:text-hero-font dark:hover:text-blue-light'
+        isActive ? 'text-primary' : 'text-foreground hover:text-primary'
       }`}
     >
       {isActive && (
         <motion.span
           layoutId='navbar-pill'
           transition={spring}
-          className='absolute inset-0 rounded-lg bg-gradient-to-r from-hero-font/10 to-blue-green/10 dark:from-blue-light/10 dark:to-aero/10'
+          className='absolute inset-0 rounded-lg bg-primary/10'
         />
       )}
       <span className='relative z-10'>{label}</span>
@@ -46,7 +44,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-const iconClass = 'w-full h-full text-yellow-orange dark:text-yellow-light';
+const iconClass = 'w-full h-full text-highlight-strong';
 
 const SunIcon = () => (
   <svg
@@ -92,7 +90,7 @@ function ThemeToggle() {
       ref={buttonRef}
       aria-label='Toggle Dark Mode'
       type='button'
-      className='relative w-10 h-10 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:shadow-lg active:scale-[0.94] reduced-transparency:backdrop-blur-none'
+      className='relative w-10 h-10 p-2 rounded-xl bg-muted/60 backdrop-blur-sm border border-border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:shadow-lg active:scale-[0.94] reduced-transparency:backdrop-blur-none'
       onClick={toggleTheme}
     >
       {/* Both icons are in the DOM; the theme class crossfades between
@@ -118,14 +116,14 @@ function MobileMenuButton({
   return (
     <button
       type='button'
-      className='relative md:hidden w-10 h-10 p-2 rounded-xl bg-gray-light/50 dark:bg-blue-line/50 backdrop-blur-sm border border-gray-light dark:border-blue-line transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out active:scale-[0.94] reduced-transparency:backdrop-blur-none'
+      className='relative md:hidden w-10 h-10 p-2 rounded-xl bg-muted/60 backdrop-blur-sm border border-border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out active:scale-[0.94] reduced-transparency:backdrop-blur-none'
       onClick={onToggle}
       aria-expanded={isOpen}
       aria-label='Toggle mobile menu'
     >
       <svg
         xmlns='http://www.w3.org/2000/svg'
-        className='absolute inset-2 w-6 h-6 text-gray-dark dark:text-gray-light'
+        className='absolute inset-2 w-6 h-6 text-muted-foreground'
         fill='none'
         viewBox='0 0 24 24'
         stroke='currentColor'
@@ -180,15 +178,15 @@ export default function Navbar() {
   return (
     // Chrome seen on every page view: no entrance animation.
     <div className='sticky top-0 z-50 p-4'>
-      <nav className='relative w-full rounded-2xl shadow-lg backdrop-blur-md border border-white/15 dark:border-white/10 bg-white/60 dark:bg-black-light/35 reduced-transparency:bg-white reduced-transparency:backdrop-blur-none dark:reduced-transparency:bg-black-light'>
+      <nav className='relative w-full rounded-2xl shadow-lg backdrop-blur-md border border-border bg-card/60 reduced-transparency:bg-card reduced-transparency:backdrop-blur-none'>
         <div className='max-w-6xl px-6 py-4 mx-auto'>
           <div className='flex items-center justify-between'>
             <Link href='/' className='group' aria-label='Go to homepage'>
               <div className='flex flex-col'>
-                <span className='text-xl font-bold tracking-tight bg-gradient-to-r from-blue-dark via-hero-font to-blue-green bg-clip-text text-transparent dark:from-white dark:via-blue-light dark:to-aero'>
+                <span className='text-xl font-bold tracking-tight bg-gradient-to-r from-foreground via-primary to-brand-to bg-clip-text text-transparent'>
                   {name}
                 </span>
-                <span className='text-sm font-medium text-blue-dark dark:text-gray-light group-hover:text-hero-font dark:group-hover:text-blue-light transition-colors duration-200 ease-out'>
+                <span className='text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors duration-200 ease-out'>
                   {designation}
                 </span>
               </div>
@@ -222,7 +220,7 @@ export default function Navbar() {
               exit={{ opacity: 0, scale: 0.96, y: -8 }}
               transition={{ duration: durations.fast, ease: easeOut }}
             >
-              <div className='py-4 px-4 bg-white/95 dark:bg-blue-dark/95 backdrop-blur-xl rounded-2xl border border-gray-light/30 dark:border-blue-line/30 shadow-2xl reduced-transparency:bg-white reduced-transparency:backdrop-blur-none dark:reduced-transparency:bg-blue-dark'>
+              <div className='py-4 px-4 bg-popover/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl reduced-transparency:bg-popover reduced-transparency:backdrop-blur-none'>
                 <div className='flex flex-col space-y-2'>
                   {navigationItems.map((item, index) => (
                     <motion.div
@@ -242,14 +240,14 @@ export default function Navbar() {
                         }
                         className={`flex items-center text-base py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.98] ${
                           pathName === item.href
-                            ? 'text-hero-font dark:text-blue-light font-semibold bg-gradient-to-r from-hero-font/15 to-blue-green/15 border border-hero-font/30'
-                            : 'text-blue-dark dark:text-gray-light font-medium hover:text-hero-font dark:hover:text-blue-light hover:bg-gray-light/40 dark:hover:bg-blue-line/40'
+                            ? 'text-primary font-semibold bg-primary/10 border border-primary/30'
+                            : 'text-popover-foreground font-medium hover:text-primary hover:bg-accent'
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.label}
                         {pathName === item.href && (
-                          <span className='ml-auto size-2 rounded-full bg-hero-font dark:bg-blue-light' />
+                          <span className='ml-auto size-2 rounded-full bg-primary' />
                         )}
                       </Link>
                     </motion.div>

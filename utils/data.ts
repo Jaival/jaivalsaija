@@ -74,7 +74,7 @@ const userData: UserData = {
     {
       title: 'Taskly',
       description:
-        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2021 internship project and rewritten on Flutter, Riverpod and Firebase.',
+        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
       imgUrl: '/projects/taskly.webp',
       githubUrl: 'https://github.com/Jaival/taskly-flutter',
       websiteUrl: 'https://jaival.github.io/taskly-flutter/',
@@ -88,14 +88,15 @@ const userData: UserData = {
     {
       title: 'Jigna Saija Portfolio',
       description:
-        'A portfolio site for architect and interior designer Jigna Saija, showcasing more than twenty of her architecture and interior projects. Next.js, Tailwind CSS and Motion.',
+        'A portfolio site for architect and interior designer Jigna Saija, with more than twenty of her architecture and interior projects. Next.js, Tailwind CSS and Motion.',
       imgUrl: '/projects/jigna-saija-portfolio.png',
       githubUrl: 'https://github.com/Jaival/jigna-saija',
       websiteUrl: 'https://jignasaija.vercel.app',
     },
     {
       title: 'Flat',
-      description: 'A VS Code theme for flat color lovers.',
+      description:
+        'A dark VS Code theme in flat, solid colors: a deep teal editor, yellow text and a lime status bar.',
       imgUrl: '/projects/flat-theme.png',
       githubUrl: 'https://github.com/Jaival/Flat-Theme',
       websiteUrl:
@@ -104,7 +105,8 @@ const userData: UserData = {
     },
     {
       title: "Hacker's Hideout",
-      description: 'A dark VS Code theme for dark theme lovers.',
+      description:
+        "A dark VS Code theme with a near-black background, lime-green text and neon accents. It covers the whole workbench, down to the terminal's 16 ANSI colors.",
       imgUrl: '/projects/hacker-hideout.png',
       githubUrl: 'https://github.com/Jaival/HackersHideout',
       websiteUrl:

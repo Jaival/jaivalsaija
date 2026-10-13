@@ -29,13 +29,13 @@ export default function Experience() {
 
                 {idx !== userData.experience.length - 1 && (
                   <div className='flex flex-col items-center -mt-2 divider-container'>
-                    <div className='relative z-10 w-6 h-6 rounded-full bg-gradient-to-r from-green-dark to-green-light shadow-lg' />
+                    <div className='relative z-10 w-6 h-6 rounded-full bg-gradient-to-r from-brand-from to-brand-to shadow-lg' />
 
                     {/* The connector draws itself downward as you scroll past.
                         scaleY, not height — height is a layout property and
                         would reflow the whole timeline every frame. */}
                     <motion.div
-                      className='w-0.5 h-20 md:h-24 origin-top bg-gradient-to-b from-green-dark via-blue-green to-green-light rounded-full'
+                      className='w-0.5 h-20 md:h-24 origin-top bg-gradient-to-b from-brand-from to-brand-to rounded-full'
                       initial={{ transform: 'scaleY(0)' }}
                       whileInView={{ transform: 'scaleY(1)' }}
                       viewport={{ once: true }}
@@ -66,16 +66,16 @@ const ExperienceCard = ({
   companyLink?: string;
 }) => {
   return (
-    <div className='relative z-10 p-6 md:p-8 bg-white/20 dark:bg-black-light/20 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl border border-white/30 dark:border-blue-line/30 group transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-1'>
+    <div className='relative z-10 p-6 md:p-8 bg-card/50 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl border border-border group transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-1'>
       {/* Year badge — a label, not a heading, so it stays out of the outline. */}
-      <div className='absolute -top-4 -left-4 md:-left-6 px-4 py-2 bg-gradient-to-r from-hero-font to-blue-green rounded-xl shadow-lg z-20'>
-        <span className='block text-lg md:text-xl font-bold tracking-tight text-white'>
+      <div className='absolute -top-4 -left-4 md:-left-6 px-4 py-2 bg-gradient-to-r from-brand-from to-brand-to rounded-xl shadow-lg z-20'>
+        <span className='block text-lg md:text-xl font-bold tracking-tight text-primary-foreground'>
           {year}
         </span>
       </div>
 
       <div className='pt-4'>
-        <h2 className='text-xl md:text-2xl font-bold tracking-tight text-blue-dark dark:text-white mb-2'>
+        <h2 className='text-xl md:text-2xl font-bold tracking-tight text-card-foreground mb-2'>
           {title}
         </h2>
 
@@ -83,12 +83,12 @@ const ExperienceCard = ({
           href={companyLink}
           target='_blank'
           rel='noopener noreferrer'
-          className='inline-block text-hero-font dark:text-blue-light font-semibold hover:text-blue-green dark:hover:text-aero transition-colors duration-200 ease-out mb-3 border-b border-transparent hover:border-hero-font dark:hover:border-blue-light'
+          className='inline-block text-primary font-semibold hover:text-brand-to transition-colors duration-200 ease-out mb-3 border-b border-transparent hover:border-primary'
         >
           {company}
         </Link>
 
-        <p className='text-blue-dark dark:text-gray-light leading-relaxed text-base md:text-lg'>
+        <p className='text-muted-foreground leading-relaxed text-base md:text-lg'>
           {desc}
         </p>
       </div>
@@ -96,7 +96,7 @@ const ExperienceCard = ({
       {/* Decorative corner dot. Static: it never meant anything. */}
       <div
         aria-hidden
-        className='absolute top-4 right-4 w-3 h-3 bg-gradient-to-br from-orange-light to-red-light rounded-full opacity-60 group-hover:opacity-90 transition-opacity duration-200 ease-out'
+        className='absolute top-4 right-4 w-3 h-3 bg-gradient-to-br from-highlight to-highlight-strong rounded-full opacity-60 group-hover:opacity-90 transition-opacity duration-200 ease-out'
       />
     </div>
   );

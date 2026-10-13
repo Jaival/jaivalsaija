@@ -18,9 +18,9 @@ export default async function Image() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#0f0a0a',
+          backgroundColor: '#071318',
           backgroundImage:
-            'radial-gradient(circle at 15% 20%, rgba(31,122,140,0.35), transparent 55%), radial-gradient(circle at 85% 85%, rgba(63,136,197,0.3), transparent 55%)',
+            'radial-gradient(circle at 15% 20%, rgba(93,218,224,0.22), transparent 55%), radial-gradient(circle at 85% 85%, rgba(107,186,240,0.2), transparent 55%)',
           fontFamily: 'sans-serif',
         }}
       >
@@ -32,11 +32,11 @@ export default async function Image() {
             borderRadius: 24,
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #1f7a8c, #3f88c5)',
+            background: 'linear-gradient(135deg, #5ddae0, #6bbaf0)',
             marginBottom: 40,
             fontSize: 44,
             fontWeight: 700,
-            color: '#f2f5ff',
+            color: '#001a22',
           }}
         >
           {name
@@ -49,7 +49,7 @@ export default async function Image() {
             display: 'flex',
             fontSize: 88,
             fontWeight: 700,
-            color: '#f2f5ff',
+            color: '#ecf3f4',
             letterSpacing: -2,
           }}
         >
@@ -61,7 +61,7 @@ export default async function Image() {
             marginTop: 20,
             fontSize: 36,
             fontWeight: 500,
-            color: '#90e0ef',
+            color: '#5ddae0',
           }}
         >
           {designation}
@@ -73,7 +73,7 @@ export default async function Image() {
             width: 160,
             height: 6,
             borderRadius: 999,
-            background: 'linear-gradient(90deg, #1f7a8c, #3f88c5)',
+            background: 'linear-gradient(90deg, #5ddae0, #6bbaf0)',
           }}
         />
       </div>

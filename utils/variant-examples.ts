@@ -104,7 +104,7 @@ export const usageExamples = {
     <Button 
       variant="default" 
       size="lg"
-      className="focus-visible:ring-2 focus-visible:ring-hero-font/60"
+      className="focus-visible:ring-2 focus-visible:ring-ring/60"
     >
       Click me
     </Button>
@@ -139,17 +139,18 @@ export const usageExamples = {
 
 // Color palette integration examples
 export const colorIntegration = {
+  // The same classes serve both themes; the tokens switch under .dark.
   lightMode: {
-    background: 'bg-background (white)',
-    foreground: 'text-foreground (blue-dark)',
-    accent: 'text-hero-font (teal)',
-    secondary: 'text-gray-dark',
+    background: 'bg-background (cool off-white)',
+    foreground: 'text-foreground (deep ink)',
+    accent: 'text-primary (teal)',
+    secondary: 'text-muted-foreground',
   },
   darkMode: {
-    background: 'dark:bg-background (blue-dark)',
-    foreground: 'dark:text-foreground (white)',
-    accent: 'dark:text-blue-light (light blue)',
-    secondary: 'dark:text-gray-light',
+    background: 'bg-background (ink teal)',
+    foreground: 'text-foreground (off-white)',
+    accent: 'text-primary (aqua)',
+    secondary: 'text-muted-foreground',
   },
 };
 

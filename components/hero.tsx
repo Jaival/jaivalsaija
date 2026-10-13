@@ -12,7 +12,14 @@ import BackgroundElements from './backgroundElements';
 import { RoughNotationHero } from './roughNotationHero';
 
 // Static data
-const colors = ['#FB9677', '#F1E2D2', '#CFE5C0', '#C8D9EB'];
+// rough-notation writes these into an SVG stroke attribute; var() resolves
+// there, so the marks follow the theme.
+const colors = [
+  'var(--mark-1)',
+  'var(--mark-2)',
+  'var(--mark-3)',
+  'var(--mark-4)',
+];
 const roles = [
   'DevOps Engineer.',
   'AWS Cloud & Security.',
@@ -21,10 +28,10 @@ const roles = [
 ];
 
 const primaryCta =
-  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-white bg-gradient-to-r from-hero-font to-blue-green hover:from-blue-green hover:to-hero-font dark:from-blue-light dark:to-aero dark:text-blue-dark shadow-lg hover:shadow-xl transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/60 focus-visible:ring-offset-2';
+  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md text-primary-foreground bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-to hover:to-brand-from shadow-lg hover:shadow-xl transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 const secondaryCta =
-  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-hero-font bg-transparent shadow-sm hover:bg-hero-font hover:text-white dark:border-blue-light dark:text-blue-light dark:hover:bg-blue-light dark:hover:text-blue-dark backdrop-blur-sm transition-[color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-hero-font/50 focus-visible:ring-offset-2';
+  'inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border-2 border-primary text-primary bg-transparent shadow-sm hover:bg-primary hover:text-primary-foreground backdrop-blur-sm transition-[color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 /** Entrance stagger step for the hero column, in `.animate-enter` units. */
 const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
@@ -48,7 +55,7 @@ export default function Hero() {
         {/* Text Content */}
         <div className='w-full md:w-1/2 text-center md:text-left space-y-6'>
           <div
-            className='animate-enter text-base md:text-lg font-mono text-hero-font dark:text-blue-light'
+            className='animate-enter text-base md:text-lg font-mono text-primary'
             style={step(0)}
           >
             👋 Hello, I&apos;m
@@ -66,7 +73,7 @@ export default function Hero() {
               {roles.map((text, index) => (
                 <div key={text} className='flex'>
                   <RoughNotationHero color={colors[index]}>
-                    <span className='text-xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-blue-dark dark:text-hero-font'>
+                    <span className='text-xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground'>
                       {text}
                     </span>
                   </RoughNotationHero>
@@ -76,7 +83,7 @@ export default function Hero() {
           </div>
 
           <p
-            className='animate-enter text-lg md:text-xl text-gray-dark dark:text-gray-light max-w-2xl leading-relaxed'
+            className='animate-enter text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed'
             style={step(3)}
           >
             I look after AWS infrastructure across dev, stage and production,
@@ -108,14 +115,14 @@ export default function Hero() {
             {/* Static glow — the rings used to rotate forever for no reason. */}
             <div
               aria-hidden
-              className='absolute -inset-6 bg-gradient-to-r from-hero-font/20 via-blue-light/20 to-aero/20 rounded-full blur-xl'
+              className='absolute -inset-6 bg-gradient-to-r from-brand-from/20 via-highlight/15 to-brand-to/20 rounded-full blur-xl'
             />
 
             <div className='relative z-10'>
               <Image
                 src={userData.avatarUrl}
                 alt={`${userData.name}'s profile picture`}
-                className='rounded-full shadow-2xl object-cover border-4 border-white dark:border-blue-dark'
+                className='rounded-full shadow-2xl object-cover border-4 border-background'
                 width={320}
                 height={320}
                 priority={true}
@@ -126,12 +133,12 @@ export default function Hero() {
             {/* The one bouncy moment on the site: seen once per visit, on a
                 purely decorative badge. */}
             <motion.div
-              className='absolute -bottom-4 -right-4 origin-bottom-right bg-white dark:bg-blue-dark px-4 py-2 rounded-full shadow-lg border border-gray-light dark:border-blue-light'
+              className='absolute -bottom-4 -right-4 origin-bottom-right bg-card px-4 py-2 rounded-full shadow-lg border border-border'
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ ...springPlayful, delay: 1.2 }}
             >
-              <span className='text-sm font-medium text-blue-dark dark:text-blue-light'>
+              <span className='text-sm font-medium text-card-foreground'>
                 That&apos;s me! 👋
               </span>
             </motion.div>

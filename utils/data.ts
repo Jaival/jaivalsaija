@@ -58,12 +58,16 @@ const userData: UserData = {
   address: 'Kaiserslautern, Germany',
   projects: [
     {
-      title: 'NextToBinge',
+      title: 'mdgloss',
       description:
-        "One place to find your next movie, drama or anime. Search all three at once, browse what's trending, and keep watchlists with each title marked plan to watch, watching or watched. Next.js 16, Supabase, Drizzle and Clerk.",
-      imgUrl: '/projects/nexttobinge.png',
-      githubUrl: 'https://github.com/Jaival/nexttobinge',
-      websiteUrl: 'https://nexttobinge.vercel.app',
+        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
+      githubUrl: 'https://github.com/Jaival/mdgloss',
+    },
+    {
+      title: 'Kubernetes Learning Lab',
+      description:
+        "Where I'm learning Kubernetes, starting from Docker. Fourteen modules on a local three-node kind cluster, from Pods and Gateway API routing to RBAC, Helm, Prometheus, and Argo CD with GitHub Actions. It ends in a capstone app deployed through GitOps. Just started, with my notes and exercise work committed module by module.",
+      githubUrl: 'https://github.com/Jaival/kubernetes-learning-lab',
     },
     {
       title: 'NextGleis',
@@ -72,18 +76,21 @@ const userData: UserData = {
       githubUrl: 'https://github.com/Jaival/NextGleis',
     },
     {
-      title: 'Taskly',
+      title: 'react-rough-notation',
       description:
-        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
-      imgUrl: '/projects/taskly.webp',
-      githubUrl: 'https://github.com/Jaival/taskly-flutter',
-      websiteUrl: 'https://jaival.github.io/taskly-flutter/',
+        'My maintained fork of the React wrapper for Rough Notation, the hand-drawn highlights on this page. A GitHub Actions pipeline publishes to npm whenever the version on main changes, then tags the release. It uses npm trusted publishing over OIDC, so there is no npm token to store and every build ships with provenance.',
+      githubUrl: 'https://github.com/Jaival/react-rough-notation',
+      websiteUrl:
+        'https://www.npmjs.com/package/@jaivalsaija/react-rough-notation',
+      websiteLabel: 'npm',
     },
     {
-      title: 'mdgloss',
+      title: 'NextToBinge',
       description:
-        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
-      githubUrl: 'https://github.com/Jaival/mdgloss',
+        "One place to find your next movie, drama or anime. Search all three at once, browse what's trending, and keep watchlists with each title marked plan to watch, watching or watched. Next.js 16, Supabase, Drizzle and Clerk.",
+      imgUrl: '/projects/nexttobinge.png',
+      githubUrl: 'https://github.com/Jaival/nexttobinge',
+      websiteUrl: 'https://nexttobinge.vercel.app',
     },
     {
       title: 'Jigna Saija Portfolio',
@@ -92,6 +99,14 @@ const userData: UserData = {
       imgUrl: '/projects/jigna-saija-portfolio.png',
       githubUrl: 'https://github.com/Jaival/jigna-saija',
       websiteUrl: 'https://jignasaija.vercel.app',
+    },
+    {
+      title: 'Taskly',
+      description:
+        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
+      imgUrl: '/projects/taskly.webp',
+      githubUrl: 'https://github.com/Jaival/taskly-flutter',
+      websiteUrl: 'https://jaival.github.io/taskly-flutter/',
     },
     {
       title: 'Flat',

@@ -1,4 +1,4 @@
-import { RoughNotation } from 'react-rough-notation';
+import { RoughNotation } from '@jaivalsaija/react-rough-notation';
 
 export const RoughNotationHero = ({
   color,

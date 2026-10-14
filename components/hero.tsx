@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
-import { RoughNotationGroup } from 'react-rough-notation';
+import { RoughNotationGroup } from '@jaivalsaija/react-rough-notation';
 import userData from 'utils/data';
 import BackgroundElements from './backgroundElements';
 import { RoughNotationHero } from './roughNotationHero';

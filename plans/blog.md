@@ -38,6 +38,16 @@ A place on the site for what I'm building and learning: long posts and short upd
   first, after drafts are filtered out, so a draft never leaves a gap. Each series with a visible
   part gets `/blog/series/<id>`; posts in one show "Part n" and previous/next links. There's no "of
   N" total: a planned count goes stale the moment a part is added or dropped.
+- **Reading time** on long posts only ("4 min read"), from the MDX source at 220 words a minute,
+  leaving out the metadata export and fenced code. Updates skip it: they're a paragraph or two.
+- **Cover image** is optional: `cover: { src: '/blog/<slug>/cover.webp', alt: '...' }`. The file
+  lives in `public/`, the build fails if it's missing, and `alt` is required. It shows at 16:9 on
+  the post page, above the post in the feed, and at the top of the home card. The OG card stays the
+  generated one, so every post has a preview whether or not it has a cover.
+- **RSS** at `/blog/rss.xml`: title, summary, date and categories (type, series) per entry, built
+  statically. Every page advertises it in `<head>`, and `/blog` links to it.
+- **Sitemap and robots**: `app/sitemap.ts` lists the pages, every post (with its date and cover) and
+  every series. `app/robots.ts` allows everything and points to the sitemap.
 - **Home page**: a "Recently" list of the latest 3 entries under the hero, one `<Reveal>` per item.
 
 ## Layout
@@ -54,6 +64,10 @@ app/blog/series/[series]/page.tsx  one series, oldest part first
 components/postTimeline.tsx        the timeline shared by the feed and series pages
 components/seriesNav.tsx           previous / next part at the end of a post
 components/recentPosts.tsx         the home "Recently" list
+components/postCover.tsx           16:9 cover image
+app/blog/rss.xml/route.ts          RSS 2.0 feed
+app/sitemap.ts, app/robots.ts      sitemap.xml and robots.txt
+utils/site.ts                      the canonical site URL, for absolute links
 ```
 
 ## Turbopack constraint
@@ -70,7 +84,7 @@ need a function option (e.g. a custom `onVisitLine`) won't work until that chang
    first.
 4. Remove `draft`, push. Code fences take a language: ` ```ts `.
 
-## Not in v1
+## Not built yet
 
-RSS (next), tags (once there are ~10 posts), comments, view counts, sitemap, reading time, cover
-images. All of these fit on top of the file-based setup later without moving content.
+Tags (once there are ~10 posts), comments, view counts. All of these fit on top of the file-based
+setup later without moving content.

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getPosts } from '@/utils/posts';
+import PostCover from './postCover';
 import PostMeta from './postMeta';
 import Reveal from './Reveal';
 
@@ -39,6 +40,13 @@ export default async function RecentPosts() {
                 href={`/blog/${post.slug}`}
                 className='group flex h-full flex-col rounded-2xl border border-border bg-card/50 p-6 shadow-lg backdrop-blur-sm transition-[border-color,box-shadow,translate] duration-200 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl reduced-transparency:bg-card reduced-transparency:backdrop-blur-none'
               >
+                {post.cover && (
+                  <PostCover
+                    cover={post.cover}
+                    sizes='(max-width: 768px) 100vw, 330px'
+                    className='mb-5 rounded-xl'
+                  />
+                )}
                 <PostMeta {...post} />
                 <h3 className='mt-4 text-xl font-bold tracking-tight text-balance transition-colors duration-200 ease-out group-hover:text-primary'>
                   {post.title}

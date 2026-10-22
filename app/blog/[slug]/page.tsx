@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
 import BackgroundElements from '@/components/backgroundElements';
+import PostCover from '@/components/postCover';
 import PostMeta from '@/components/postMeta';
 import SeriesNav from '@/components/seriesNav';
 import { gradientText } from '@/utils/styles';
@@ -92,6 +93,16 @@ export default async function PostPage({ params }: PostPageProps) {
             </p>
           )}
         </header>
+
+        {post.cover && (
+          <div className='animate-enter mb-10' style={step(3)}>
+            <PostCover
+              cover={post.cover}
+              sizes='(max-width: 768px) 100vw, 704px'
+              priority
+            />
+          </div>
+        )}
 
         <div className='animate-enter' style={step(3)}>
           <Content />

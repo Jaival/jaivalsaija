@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Post } from '@/utils/posts';
+import PostCover from './postCover';
 import PostMeta from './postMeta';
 import Reveal from './Reveal';
 
@@ -28,6 +29,16 @@ function TimelineEntry({ post }: { post: Post }) {
 
   return (
     <>
+      {post.cover && (
+        // The title link below is the accessible one; this is a bigger
+        // pointer target, so it is hidden from screen readers and tab order.
+        <Link href={href} tabIndex={-1} aria-hidden className='block mb-5'>
+          <PostCover
+            cover={post.cover}
+            sizes='(max-width: 768px) 100vw, 640px'
+          />
+        </Link>
+      )}
       <PostMeta {...post} />
       <h2 className='mt-3 text-2xl md:text-3xl font-bold tracking-tight text-balance'>
         <Link

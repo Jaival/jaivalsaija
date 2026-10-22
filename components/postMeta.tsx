@@ -4,14 +4,14 @@ import { formatPostDate } from '@/utils/utils';
 
 type PostMetaProps = Pick<
   PostSummary,
-  'date' | 'type' | 'draft' | 'seriesPart'
+  'date' | 'type' | 'draft' | 'seriesPart' | 'readingMinutes'
 > & {
   series?: SeriesId;
   className?: string;
 };
 
 /**
- * Date, type, series and draft flag: the line above every entry's title or
+ * Date, type, reading time, series and draft flag: the line above every entry's title or
  * body. Plain text, no links, so it can sit inside a card that is a link.
  */
 export default function PostMeta({
@@ -20,6 +20,7 @@ export default function PostMeta({
   draft,
   series: seriesId,
   seriesPart,
+  readingMinutes,
   className = '',
 }: PostMetaProps) {
   return (
@@ -38,6 +39,10 @@ export default function PostMeta({
       >
         {type === 'update' ? 'Update' : 'Post'}
       </span>
+      {/* Updates are a paragraph or two; a read time there is noise. */}
+      {type === 'post' && (
+        <span className='text-xs font-medium'>{readingMinutes} min read</span>
+      )}
       {seriesId && (
         <span className='text-xs font-medium'>
           {series[seriesId].title}

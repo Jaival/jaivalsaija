@@ -1,6 +1,7 @@
 import 'server-only';
 
-import { readdir } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { MDXContent } from 'mdx/types';
 import { z } from 'zod';
@@ -19,6 +20,17 @@ const metadataSchema = z.object({
   draft: z.boolean().optional(),
   // Only ids defined in content/series.ts, so a typo can't start a new series.
   series: z.enum(Object.keys(series) as [SeriesId, ...SeriesId[]]).optional(),
+  // A missing cover file fails the build instead of shipping a broken image.
+  cover: z
+    .object({
+      src: z.string().startsWith('/'),
+      alt: z.string().min(1),
+    })
+    .refine(
+      cover => existsSync(path.join(process.cwd(), 'public', cover.src)),
+      { message: 'cover.src must point to a file in public/' },
+    )
+    .optional(),
 }) satisfies z.ZodType<PostMetadata>;
 
 export interface Post extends PostSummary {
@@ -29,6 +41,21 @@ export interface Post extends PostSummary {
 // Drafts render in `next dev` so they can be previewed, and nowhere else.
 const showDrafts = process.env.NODE_ENV !== 'production';
 
+const WORDS_PER_MINUTE = 220;
+
+/**
+ * Reading time from the MDX source. The metadata export and fenced code are
+ * left out: code gets skimmed, not read word by word.
+ */
+function readingMinutes(source: string) {
+  const prose = source
+    .replace(/^export const metadata = \{[\s\S]*?^\};?$/m, '')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/<[^>]+>/g, ' ');
+  const words = prose.match(/[\p{L}\p{N}'’-]+/gu)?.length ?? 0;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
 async function loadPost(slug: string): Promise<Post> {
   const mod = await import(`@/content/posts/${slug}.mdx`);
   const result = metadataSchema.safeParse(mod.metadata);
@@ -37,7 +64,13 @@ async function loadPost(slug: string): Promise<Post> {
       `content/posts/${slug}.mdx has invalid metadata:\n${z.prettifyError(result.error)}`,
     );
   }
-  return { slug, ...result.data, Content: mod.default };
+  const source = await readFile(path.join(POSTS_DIR, `${slug}.mdx`), 'utf8');
+  return {
+    slug,
+    ...result.data,
+    readingMinutes: readingMinutes(source),
+    Content: mod.default,
+  };
 }
 
 /** Every visible post, newest first. */

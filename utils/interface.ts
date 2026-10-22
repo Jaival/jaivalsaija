@@ -90,12 +90,22 @@ export interface PostMetadata {
   draft?: boolean;
   /** Id of a series in content/series.ts. Parts are numbered by date. */
   series?: string;
+  /** Optional cover; src is a path in public/, e.g. /blog/<slug>/cover.webp. */
+  cover?: PostCover;
+}
+
+export interface PostCover {
+  src: string;
+  /** Describes the image for screen readers; required, never decorative. */
+  alt: string;
 }
 
 export interface PostSummary extends PostMetadata {
   slug: string;
   /** 1-based position in its series, oldest first. */
   seriesPart?: number;
+  /** Estimated minutes to read the body, rounded, at least 1. */
+  readingMinutes: number;
 }
 
 export interface Series {

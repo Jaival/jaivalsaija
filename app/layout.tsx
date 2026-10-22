@@ -6,6 +6,7 @@ import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { siteUrl } from '@/utils/site';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -14,14 +15,6 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
   variable: '--font-space-grotesk',
 });
-
-// Resolve the canonical site URL. On Vercel this follows the project's own
-// production domain, so it stays correct if a custom domain is added later.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-  ? `https://${process.env.NEXT_PUBLIC_SITE_URL.replace(/^https?:\/\//, '')}`
-  : process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'http://localhost:3000';
 
 export const metadata: Metadata = {
   title: 'Jaival Saija | DevOps Engineer',
@@ -43,6 +36,14 @@ export const metadata: Metadata = {
   authors: [{ name: 'Jaival Saija' }],
   creator: 'Jaival Saija',
   metadataBase: new URL(siteUrl),
+  // Lets feed readers find the blog's RSS from any page on the site.
+  alternates: {
+    types: {
+      'application/rss+xml': [
+        { url: '/blog/rss.xml', title: 'Jaival Saija - Blog' },
+      ],
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',

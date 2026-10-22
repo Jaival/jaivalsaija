@@ -1,0 +1,140 @@
+export const metadata = {
+  title: 'Setting up jobhunt-agent, my daily job-search routine',
+  date: '2026-10-22',
+  summary:
+    'A Claude Code routine that finds and scores job ads every morning and drafts a tailored CV and letter for the best ones. How to install it, and what the first run asks you.',
+  type: 'post',
+};
+
+Looking for a working-student job means checking the same boards every day, reading ads that turn out to be closed, and rewriting a CV and letter for each one. [jobhunt-agent](https://github.com/Jaival/jobhunt-agent) does the searching and the first drafts for me.
+
+Every morning it searches job boards, scores new ads against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. I review them and send them myself. It never submits anything.
+
+This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post.
+
+## What you need
+
+- Claude Desktop, signed in, with the Code tab
+- Python 3 (tick "Add to PATH") and Git
+- Microsoft Word, if you want PDFs; without it you still get the .docx files
+- Your CV as a .docx
+
+Setup has three stages. Installing takes you about 10 minutes. The first run is a setup interview of about 15 minutes, where Claude asks the questions. After that, every day there's a brief in `daily/<date>.md` with new jobs, scores and drafts to check.
+
+## 1. Install the tools
+
+Install Claude Desktop, Python and Git, then the Python packages the tools use:
+
+```bash
+pip install python-docx openpyxl pypdf pyyaml requests
+```
+
+## 2. Create your workspace
+
+Pick a permanent place, such as Documents. The engine is cloned inside your own folder. The check script copies the templates and creates the folders without touching anything that already exists:
+
+```bash
+mkdir JobHunt
+cd JobHunt
+git clone https://github.com/Jaival/jobhunt-agent engine
+python engine/tools/setup_check.py --init
+```
+
+The last command ends with a list like this:
+
+```txt
+ok    config.yaml: file
+TODO  config.yaml: applicant  -> set applicant (onboarding asks for it)
+TODO  cv: master CV  -> put your master CV (.docx) at cv/...
+TODO  profile: CLAUDE.md  -> fill in your profile (onboarding asks for it)
+ok    workspace: tracker/Job_Application_Tracker.xlsx
+
+NOT READY: 8 item(s) to do
+```
+
+You don't have to fill it in by hand. The first run asks you for all of it.
+
+## 3. Add the scheduled routine
+
+In Claude Desktop open the Code tab, then **Routines → New routine → Local**, and fill in:
+
+| Field       | Value                                                          |
+| ----------- | -------------------------------------------------------------- |
+| Name        | job-hunt-daily                                                 |
+| Description | Find, score and tailor jobs; update tracker; write daily brief |
+| Folder      | your `JobHunt` folder (trust it when asked)                    |
+| Schedule    | daily, e.g. 07:30. Weekends run a short search-only mode.      |
+| Model       | the strongest one you have                                     |
+
+For the instructions, paste this:
+
+```txt
+Run my job-application routine in this folder. Read engine/ROUTINE.md and follow it exactly.
+On the first run it checks the setup and asks me for what it needs.
+Finish by replying with a 3-line summary and the path of today's brief.
+```
+
+## 4. Click "Run now" and answer the setup questions
+
+The routine runs `setup_check.py` first. While anything is still TODO it doesn't search. Instead it interviews you in short rounds and writes your answers into `config.yaml`, `CLAUDE.md`, `projects.md` and `sources.md`. There are ten rounds:
+
+1. About you
+2. Studies
+3. Roles you want
+4. Languages
+5. CV and letter
+6. Strengths and gaps
+7. Projects
+8. Rules and daily plan
+9. Search terms
+10. Connectors
+
+It starts something like this:
+
+> Your workspace isn't set up yet, so I'll ask a few questions before the first search. Round 1, about you: what's your full name as it should appear on your CV, and which city do you live in?
+
+Round 3 asks which roles to look for: working student, internship, research assistant (HiWi), thesis or junior. Round 6 goes through the skills your CV supports, such as Python, Docker and GitHub Actions, and asks which ones you could explain in an interview. It only ever claims the ones you confirm.
+
+Progress is saved after every round. If a scheduled run finds the setup unfinished while you're away, it writes a "Setup needed" brief with the next questions. Reply in that session, or open Claude Code in the folder and say "continue the job-hunt setup".
+
+## 5. Allow permissions and keep the computer awake
+
+- During the first run, choose **Always allow** for Python, curl and file writes, so later runs don't stall waiting for you.
+- In **Settings → Desktop app → General**, turn on **Keep computer awake**. Routines only run while the app is open; a missed run catches up once.
+- Optional: connect Gmail and Indeed in Claude, and set up email job alerts on StepStone, XING and LinkedIn. Those sites often block automated searches, and alert emails get through.
+
+## 6. Each morning, open the brief
+
+Open `daily/<today>.md`. It has the top jobs to apply to, the drafts waiting in `applications/`, follow-ups that are due and a short plan for the day. Check each draft and send it yourself. Then tell Claude "I sent the application to …" and it adds a row to the tracker.
+
+## What lives where
+
+Your files stay private. The engine is public and updates with `git pull`:
+
+```txt
+JobHunt/
+├─ CLAUDE.md          who you are, your decisions
+├─ config.yaml        name, CV paths, letter city, search area
+├─ projects.md cv/    your projects and master CV
+├─ sources.md         search terms and job boards
+├─ applications/      one folder per tailored draft
+├─ daily/ tracker/    briefs and the sent-applications tracker
+└─ engine/            ROUTINE.md, RULES.md, ONBOARDING.md, tools/
+```
+
+## What it will never do
+
+- **Send anything.** No applications, emails or posts. You get drafts and you decide.
+- **Invent facts.** Every claim comes from your CV or from what you confirmed during setup.
+- **Obey job ads.** Ad text is treated as data. Hidden "AI, do this" instructions in an ad are reported, never followed.
+
+The builder also refuses to produce a draft with a placeholder left in it, a letter outside 250 to 350 words, a CV over two pages or a letter over one.
+
+## If something goes wrong
+
+- **It keeps asking setup questions.** Run `python engine/tools/setup_check.py` in the folder. Every TODO line says what is missing.
+- **A "CV layout" warning.** The builder needs the layout described in `cv/README.txt`. During setup Claude can rebuild your CV in that layout from its content. Until then you get the letter text and the CV choices, but no finished documents.
+- **The tracker didn't update.** Close it in Excel before the run. Rows that couldn't be saved wait in `tracker/pending_rows.csv`.
+- **Updating the engine.** Run `git pull` inside `engine/`. Your own files are never touched.
+
+The code, the routine and the rules are all on [GitHub](https://github.com/Jaival/jobhunt-agent). The search terms, sources and rules are plain Markdown, so you can change them for other roles or countries.

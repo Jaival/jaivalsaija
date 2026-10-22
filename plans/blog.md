@@ -10,7 +10,9 @@ A place on the site for what I'm building and learning: long posts and short upd
 - **One feed at `/blog`**, nav label "Blog". Each entry has a `type`:
   - `post`: title, summary and a "Read" link in the feed.
   - `update`: a smaller linked title, then the full text inline, timeline style.
-  - In both, a series name links to the series page.
+  - A series is one card in the feed (and the home list), not one entry per part: its title,
+    description, part count and a link to the newest part, placed at that part's date. The series
+    page lists every part. RSS still has one item per part, since readers want each one.
 - **Metadata is an exported object**, not YAML frontmatter, so it needs no extra plugin:
 
   ```mdx
@@ -37,8 +39,9 @@ A place on the site for what I'm building and learning: long posts and short upd
 - **Series**: an optional `series: '<id>'` in a post's metadata, where the id must be defined in
   `content/series.ts` (title, description, optional repo URL). Parts are numbered by date, oldest
   first, after drafts are filtered out, so a draft never leaves a gap. Each series with a visible
-  part gets `/blog/series/<id>`; posts in one show "Part n" and previous/next links. There's no "of
-  N" total: a planned count goes stale the moment a part is added or dropped.
+  part gets `/blog/series/<id>`; posts in one are badged "Part n" instead of Post or Update, and get
+  previous/next links. There's no "of N" total: a planned count goes stale the moment a part is
+  added or dropped.
 - **Reading time** on long posts only ("4 min read"), from the MDX source at 200 words a minute,
   rounded up, leaving out the metadata export and fenced code. 200 sits below the ~240 average for
   prose because these posts are technical and code isn't counted; rounding up means the estimate

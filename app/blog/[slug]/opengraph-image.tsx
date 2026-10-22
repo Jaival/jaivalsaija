@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import series from '@/content/series';
 import userData from '@/utils/data';
 import { getPost, getPosts } from '@/utils/posts';
 import { formatPostDate } from '@/utils/utils';
@@ -50,7 +51,7 @@ export default async function Image({
         }}
       >
         {post
-          ? `${post.type === 'update' ? 'Update' : 'Blog'} · ${formatPostDate(post.date)}`
+          ? `${post.series ? series[post.series].title : post.type === 'update' ? 'Update' : 'Blog'} · ${formatPostDate(post.date)}`
           : 'Blog'}
       </div>
 

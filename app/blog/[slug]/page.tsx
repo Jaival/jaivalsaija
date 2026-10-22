@@ -76,7 +76,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <PostMeta
             {...post}
             seriesPart={partIndex >= 0 ? partIndex + 1 : undefined}
-            linkSeries
+            seriesDisplay='link'
             className='animate-enter'
           />
           <h1

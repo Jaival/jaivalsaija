@@ -2,7 +2,7 @@ import { Rss } from 'lucide-react';
 import { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
 import PostTimeline from '@/components/postTimeline';
-import { getPosts } from '@/utils/posts';
+import { getFeed } from '@/utils/posts';
 
 export const metadata: Metadata = {
   title: 'Blog - Jaival Saija',
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const items = await getFeed();
 
   return (
     <div className='min-h-svh pb-24'>
@@ -29,7 +29,7 @@ export default async function BlogPage() {
           <Rss aria-hidden className='size-4' />
           Follow with RSS
         </a>
-        <PostTimeline posts={posts} />
+        <PostTimeline items={items} />
       </div>
     </div>
   );

@@ -125,3 +125,30 @@ export async function getPost(slug: string): Promise<Post | undefined> {
   }
   return showDrafts || !post.draft ? post : undefined;
 }
+
+/** One row of the feed: a standalone post, or a whole series as one card. */
+export type FeedItem =
+  | { kind: 'post'; post: Post }
+  | { kind: 'series'; id: SeriesId; latest: Post; parts: number };
+
+/**
+ * The feed, newest first, with each series collapsed into one item placed at
+ * its newest part. A series shows up once, however many parts it has.
+ */
+export async function getFeed(): Promise<FeedItem[]> {
+  const posts = await getPosts();
+  const seen = new Set<SeriesId>();
+  const items: FeedItem[] = [];
+
+  for (const post of posts) {
+    if (!post.series) {
+      items.push({ kind: 'post', post });
+    } else if (!seen.has(post.series)) {
+      seen.add(post.series);
+      const parts = posts.filter(p => p.series === post.series).length;
+      items.push({ kind: 'series', id: post.series, latest: post, parts });
+    }
+  }
+
+  return items;
+}

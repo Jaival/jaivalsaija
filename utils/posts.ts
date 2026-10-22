@@ -4,6 +4,7 @@ import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import type { MDXContent } from 'mdx/types';
 import { z } from 'zod';
+import series, { type SeriesId } from '@/content/series';
 import type { PostMetadata, PostSummary } from '@/utils/interface';
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'posts');
@@ -16,9 +17,12 @@ const metadataSchema = z.object({
   summary: z.string().min(1),
   type: z.enum(['post', 'update']),
   draft: z.boolean().optional(),
+  // Only ids defined in content/series.ts, so a typo can't start a new series.
+  series: z.enum(Object.keys(series) as [SeriesId, ...SeriesId[]]).optional(),
 }) satisfies z.ZodType<PostMetadata>;
 
 export interface Post extends PostSummary {
+  series?: SeriesId;
   Content: MDXContent;
 }
 
@@ -45,9 +49,27 @@ export async function getPosts(): Promise<Post[]> {
       .map(file => loadPost(file.slice(0, -'.mdx'.length))),
   );
 
-  return posts
+  const visible = posts
     .filter(post => showDrafts || !post.draft)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+  // Number each series oldest first. Done after the draft filter, so a hidden
+  // draft never leaves a gap in the published parts.
+  const counts = new Map<SeriesId, number>();
+  for (const post of visible.toReversed()) {
+    if (post.series) {
+      post.seriesPart = (counts.get(post.series) ?? 0) + 1;
+      counts.set(post.series, post.seriesPart);
+    }
+  }
+
+  return visible;
+}
+
+/** The visible parts of one series, oldest first. */
+export async function getSeriesPosts(id: SeriesId): Promise<Post[]> {
+  const posts = await getPosts();
+  return posts.filter(post => post.series === id).reverse();
 }
 
 /**

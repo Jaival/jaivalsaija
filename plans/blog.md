@@ -33,6 +33,11 @@ A place on the site for what I'm building and learning: long posts and short upd
   change and no client JS.
 - **Per-post OG card**: `app/blog/[slug]/opengraph-image.tsx`, the same look as the site card with
   the post title.
+- **Series**: an optional `series: '<id>'` in a post's metadata, where the id must be defined in
+  `content/series.ts` (title, description, optional repo URL). Parts are numbered by date, oldest
+  first, after drafts are filtered out, so a draft never leaves a gap. Each series with a visible
+  part gets `/blog/series/<id>`; posts in one show "Part n" and previous/next links. There's no "of
+  N" total: a planned count goes stale the moment a part is added or dropped.
 - **Home page**: a "Recently" list of the latest 3 entries under the hero, one `<Reveal>` per item.
 
 ## Layout
@@ -44,6 +49,10 @@ utils/posts.ts                     getPosts() / getPost(slug): read, validate, f
 app/blog/page.tsx                  the feed
 app/blog/[slug]/page.tsx           the post page, generateStaticParams + dynamicParams = false
 app/blog/[slug]/opengraph-image.tsx
+content/series.ts                  series registry: id -> title, description, url
+app/blog/series/[series]/page.tsx  one series, oldest part first
+components/postTimeline.tsx        the timeline shared by the feed and series pages
+components/seriesNav.tsx           previous / next part at the end of a post
 components/recentPosts.tsx         the home "Recently" list
 ```
 
@@ -57,9 +66,11 @@ need a function option (e.g. a custom `onVisitLine`) won't work until that chang
 
 1. Add `content/posts/my-slug.mdx` with the `metadata` export above.
 2. Keep `draft: true` while writing; check it on `bun dev` at `/blog/my-slug`.
-3. Remove `draft`, push. Code fences take a language: ` ```ts `.
+3. To add it to a series, set `series: '<id>'`; a new series needs an entry in `content/series.ts`
+   first.
+4. Remove `draft`, push. Code fences take a language: ` ```ts `.
 
 ## Not in v1
 
-RSS, tags, comments, view counts, sitemap, reading time, cover images. All of these fit on top of
-the file-based setup later without moving content.
+RSS (next), tags (once there are ~10 posts), comments, view counts, sitemap, reading time, cover
+images. All of these fit on top of the file-based setup later without moving content.

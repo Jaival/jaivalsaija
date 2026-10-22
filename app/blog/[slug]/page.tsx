@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
 import BackgroundElements from '@/components/backgroundElements';
 import PostMeta from '@/components/postMeta';
+import SeriesNav from '@/components/seriesNav';
 import { gradientText } from '@/utils/styles';
-import { getPost, getPosts } from '@/utils/posts';
+import { getPost, getPosts, getSeriesPosts } from '@/utils/posts';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -53,6 +54,8 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const { Content } = post;
+  const parts = post.series ? await getSeriesPosts(post.series) : [];
+  const partIndex = parts.findIndex(part => part.slug === slug);
 
   // Above the fold: the CSS entrance, so the title is readable before JS.
   return (
@@ -69,7 +72,11 @@ export default async function PostPage({ params }: PostPageProps) {
         </Link>
 
         <header className='mt-8 mb-10'>
-          <PostMeta {...post} className='animate-enter' />
+          <PostMeta
+            {...post}
+            seriesPart={partIndex >= 0 ? partIndex + 1 : undefined}
+            className='animate-enter'
+          />
           <h1
             className={`${gradientText.hero} animate-enter mt-4 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-balance`}
             style={step(1)}
@@ -89,6 +96,10 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className='animate-enter' style={step(3)}>
           <Content />
         </div>
+
+        {post.series && partIndex >= 0 && (
+          <SeriesNav seriesId={post.series} parts={parts} index={partIndex} />
+        )}
       </div>
     </article>
   );

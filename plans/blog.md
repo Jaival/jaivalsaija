@@ -38,8 +38,10 @@ A place on the site for what I'm building and learning: long posts and short upd
   first, after drafts are filtered out, so a draft never leaves a gap. Each series with a visible
   part gets `/blog/series/<id>`; posts in one show "Part n" and previous/next links. There's no "of
   N" total: a planned count goes stale the moment a part is added or dropped.
-- **Reading time** on long posts only ("4 min read"), from the MDX source at 220 words a minute,
-  leaving out the metadata export and fenced code. Updates skip it: they're a paragraph or two.
+- **Reading time** on long posts only ("4 min read"), from the MDX source at 200 words a minute,
+  rounded up, leaving out the metadata export and fenced code. 200 sits below the ~240 average for
+  prose because these posts are technical and code isn't counted; rounding up means the estimate
+  never under-promises. Updates skip it: they're a paragraph or two.
 - **Cover image** is optional: `cover: { src: '/blog/<slug>/cover.webp', alt: '...' }`. The file
   lives in `public/`, the build fails if it's missing, and `alt` is required. It shows at 16:9 on
   the post page, above the post in the feed, and at the top of the home card. The OG card stays the

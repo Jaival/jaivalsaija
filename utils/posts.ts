@@ -41,11 +41,14 @@ export interface Post extends PostSummary {
 // Drafts render in `next dev` so they can be previewed, and nowhere else.
 const showDrafts = process.env.NODE_ENV !== 'production';
 
-const WORDS_PER_MINUTE = 220;
+// Below the ~240 wpm average for prose: these posts are technical, and code
+// blocks aren't counted at all, so readers spend longer per counted word.
+const WORDS_PER_MINUTE = 200;
 
 /**
  * Reading time from the MDX source. The metadata export and fenced code are
- * left out: code gets skimmed, not read word by word.
+ * left out: code gets skimmed, not read word by word. Rounded up, so the
+ * estimate never promises less time than the post takes.
  */
 function readingMinutes(source: string) {
   const prose = source
@@ -53,7 +56,7 @@ function readingMinutes(source: string) {
     .replace(/```[\s\S]*?```/g, '')
     .replace(/<[^>]+>/g, ' ');
   const words = prose.match(/[\p{L}\p{N}'’-]+/gu)?.length ?? 0;
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 }
 
 async function loadPost(slug: string): Promise<Post> {

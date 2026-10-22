@@ -7,8 +7,9 @@ import Reveal from './Reveal';
 const readLink =
   'inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors duration-200 ease-out hover:text-brand-to';
 
-// Updates are short, so the timeline shows them whole, and their date links to
-// their own page. Posts get a title, a summary and a link.
+// Every entry has a title that links to its own page. Updates are short, so
+// the timeline shows their text in full under a smaller title; posts get a
+// summary and a "Read" link instead.
 function TimelineEntry({ post }: { post: Post }) {
   const href = `/blog/${post.slug}`;
 
@@ -16,8 +17,16 @@ function TimelineEntry({ post }: { post: Post }) {
     const { Content } = post;
     return (
       <>
-        <PostMeta {...post} link={{ href, title: post.title }} />
-        <div className='mt-1 [&>p:first-child]:mt-3 [&>*:last-child]:mb-0'>
+        <PostMeta {...post} linkSeries />
+        <h2 className='mt-3 text-xl md:text-2xl font-bold tracking-tight text-balance'>
+          <Link
+            href={href}
+            className='transition-colors duration-200 ease-out hover:text-primary'
+          >
+            {post.title}
+          </Link>
+        </h2>
+        <div className='[&>p:first-child]:mt-2 [&>*:last-child]:mb-0'>
           <Content />
         </div>
       </>
@@ -36,7 +45,7 @@ function TimelineEntry({ post }: { post: Post }) {
           />
         </Link>
       )}
-      <PostMeta {...post} />
+      <PostMeta {...post} linkSeries />
       <h2 className='mt-3 text-2xl md:text-3xl font-bold tracking-tight text-balance'>
         <Link
           href={href}

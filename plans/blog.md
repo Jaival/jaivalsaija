@@ -9,7 +9,8 @@ A place on the site for what I'm building and learning: long posts and short upd
   likes, a database is cost with no payoff.
 - **One feed at `/blog`**, nav label "Blog". Each entry has a `type`:
   - `post`: title, summary and a "Read" link in the feed.
-  - `update`: full text inline in the feed, timeline style, and still gets its own permalink.
+  - `update`: a smaller linked title, then the full text inline, timeline style.
+  - In both, a series name links to the series page.
 - **Metadata is an exported object**, not YAML frontmatter, so it needs no extra plugin:
 
   ```mdx

@@ -84,6 +84,8 @@ export interface PostMetadata {
   title: string;
   /** ISO date, YYYY-MM-DD. */
   date: string;
+  /** Optional HH:mm, only to order posts that share a date. Not shown. */
+  time?: string;
   summary: string;
   type: PostType;
   /** Shown in `next dev` only; left out of production builds. */

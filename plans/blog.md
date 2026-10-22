@@ -27,6 +27,8 @@ A place on the site for what I'm building and learning: long posts and short upd
 
   `utils/posts.ts` checks it with zod, so a typo fails the build instead of shipping a broken page.
 
+- **Same-day order**: an optional `time: 'HH:mm'` orders posts that share a date; a post without
+  one counts as 00:00. It isn't shown anywhere, so `date` stays a plain day.
 - **Drafts** (`draft: true`) show in `next dev` only. Production leaves them out of the feed, the
   home list, the static pages and the OG images.
 - **Typography** comes from our own `mdx-components.tsx` (Tidewater tokens, Space Grotesk), not

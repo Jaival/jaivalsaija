@@ -15,6 +15,7 @@ const POSTS_DIR = path.join(process.cwd(), 'content', 'posts');
 const metadataSchema = z.object({
   title: z.string().min(1),
   date: z.iso.date(),
+  time: z.iso.time({ precision: -1 }).optional(),
   summary: z.string().min(1),
   type: z.enum(['post', 'update']),
   draft: z.boolean().optional(),
@@ -76,6 +77,9 @@ async function loadPost(slug: string): Promise<Post> {
   };
 }
 
+// A post without a time sorts before a later one with a time on the same day.
+const sortKey = (post: Post) => `${post.date}T${post.time ?? '00:00'}`;
+
 /** Every visible post, newest first. */
 export async function getPosts(): Promise<Post[]> {
   const files = await readdir(POSTS_DIR);
@@ -87,7 +91,7 @@ export async function getPosts(): Promise<Post[]> {
 
   const visible = posts
     .filter(post => showDrafts || !post.draft)
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
 
   // Number each series oldest first. Done after the draft filter, so a hidden
   // draft never leaves a gap in the published parts.

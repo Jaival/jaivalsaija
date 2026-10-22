@@ -58,8 +58,7 @@
 @theme inline {
   /* next/font sets --font-space-grotesk on <html> (app/layout.tsx); this is
      what makes it the site font. */
-  --font-sans:
-    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -391,4 +390,32 @@
 
 .dark .noise-overlay {
   opacity: 0.05;
+}
+
+/* Blog code blocks (rehype-pretty-code). Shiki writes both themes into each
+   token as --shiki-light / --shiki-dark, so the .dark class picks one with no
+   re-render and no flash. Backgrounds come from the <pre> in
+   mdx-components.tsx, not from the Shiki theme. */
+code[data-theme*=' '],
+code[data-theme*=' '] span {
+  color: var(--shiki-light);
+}
+
+.dark code[data-theme*=' '],
+.dark code[data-theme*=' '] span {
+  color: var(--shiki-dark);
+}
+
+[data-rehype-pretty-code-figure] code {
+  display: grid;
+  min-width: 100%;
+}
+
+[data-rehype-pretty-code-figure] [data-line] {
+  padding-inline: 1rem;
+}
+
+[data-rehype-pretty-code-figure] [data-highlighted-line] {
+  background-color: color-mix(in oklch, var(--primary) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--primary);
 }

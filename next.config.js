@@ -1,3 +1,5 @@
+const createMDX = require('@next/mdx');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -63,4 +65,24 @@ const nextConfig = {
   compress: true,
 };
 
-module.exports = nextConfig;
+// Blog posts in content/posts are imported as .mdx modules, not routed as
+// pages, so pageExtensions stays at its default. Turbopack runs the MDX
+// compiler in Rust: plugins must be named by string with JSON options.
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ['remark-gfm'],
+    rehypePlugins: [
+      [
+        'rehype-pretty-code',
+        {
+          // Both themes are emitted as CSS variables; globals.css picks one
+          // from the .dark class, so a theme switch never re-renders code.
+          theme: { light: 'github-light', dark: 'github-dark-dimmed' },
+          keepBackground: false,
+        },
+      ],
+    ],
+  },
+});
+
+module.exports = withMDX(nextConfig);

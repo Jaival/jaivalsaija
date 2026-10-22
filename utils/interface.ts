@@ -76,6 +76,24 @@ export interface NavigationItem {
   label: string;
 }
 
+// Blog-related interfaces. The zod schema in utils/posts.ts validates these
+// fields at build time; keep the two in step.
+export type PostType = 'post' | 'update';
+
+export interface PostMetadata {
+  title: string;
+  /** ISO date, YYYY-MM-DD. */
+  date: string;
+  summary: string;
+  type: PostType;
+  /** Shown in `next dev` only; left out of production builds. */
+  draft?: boolean;
+}
+
+export interface PostSummary extends PostMetadata {
+  slug: string;
+}
+
 // Background elements interface
 export interface BackgroundElementsProps {
   variant?: 'default' | 'contact' | 'minimal' | 'hero';

@@ -8,10 +8,15 @@ import userData from 'utils/data';
 import { durations, easeOut, spring } from '@/utils/animations';
 import { useViewTransitionTheme } from '../hooks/useViewTransitionTheme';
 
+/** Active on the page itself and anything nested under it (/blog/<slug>). */
+const isActivePath = (pathName: string, href: string) =>
+  pathName === href || pathName.startsWith(`${href}/`);
+
 const navigationItems = [
   { href: '/aboutme', label: 'About Me' },
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contactme', label: 'Contact Me' },
 ];
 
@@ -22,7 +27,7 @@ const navigationItems = [
  */
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathName = usePathname();
-  const isActive = pathName === href;
+  const isActive = isActivePath(pathName, href);
 
   return (
     <Link
@@ -236,17 +241,17 @@ export default function Navbar() {
                       <Link
                         href={item.href}
                         aria-current={
-                          pathName === item.href ? 'page' : undefined
+                          isActivePath(pathName, item.href) ? 'page' : undefined
                         }
                         className={`flex items-center text-base py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.98] ${
-                          pathName === item.href
+                          isActivePath(pathName, item.href)
                             ? 'text-primary font-semibold bg-primary/10 border border-primary/30'
                             : 'text-popover-foreground font-medium hover:text-primary hover:bg-accent'
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.label}
-                        {pathName === item.href && (
+                        {isActivePath(pathName, item.href) && (
                           <span className='ml-auto size-2 rounded-full bg-primary' />
                         )}
                       </Link>

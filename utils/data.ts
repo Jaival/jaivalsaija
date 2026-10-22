@@ -58,6 +58,14 @@ const userData: UserData = {
   address: 'Kaiserslautern, Germany',
   projects: [
     {
+      title: 'jobhunt-agent',
+      description:
+        'A daily job-search routine for Claude Code. Each morning it pulls new ads from job APIs, Indeed and Gmail alerts, scores them against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. Python tools keep a ledger of every screened job, reject drafts with placeholders or over-long letters, and keep an Excel tracker. Nothing is ever sent automatically.',
+      githubUrl: 'https://github.com/Jaival/jobhunt-agent',
+      websiteUrl: '/blog/jobhunt-agent-setup',
+      websiteLabel: 'Setup guide',
+    },
+    {
       title: 'mdgloss',
       description:
         'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',

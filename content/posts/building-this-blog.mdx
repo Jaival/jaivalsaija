@@ -1,0 +1,40 @@
+export const metadata = {
+  title: 'Building this blog without a database',
+  date: '2026-10-22',
+  summary:
+    'Why the posts here are MDX files in the repo, how they get from a git push to a static page, and the one Turbopack limit I ran into.',
+  type: 'post',
+};
+
+I wanted somewhere to write down what I'm building and learning, so I don't forget it a month later. The first question was where the posts should live.
+
+## No database
+
+I write a few posts a month. Nobody can comment or like anything. A database would mean a connection string, a schema, a hosting bill and backups, all for data that changes when I push a commit.
+
+So every post is a file in the repo, `content/posts/<slug>.mdx`. Publishing is a git push. Vercel builds the site and every post becomes a static page. The history of every post is the git history.
+
+## Metadata is a plain export
+
+`@next/mdx` doesn't read YAML frontmatter, but MDX files can export anything. So each post starts with an object:
+
+```ts
+export const metadata = {
+  title: 'Building this blog without a database',
+  date: '2026-10-22',
+  summary: 'One line for the feed and the link preview.',
+  type: 'post', // or 'update'
+};
+```
+
+A zod schema checks that object at build time. If I get a date wrong or forget the summary, the build fails and names the file, instead of shipping a broken page.
+
+## Posts and updates in one feed
+
+Long write-ups are `post`. Short notes are `update`. The [feed](/blog) shows updates in full and posts as a title and summary, and both get their own page. A `draft: true` flag keeps a post visible on my machine but out of the production build.
+
+## The Turbopack catch
+
+Code blocks are highlighted by Shiki at build time, with a light and a dark theme baked into the HTML. The site's theme class picks one, so switching themes doesn't flash or run any JavaScript.
+
+The catch: Turbopack runs the MDX compiler in Rust, so remark and rehype plugins have to be named by string, and their options have to be plain JSON. A plugin option that is a function won't work there yet. For this blog that was fine. It's worth knowing before you pick a plugin.

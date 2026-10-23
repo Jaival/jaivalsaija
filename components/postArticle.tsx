@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
+import { CommitRail } from '@/components/backToTop';
 import BackgroundElements from '@/components/backgroundElements';
 import PostCover from '@/components/postCover';
 import PostMeta from '@/components/postMeta';
@@ -8,10 +9,14 @@ import { gradientText } from '@/utils/styles';
 
 const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
 
+/** The back-to-top rail returns focus here, so the title is read first. */
+const TITLE_ID = 'post-title';
+
 /**
  * A post's page: back link, header, cover and body. Shared by the current
  * version and the older ones, so an old version reads exactly as it did.
- * `versions` goes under the summary, `children` after the body.
+ * `versions` goes under the summary, `children` after the body. Long posts
+ * get the back-to-top rail.
  */
 export default function PostArticle({
   post,
@@ -48,7 +53,9 @@ export default function PostArticle({
             className='animate-enter'
           />
           <h1
-            className={`${gradientText.hero} animate-enter mt-4 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-balance`}
+            id={TITLE_ID}
+            tabIndex={-1}
+            className={`${gradientText.hero} animate-enter mt-4 outline-none text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-balance`}
             style={step(1)}
           >
             {post.title}
@@ -84,6 +91,8 @@ export default function PostArticle({
 
         {children}
       </div>
+
+      <CommitRail targetId={TITLE_ID} readingMinutes={post.readingMinutes} />
     </article>
   );
 }

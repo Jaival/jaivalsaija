@@ -86,6 +86,13 @@ export interface PostMetadata {
   date: string;
   /** Optional HH:mm, only to order posts that share a date. Not shown. */
   time?: string;
+  /**
+   * ISO date this version was written, when it replaced an earlier one. The
+   * earlier versions live in content/history/<slug>/v<n>.mdx.
+   */
+  updated?: string;
+  /** What this version changed, one line, shown in the version history. */
+  changes?: string;
   summary: string;
   type: PostType;
   /** Shown in `next dev` only; left out of production builds. */
@@ -108,6 +115,17 @@ export interface PostSummary extends PostMetadata {
   seriesPart?: number;
   /** Estimated minutes to read the body, rounded, at least 1. */
   readingMinutes: number;
+}
+
+/** One version of a post, for its version history. */
+export interface PostVersionSummary {
+  /** 1-based; the highest number is the current post. */
+  version: number;
+  /** ISO date the version was written: its `updated`, else its `date`. */
+  date: string;
+  changes?: string;
+  /** /blog/<slug> for the current version, /blog/<slug>/v<n> for older ones. */
+  href: string;
 }
 
 export interface Series {

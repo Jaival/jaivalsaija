@@ -6,9 +6,15 @@ import path from 'node:path';
 import type { MDXContent } from 'mdx/types';
 import { z } from 'zod';
 import series, { type SeriesId } from '@/content/series';
-import type { PostMetadata, PostSummary } from '@/utils/interface';
+import type {
+  PostMetadata,
+  PostSummary,
+  PostVersionSummary,
+} from '@/utils/interface';
 
-const POSTS_DIR = path.join(process.cwd(), 'content', 'posts');
+const CONTENT_DIR = path.join(process.cwd(), 'content');
+const POSTS_DIR = path.join(CONTENT_DIR, 'posts');
+const HISTORY_DIR = path.join(CONTENT_DIR, 'history');
 
 // A typo in a post's `metadata` export fails the build here, with the file
 // name, instead of shipping a page with a missing title or an invalid date.
@@ -16,6 +22,8 @@ const metadataSchema = z.object({
   title: z.string().min(1),
   date: z.iso.date(),
   time: z.iso.time({ precision: -1 }).optional(),
+  updated: z.iso.date().optional(),
+  changes: z.string().min(1).optional(),
   summary: z.string().min(1),
   type: z.enum(['post', 'update']),
   draft: z.boolean().optional(),
@@ -60,21 +68,30 @@ function readingMinutes(source: string) {
   return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 }
 
-async function loadPost(slug: string): Promise<Post> {
-  const mod = await import(`@/content/posts/${slug}.mdx`);
+/** A post from an imported MDX module; `file` is relative to content/. */
+async function toPost(
+  slug: string,
+  file: string,
+  mod: { metadata: unknown; default: MDXContent },
+): Promise<Post> {
   const result = metadataSchema.safeParse(mod.metadata);
   if (!result.success) {
     throw new Error(
-      `content/posts/${slug}.mdx has invalid metadata:\n${z.prettifyError(result.error)}`,
+      `content/${file} has invalid metadata:\n${z.prettifyError(result.error)}`,
     );
   }
-  const source = await readFile(path.join(POSTS_DIR, `${slug}.mdx`), 'utf8');
+  const source = await readFile(path.join(CONTENT_DIR, file), 'utf8');
   return {
     slug,
     ...result.data,
     readingMinutes: readingMinutes(source),
     Content: mod.default,
   };
+}
+
+async function loadPost(slug: string): Promise<Post> {
+  const mod = await import(`@/content/posts/${slug}.mdx`);
+  return toPost(slug, `posts/${slug}.mdx`, mod);
 }
 
 // A post without a time sorts before a later one with a time on the same day.
@@ -155,4 +172,79 @@ export async function getFeed(): Promise<FeedItem[]> {
   }
 
   return items;
+}
+
+async function loadPostVersion(slug: string, version: number): Promise<Post> {
+  const mod = await import(`@/content/history/${slug}/v${version}.mdx`);
+  return toPost(slug, `history/${slug}/v${version}.mdx`, mod);
+}
+
+/**
+ * Every version of a post, oldest first, ending with the current one. An
+ * older version is a frozen copy of the post as it was published, kept at
+ * content/history/<slug>/v<n>.mdx; a post without that folder has one version.
+ */
+export async function getPostVersions(
+  post: Post,
+): Promise<PostVersionSummary[]> {
+  const dir = path.join(HISTORY_DIR, post.slug);
+  const files = existsSync(dir) ? await readdir(dir) : [];
+  const numbers = files
+    .map(file => /^v(\d+)\.mdx$/.exec(file)?.[1])
+    .filter(number => number !== undefined)
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  // Like the metadata schema: a misnamed file or a missing date fails the
+  // build instead of shipping a history with a hole in it.
+  if (numbers.some((number, index) => number !== index + 1)) {
+    throw new Error(
+      `content/history/${post.slug} must hold v1.mdx to v${numbers.length}.mdx with no gaps`,
+    );
+  }
+  if (numbers.length > 0 && !post.updated) {
+    throw new Error(
+      `content/posts/${post.slug}.mdx has older versions, so its metadata needs \`updated\``,
+    );
+  }
+
+  const older = await Promise.all(
+    numbers.map(async version => {
+      const old = await loadPostVersion(post.slug, version);
+      return {
+        version,
+        date: old.updated ?? old.date,
+        changes: old.changes,
+        href: `/blog/${post.slug}/v${version}`,
+      };
+    }),
+  );
+
+  return [
+    ...older,
+    {
+      version: numbers.length + 1,
+      date: post.updated ?? post.date,
+      changes: post.changes,
+      href: `/blog/${post.slug}`,
+    },
+  ];
+}
+
+/** An older version of a visible post, or undefined if there isn't one. */
+export async function getPostVersion(
+  slug: string,
+  version: number,
+): Promise<Post | undefined> {
+  if (!(await getPost(slug))) {
+    return undefined;
+  }
+  try {
+    return await loadPostVersion(slug, version);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('invalid metadata')) {
+      throw error;
+    }
+    return undefined;
+  }
 }

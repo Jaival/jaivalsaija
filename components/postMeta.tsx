@@ -22,7 +22,7 @@ const row = 'flex flex-wrap items-center gap-3 text-sm text-muted-foreground';
 
 type PostMetaProps = Pick<
   PostSummary,
-  'date' | 'type' | 'draft' | 'seriesPart' | 'readingMinutes'
+  'date' | 'updated' | 'type' | 'draft' | 'seriesPart' | 'readingMinutes'
 > & {
   series?: SeriesId;
   /**
@@ -34,12 +34,13 @@ type PostMetaProps = Pick<
 };
 
 /**
- * Date, kind, reading time, series and draft flag: the line above every
- * entry's title or body. A part of a series is badged "Part n" rather than
- * Post or Update: being in the series is what matters about it.
+ * Date, kind, update date, reading time, series and draft flag: the line
+ * above every entry's title or body. A part of a series is badged "Part n"
+ * rather than Post or Update: being in the series is what matters about it.
  */
 export default function PostMeta({
   date,
+  updated,
   type,
   draft,
   series: seriesId,
@@ -58,6 +59,11 @@ export default function PostMeta({
       ) : (
         <span className={`${badge} ${badgeStyles[type]}`}>
           {type === 'update' ? 'Update' : 'Post'}
+        </span>
+      )}
+      {updated && (
+        <span className='text-xs font-medium'>
+          Updated <PostDate date={updated} />
         </span>
       )}
       {/* Updates are a paragraph or two; a read time there is noise. */}

@@ -19,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: 'Jaival Saija | DevOps Engineer',
   description:
-    'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
+    'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
   keywords: [
     'DevOps Engineer',
     'AWS',
@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     'Linux',
     'Docker',
     'Kubernetes',
+    'Working Student',
+    'Werkstudent',
+    'AI Automation',
     'Kaiserslautern',
     'Germany',
   ],
@@ -50,14 +53,14 @@ export const metadata: Metadata = {
     url: siteUrl,
     title: 'Jaival Saija | DevOps Engineer',
     description:
-      'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
+      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Jaival Saija | DevOps Engineer',
     description:
-      'Jaival Saija is a DevOps engineer in Kaiserslautern, Germany, working on AWS infrastructure, CI/CD and cloud security, and looking for DevOps and cloud roles in Germany.',
+      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
     creator: '@Jaival469',
   },
 };

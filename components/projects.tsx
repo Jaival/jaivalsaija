@@ -47,6 +47,7 @@ function ProjectCard({
   githubUrl,
   websiteUrl,
   websiteLabel = 'Live site',
+  ships,
 }: ProjectCardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const primaryUrl = websiteUrl ?? githubUrl;
@@ -110,6 +111,14 @@ function ProjectCard({
           <CardDescription className='text-muted-foreground'>
             {description}
           </CardDescription>
+          {ships && (
+            <p className='mt-2 pt-3 border-t border-border text-sm text-foreground leading-relaxed'>
+              <span className='font-mono font-semibold text-primary'>
+                How it ships:
+              </span>{' '}
+              {ships}
+            </p>
+          )}
         </CardHeader>
 
         <CardContent className='mt-auto flex flex-wrap items-center gap-3'>
@@ -161,18 +170,31 @@ export default function Projects() {
             className='animate-enter text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed'
             style={{ '--stagger': 1 } as CSSProperties}
           >
-            Apps, a client site and VS Code themes I&apos;ve built outside work.
-            The code for each one is on GitHub.
+            What I build outside work, most of it with CI on every change and an
+            automated release. Each card says how it ships, and the code is on
+            GitHub.
           </p>
         </div>
 
-        {/* One reveal per card — the old version animated each card twice. */}
+        {/* One reveal per card — the old version animated each card twice.
+            The first row is on screen at load, so it gets the CSS entrance
+            instead and is painted before hydration. */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'>
-          {userData.projects.map((project, index) => (
-            <Reveal key={project.title} index={index % 2} className='h-full'>
-              <ProjectCard {...project} number={index + 1} />
-            </Reveal>
-          ))}
+          {userData.projects.map((project, index) =>
+            index < 2 ? (
+              <div
+                key={project.title}
+                className='animate-enter h-full'
+                style={{ '--stagger': 2 + index } as CSSProperties}
+              >
+                <ProjectCard {...project} number={index + 1} />
+              </div>
+            ) : (
+              <Reveal key={project.title} index={index % 2} className='h-full'>
+                <ProjectCard {...project} number={index + 1} />
+              </Reveal>
+            ),
+          )}
         </div>
 
         <Reveal className='text-center mt-16'>

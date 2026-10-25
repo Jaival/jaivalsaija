@@ -8,6 +8,7 @@ export interface Project {
   githubUrl?: string;
   websiteUrl?: string;
   websiteLabel?: string;
+  ships?: string;
 }
 
 export interface ProjectCardProps extends Project {
@@ -18,18 +19,15 @@ export interface ProjectCardProps extends Project {
 export interface Experience {
   id: number;
   title: string;
-  company: string;
+  company?: string;
   year: string;
-  companyLink: string;
+  companyLink?: string;
   desc: string;
+  highlights?: string[];
+  gap?: boolean;
 }
 
-export interface ExperienceCardProps {
-  title: string;
-  desc: string;
-  year: string;
-  company: string;
-  companyLink: string;
+export interface ExperienceCardProps extends Omit<Experience, 'id'> {
   index: number;
 }
 
@@ -37,8 +35,16 @@ export interface ExperienceCardProps {
 export interface About {
   title: string;
   description: string[];
-  currentProject: string;
-  currentProjectUrl: string;
+}
+
+export interface Availability {
+  role: string;
+  facts: { label: string; value: string }[];
+}
+
+export interface SkillGroup {
+  group: string;
+  items: string[];
 }
 
 export interface SocialLinks {
@@ -57,7 +63,11 @@ export interface UserData {
   address: string;
   projects: Project[];
   about: About;
+  availability: Availability;
+  skills: SkillGroup[];
+  learning: string[];
   experience: Experience[];
+  education: Experience[];
   resumeUrl: string;
   socialLinks: SocialLinks;
 }

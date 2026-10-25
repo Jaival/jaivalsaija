@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Projects - Jaival Saija',
   description:
-    "Apps, a client site and VS Code themes I've built outside work, with links to the code.",
+    'What I build outside work, with how each one ships: CI, releases and deploys, and links to the code.',
 };
 
 export default function ProjectsPage() {

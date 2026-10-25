@@ -47,13 +47,15 @@ export default function Hero() {
 
   return (
     // Above the fold: the entrance is CSS, so this is painted and readable
-    // before any JS arrives.
-    <section className='relative min-h-svh flex items-center justify-center py-20 px-4 overflow-hidden'>
+    // before any JS arrives. Top-aligned with little padding: the navbar is
+    // in the flow above, and Download CV has to clear the fold on a laptop.
+    // No min-height: on a tall screen it only pushed the posts further down.
+    <section className='relative flex justify-center pt-8 md:pt-10 pb-16 md:pb-24 px-4 overflow-hidden'>
       <BackgroundElements variant='hero' className='hero overflow-hidden' />
 
       <div className='container mx-auto flex flex-col md:flex-row items-center justify-between max-w-6xl relative z-10'>
         {/* Text Content */}
-        <div className='w-full md:w-1/2 text-center md:text-left space-y-6'>
+        <div className='w-full md:w-1/2 text-center md:text-left space-y-5'>
           <div
             className='animate-enter text-base md:text-lg font-mono text-primary'
             style={step(0)}
@@ -82,26 +84,45 @@ export default function Hero() {
             </RoughNotationGroup>
           </div>
 
-          <p
-            className='animate-enter text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed'
-            style={step(3)}
-          >
-            I look after AWS infrastructure across dev, stage and production,
-            and I go through the logs when it breaks. Based in Kaiserslautern,
-            finishing a Masters in Computer Science.
-          </p>
+          <div className='animate-enter space-y-4 max-w-2xl' style={step(3)}>
+            <p className='text-lg md:text-xl text-muted-foreground leading-relaxed'>
+              I ran AWS in production at Maven Infosoft. Now I&apos;m doing an
+              M.Sc. in Computer Science at RPTU Kaiserslautern.
+            </p>
+            <p className='text-lg md:text-xl font-medium text-foreground leading-relaxed'>
+              {userData.availability.role}
+            </p>
 
-          {/* CTAs: real links, so navigation stays client-side. Hover and
-              press are CSS only — one owner per transform. */}
+            {/* What a recruiter filters on, as text in the HTML: readable
+                before hydration and by ATS and screen readers alike. */}
+            <dl className='w-fit mx-auto md:mx-0 space-y-1 text-sm md:text-base text-left'>
+              {userData.availability.facts.map(({ label, value }) => (
+                <div key={label}>
+                  <dt className='inline font-semibold text-foreground'>
+                    {label}:{' '}
+                  </dt>
+                  <dd className='inline text-muted-foreground'>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* CTAs. The CV is a static file, so a plain <a>; Link would try a
+              client-side route. Hover and press are CSS only — one owner per
+              transform. */}
           <div
-            className='animate-enter flex flex-col sm:flex-row gap-4 pt-6'
+            className='animate-enter flex flex-col sm:flex-row gap-4 pt-2'
             style={step(4)}
           >
-            <Link href='/projects' className={primaryCta}>
+            <a
+              href={userData.resumeUrl}
+              download='Jaival_Saija_CV.pdf'
+              className={primaryCta}
+            >
+              Download CV
+            </a>
+            <Link href='/projects' className={secondaryCta}>
               View My Work
-            </Link>
-            <Link href='/contactme' className={secondaryCta}>
-              Get In Touch
             </Link>
           </div>
         </div>

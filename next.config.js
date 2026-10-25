@@ -11,16 +11,10 @@ const nextConfig = {
   },
 
   // Basic image optimization (essential for portfolio)
+  // Every image is local now, so no remote hosts and no SVG through the
+  // optimizer.
   images: {
-    dangerouslyAllowSVG: true,
     // formats: ['image/avif', 'image/webp', 'image/png', 'image/jpeg'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'skillicons.dev',
-        pathname: '/icons/**',
-      },
-    ],
   },
 
   // Security headers for better performance and security

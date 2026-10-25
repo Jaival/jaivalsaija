@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import React, { useState, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { durations, easeOut } from '@/utils/animations';
@@ -75,10 +74,12 @@ const ContactInfoCard = ({
     </div>
   );
 
+  // A plain <a>: these go to mail, other sites or the CV file, never to a
+  // route, so Link would only add a prefetch for a page that doesn't exist.
   return href ? (
-    <Link href={href} target='_blank' rel='noopener noreferrer'>
+    <a href={href} target='_blank' rel='noopener noreferrer'>
       {CardWrapper}
-    </Link>
+    </a>
   ) : (
     CardWrapper
   );
@@ -145,8 +146,8 @@ ${data.email}`;
             className='animate-enter text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto'
             style={{ '--stagger': 1 } as CSSProperties}
           >
-            I&apos;m looking for DevOps and cloud infrastructure work in
-            Germany. If that&apos;s why you&apos;re here, say hello.
+            {userData.availability.role} If that&apos;s why you&apos;re here,
+            say hello.
           </p>
         </div>
 
@@ -198,7 +199,46 @@ ${data.email}`;
                   </svg>
                 }
                 title='Location'
-                content={userData.address}
+                content={`${userData.address}, open to relocating`}
+              />
+
+              <ContactInfoCard
+                icon={
+                  <svg
+                    className='w-5 h-5'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                }
+                title='Availability'
+                content={userData.availability.facts
+                  .map(({ label, value }) => `${label}: ${value}`)
+                  .join(' · ')}
+              />
+
+              <ContactInfoCard
+                icon={
+                  <svg
+                    className='w-5 h-5'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                }
+                title='CV'
+                content='Open the PDF, two pages'
+                href={userData.resumeUrl}
               />
             </div>
 

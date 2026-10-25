@@ -1,6 +1,5 @@
 import { containerStyles } from '@/utils/styles';
 import { ChevronRight } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import userData from 'utils/data';
@@ -43,8 +42,8 @@ export default function AboutMe() {
             className='animate-enter mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight leading-relaxed text-foreground'
             style={{ '--stagger': 2 } as React.CSSProperties}
           >
-            {userData.about.title} Right now I&apos;m in Kaiserslautern,
-            finishing a Masters in Computer Science at <span>RPTU</span>{' '}
+            {userData.about.title} Right now I&apos;m in Kaiserslautern, doing
+            my Master&apos;s in Computer Science at <span>RPTU</span>{' '}
             <span>✈️</span>
           </div>
         </div>
@@ -68,18 +67,31 @@ export default function AboutMe() {
 
             <Reveal className={card} index={1}>
               <SectionHeader>Job Opportunities</SectionHeader>
-              <div className='text-base sm:text-lg text-foreground'>
-                I&apos;m looking for DevOps and cloud work in Germany. If you
-                think I fit, my{' '}
-                <Link
-                  href={userData.resumeUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={inlineLink}
-                >
-                  CV
-                </Link>{' '}
-                has the details.
+              <div className='space-y-3 text-base sm:text-lg text-foreground'>
+                <p>{userData.availability.role}</p>
+                <ul className='space-y-1 text-base text-muted-foreground'>
+                  {userData.availability.facts.map(({ label, value }) => (
+                    <li key={label}>
+                      <span className='font-semibold text-foreground'>
+                        {label}:
+                      </span>{' '}
+                      {value}
+                    </li>
+                  ))}
+                </ul>
+                <p>
+                  If you think I fit, my{' '}
+                  {/* A static file, so a plain <a>, not Link. */}
+                  <a
+                    href={userData.resumeUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={inlineLink}
+                  >
+                    CV
+                  </a>{' '}
+                  has the details.
+                </p>
               </div>
             </Reveal>
 
@@ -87,13 +99,13 @@ export default function AboutMe() {
               <SectionHeader>Social Links</SectionHeader>
               <div className='mt-2 ml-4'>
                 <SocialLink
-                  href={userData.socialLinks.twitter}
-                  name='Twitter'
+                  href={userData.socialLinks.linkedin}
+                  name='LinkedIn'
                 />
                 <SocialLink href={userData.socialLinks.github} name='GitHub' />
                 <SocialLink
-                  href={userData.socialLinks.linkedin}
-                  name='LinkedIn'
+                  href={userData.socialLinks.twitter}
+                  name='Twitter'
                 />
                 <SocialLink
                   href={userData.socialLinks.instagram}
@@ -105,7 +117,50 @@ export default function AboutMe() {
 
           {/* Main content area */}
           <div className='col-span-1 md:col-span-2'>
-            <Reveal className='space-y-6 mb-12 bg-card/50 rounded-2xl p-8 shadow-lg'>
+            {/* Stack before story: it's what a recruiter scans for, and the
+                story reads better once you know the tools in it. */}
+            <Reveal className='mb-12 bg-card/50 rounded-2xl p-8 shadow-lg'>
+              <h3 className='inline-block px-4 py-2 text-2xl sm:text-3xl font-bold tracking-tight bg-highlight rounded-xl text-highlight-foreground shadow-lg mb-8'>
+                Tech Stack
+              </h3>
+              {/* Text, not icons: ATS and AI screeners read words. Same
+                  groups as the CV's Technical Proficiency block. */}
+              <dl className='space-y-4'>
+                {userData.skills.map(({ group, items }) => (
+                  <div
+                    key={group}
+                    className='grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-x-6 gap-y-1'
+                  >
+                    <dt className='text-sm font-semibold uppercase tracking-wide text-primary sm:pt-0.5'>
+                      {group}
+                    </dt>
+                    <dd className='text-base sm:text-lg text-foreground'>
+                      {items.join(', ')}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {/* Kept apart from the stack above so it isn't read as a
+                  finished skill. */}
+              <p className='mt-6 pt-6 border-t border-border text-base text-muted-foreground'>
+                <span className='text-sm font-semibold uppercase tracking-wide text-foreground'>
+                  Learning
+                </span>{' '}
+                {userData.learning.join(', ')}, in my{' '}
+                <a
+                  href='https://github.com/Jaival/kubernetes-learning-lab'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={inlineLink}
+                >
+                  Kubernetes lab
+                </a>
+                .
+              </p>
+            </Reveal>
+
+            <Reveal className='space-y-6 bg-card/50 rounded-2xl p-8 shadow-lg'>
               {userData.about.description?.map(desc => (
                 <p
                   key={desc}
@@ -114,40 +169,6 @@ export default function AboutMe() {
                   {desc}
                 </p>
               ))}
-            </Reveal>
-
-            <Reveal className='bg-card/50 rounded-2xl p-8 shadow-lg'>
-              <h3 className='inline-block px-4 py-2 text-2xl sm:text-3xl font-bold tracking-tight bg-highlight rounded-xl text-highlight-foreground shadow-lg mb-8'>
-                Tech Stack
-              </h3>
-              <div className='flex flex-row flex-wrap justify-center'>
-                {/* Infrastructure first, then the app stacks from the
-                    projects page. width/height match the 2056x556 SVG. */}
-                <Image
-                  alt='Tech stack: AWS, Linux, Terraform, GitHub Actions, Docker, Python, TypeScript, React, Next.js, Tailwind CSS, Supabase, Firebase, Flutter and Dart'
-                  width={700}
-                  height={189}
-                  src='https://skillicons.dev/icons?i=aws,linux,terraform,githubactions,docker,python,typescript,react,next,tailwind,supabase,firebase,flutter,dart&perline=7'
-                  className='m-2 sm:m-4 rounded-2xl'
-                  priority
-                />
-              </div>
-
-              {/* Kept apart from the stack above so it isn't read as a
-                  finished skill. */}
-              <div className='mt-6 flex items-center justify-center gap-3 text-muted-foreground'>
-                <span className='text-sm font-medium uppercase tracking-wide'>
-                  Learning
-                </span>
-                <Image
-                  alt='Kubernetes'
-                  width={40}
-                  height={40}
-                  src='https://skillicons.dev/icons?i=kubernetes'
-                  className='rounded-lg'
-                />
-                <span className='text-base text-foreground'>Kubernetes</span>
-              </div>
             </Reveal>
           </div>
         </div>

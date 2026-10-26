@@ -1,9 +1,14 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PostArticle from '@/components/postArticle';
-import { VersionGraph, VersionHistory } from '@/components/postVersions';
+import {
+  ReleaseLine,
+  VersionGraph,
+  VersionHistory,
+} from '@/components/postVersions';
 import SeriesNav from '@/components/seriesNav';
 import {
+  getGuideVersion,
   getPost,
   getPosts,
   getPostVersions,
@@ -58,14 +63,18 @@ export default async function PostPage({ params }: PostPageProps) {
   const partIndex = parts.findIndex(part => part.slug === slug);
   const versions = await getPostVersions(post);
   const hasHistory = versions.length > 1;
+  const guide = await getGuideVersion(post);
 
   return (
     <PostArticle
       post={post}
       seriesPart={partIndex >= 0 ? partIndex + 1 : undefined}
       versions={
-        hasHistory && (
+        hasHistory ? (
           <VersionGraph versions={versions} viewing={versions.length} />
+        ) : (
+          guide &&
+          post.release && <ReleaseLine release={post.release} guide={guide} />
         )
       }
     >

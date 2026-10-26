@@ -29,6 +29,10 @@ const metadataSchema = z.object({
   draft: z.boolean().optional(),
   // Only ids defined in content/series.ts, so a typo can't start a new series.
   series: z.enum(Object.keys(series) as [SeriesId, ...SeriesId[]]).optional(),
+  release: z
+    .string()
+    .regex(/^\d+\.\d+\.\d+$/, 'release is a version like 0.3.0, without a v')
+    .optional(),
   // A missing cover file fails the build instead of shipping a broken image.
   cover: z
     .object({
@@ -208,6 +212,23 @@ export async function getPostVersions(
     );
   }
 
+  // A series' guide links each tagged version to that release's post.
+  const guideOf = (Object.keys(series) as SeriesId[]).find(
+    id => series[id].guide === post.slug,
+  );
+  const notes = new Map<string, string>();
+  if (guideOf) {
+    for (const part of await getSeriesPosts(guideOf)) {
+      if (part.release) {
+        notes.set(part.release, `/blog/${part.slug}`);
+      }
+    }
+  }
+  const tagged = (release: string | undefined) => ({
+    release,
+    notesHref: release ? notes.get(release) : undefined,
+  });
+
   const older = await Promise.all(
     numbers.map(async version => {
       const old = await loadPostVersion(post.slug, version);
@@ -216,6 +237,7 @@ export async function getPostVersions(
         date: old.updated ?? old.date,
         changes: old.changes,
         href: `/blog/${post.slug}/v${version}`,
+        ...tagged(old.release),
       };
     }),
   );
@@ -227,8 +249,38 @@ export async function getPostVersions(
       date: post.updated ?? post.date,
       changes: post.changes,
       href: `/blog/${post.slug}`,
+      ...tagged(post.release),
     },
   ];
+}
+
+/**
+ * For a release post in a series with a guide: the guide's version tagged
+ * with the same release. A release the guide never tagged fails the build,
+ * so every release post can link to the setup it describes.
+ */
+export async function getGuideVersion(
+  post: Post,
+): Promise<{ title: string; version: PostVersionSummary } | undefined> {
+  const slug = post.series && series[post.series].guide;
+  if (!slug || !post.release) {
+    return undefined;
+  }
+  const guide = await getPost(slug);
+  if (!guide) {
+    throw new Error(
+      `content/series.ts names guide ${slug}, which isn't a post`,
+    );
+  }
+  const version = (await getPostVersions(guide)).find(
+    entry => entry.release === post.release,
+  );
+  if (!version) {
+    throw new Error(
+      `content/posts/${post.slug}.mdx is release ${post.release}, but no version of content/posts/${slug}.mdx has \`release: '${post.release}'\``,
+    );
+  }
+  return { title: guide.title, version };
 }
 
 /** An older version of a visible post, or undefined if there isn't one. */

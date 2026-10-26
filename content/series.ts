@@ -9,6 +9,13 @@ const series = {
       'Working through a hands-on Kubernetes course on a local kind cluster, one module at a time, from Pods to GitOps with Argo CD.',
     url: 'https://github.com/Jaival/kubernetes-learning-lab',
   },
+  'jobhunt-agent': {
+    title: 'jobhunt-agent releases',
+    description:
+      'What each release of my daily job-search routine changes, and why.',
+    url: 'https://github.com/Jaival/jobhunt-agent',
+    guide: 'jobhunt-agent-setup',
+  },
 } satisfies Record<string, Series>;
 
 export type SeriesId = keyof typeof series;

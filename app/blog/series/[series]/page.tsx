@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react';
 import BackgroundElements from '@/components/backgroundElements';
 import PostTimeline from '@/components/postTimeline';
 import series, { type SeriesId } from '@/content/series';
-import { getPosts, getSeriesPosts } from '@/utils/posts';
+import { getPost, getPosts, getSeriesPosts } from '@/utils/posts';
 import { gradientText } from '@/utils/styles';
 
 interface SeriesPageProps {
@@ -46,8 +46,14 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
     notFound();
   }
 
-  const { title, description, url } = series[id];
+  const { title, description, url, guide: guideSlug } = series[id];
   const parts = await getSeriesPosts(id);
+  const guide = guideSlug ? await getPost(guideSlug) : undefined;
+  if (guideSlug && !guide) {
+    throw new Error(
+      `content/series.ts names guide ${guideSlug}, which isn't a post`,
+    );
+  }
 
   // Above the fold: the CSS entrance, as on the post page.
   return (
@@ -95,6 +101,21 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
             </a>
           )}
         </header>
+
+        {guide && (
+          <Link
+            href={`/blog/${guide.slug}`}
+            className='animate-enter group mb-12 flex flex-col gap-1 rounded-2xl border border-primary/30 bg-card/50 p-5 transition-[border-color,background-color] duration-200 ease-out hover:border-primary/60 hover:bg-card/70'
+            style={step(3)}
+          >
+            <span className='text-xs font-medium text-primary'>
+              Start here · the setup guide, kept current
+            </span>
+            <span className='font-semibold text-balance transition-colors duration-200 ease-out group-hover:text-primary'>
+              {guide.title}
+            </span>
+          </Link>
+        )}
 
         <PostTimeline posts={parts} />
       </div>

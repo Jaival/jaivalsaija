@@ -81,7 +81,7 @@ const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
   designation: 'DevOps Engineer',
-  avatarUrl: '/avatar.JPG',
+  avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
   // Ordered by how much each one says about DevOps work: the two with real

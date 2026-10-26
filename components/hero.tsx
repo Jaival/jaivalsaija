@@ -143,11 +143,11 @@ export default function Hero() {
               <Image
                 src={userData.avatarUrl}
                 alt={`${userData.name}'s profile picture`}
-                className='rounded-full shadow-2xl object-cover border-4 border-background'
+                className='rounded-full shadow-2xl object-cover border-4 border-background dark:border-brand-from/40 dark:brightness-90'
                 width={320}
                 height={320}
                 priority={true}
-                sizes='(max-width: 768px) 280px, 320px'
+                sizes='320px'
               />
             </div>
 

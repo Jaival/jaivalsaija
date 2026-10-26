@@ -70,6 +70,8 @@ export default class ErrorBoundary extends Component<Props, State> {
 
               <button
                 type='button'
+                // A full page load on purpose: it discards the crashed React tree.
+                // eslint-disable-next-line @next/next/no-location-assign-relative-destination
                 onClick={() => (window.location.href = '/')}
                 className='px-6 py-3 bg-transparent border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-primary-foreground transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.97]'
               >

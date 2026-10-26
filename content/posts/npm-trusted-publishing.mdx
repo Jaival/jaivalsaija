@@ -1,0 +1,97 @@
+export const metadata = {
+  title: 'Publishing to npm with no token: trusted publishing over OIDC',
+  date: '2026-10-26',
+  summary:
+    'How my react-rough-notation fork releases from GitHub Actions with a short-lived OIDC token instead of a stored npm secret, and the 404 that tripped up the first run.',
+  type: 'post',
+};
+
+I maintain a fork of [react-rough-notation](https://github.com/Jaival/react-rough-notation), the React wrapper behind the hand-drawn highlights on this site. It's on npm as [`@jaivalsaija/react-rough-notation`](https://www.npmjs.com/package/@jaivalsaija/react-rough-notation). I wanted releases to come from CI, without an npm token sitting in the repo's secrets.
+
+## Why not a token
+
+The usual setup is an npm access token stored as a GitHub secret. That token is long-lived: it can leak, it expires, and someone has to rotate it. npm is also moving away from it. Since July 2026, tokens that bypass 2FA [can't manage accounts or packages](https://github.blog/changelog/2026-07-31-restricting-npm-bypass-2fa-granular-access-tokens), and npm is targeting January 2027 to stop them publishing directly. My publish logs already print the warning.
+
+## How trusted publishing works
+
+With [trusted publishing](https://docs.npmjs.com/trusted-publishers), the workflow asks GitHub for a short-lived OIDC token that says which repository and which workflow file is running. npm checks it against the trusted publisher configured on the package and accepts the publish only if they match. There is no secret to store, so there is none to leak.
+
+It needs three things:
+
+- npm 11.5.1 or newer. Node 24 ships with one.
+- `permissions: id-token: write` on the workflow, so it can ask for the token.
+- `repository.url` in `package.json` pointing at the repo that publishes.
+
+Every version also gets a [provenance](https://docs.npmjs.com/generating-provenance-statements) statement, signed and written to the public Sigstore transparency log. Anyone can check which commit and which workflow run built it.
+
+## The workflow
+
+A release is a version bump on `main`. The workflow runs on every push, checks whether that version is already on npm, and stops there if it is. So ordinary pushes are no-ops, not failures:
+
+```yaml
+permissions:
+  id-token: write # Required for OIDC
+  contents: write # Required to push the version tag
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check whether this version is already published
+        id: version
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.version.outputs.publish == 'true'
+        run: npm ci
+      - if: steps.version.outputs.publish == 'true'
+        run: npm test
+      - if: steps.version.outputs.publish == 'true'
+        run: npm publish
+```
+
+After `npm publish`, a last step pushes a `vX.Y.Z` tag for the release. The [full file](https://github.com/Jaival/react-rough-notation/blob/main/.github/workflows/npm-publish.yml) is in the repo. Releasing is two commands on my machine:
+
+```sh
+npm version patch
+git push
+```
+
+The 1.1.2 run took 23 seconds, and the log ends with:
+
+```txt
+npm notice publish Signed provenance statement with source and build information from GitHub Actions
+npm notice publish Provenance statement published to transparency log
+```
+
+## The first run failed with a 404
+
+The trusted publisher is configured in the package's settings on npmjs.com, and that page only exists once the package does. So the first version has to go up by hand with `npm publish`. Then you set the publisher: user `Jaival`, repo `react-rough-notation`, workflow file `npm-publish.yml`. That's the file name only, not the path.
+
+My first CI run, for 1.1.0, failed with this:
+
+```txt
+npm error code E404
+npm error 404 Not Found - PUT https://registry.npmjs.org/@jaivalsaija%2freact-rough-notation - Not found
+```
+
+The package existed. A 404 from a publish means npm didn't accept the identity: no trusted publisher is set, or the user, repo or workflow file name doesn't match exactly. With the publisher set to match, CI releases go through: 1.1.2 is the run above.
+
+## Lock it down
+
+The last step is in the package settings under **Publishing access**: **Require two-factor authentication and disallow tokens**. After that, a release can only come from that one workflow file in that one repo, or from me at a terminal with 2FA.
+
+The repo's [publishing guide](https://github.com/Jaival/react-rough-notation/blob/main/PUBLISHING.md) has the alternatives too: publishing on version tags, staged publishing with a manual 2FA approval, and the token setup for CI providers that don't support OIDC.

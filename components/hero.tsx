@@ -22,9 +22,9 @@ const colors = [
 ];
 const roles = [
   'DevOps Engineer.',
+  'LLM Agents & Automation.',
   'AWS Cloud & Security.',
   'Incident Responder.',
-  'Runbook Writer.',
 ];
 
 const primaryCta =
@@ -86,8 +86,10 @@ export default function Hero() {
 
           <div className='animate-enter space-y-4 max-w-2xl' style={step(3)}>
             <p className='text-lg md:text-xl text-muted-foreground leading-relaxed'>
-              I ran AWS in production at Maven Infosoft. Now I&apos;m doing an
-              M.Sc. in Computer Science at RPTU Kaiserslautern.
+              I kept AWS running in production at Maven Infosoft and fixed 50+
+              incidents in my first six months. Now I build LLM agents with
+              guardrails, like the one that drafts my job applications every
+              day, next to an M.Sc. at RPTU Kaiserslautern.
             </p>
             <p className='text-lg md:text-xl font-medium text-foreground leading-relaxed'>
               {userData.availability.role}

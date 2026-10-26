@@ -17,11 +17,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Jaival Saija | DevOps Engineer',
+  title: 'Jaival Saija | DevOps Engineer · AI Automation',
   description:
     'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
   keywords: [
     'DevOps Engineer',
+    'AI Automation',
+    'LLM Agents',
     'AWS',
     'Cloud Security',
     'CI/CD',
@@ -51,14 +53,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Jaival Saija | DevOps Engineer',
+    title: 'Jaival Saija | DevOps Engineer · AI Automation',
     description:
       'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaival Saija | DevOps Engineer',
+    title: 'Jaival Saija | DevOps Engineer · AI Automation',
     description:
       'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
     creator: '@Jaival469',

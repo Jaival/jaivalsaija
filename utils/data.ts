@@ -80,7 +80,7 @@ export interface UserData {
 const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
-  designation: 'DevOps Engineer',
+  designation: 'DevOps Engineer · AI Automation',
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
@@ -209,6 +209,7 @@ const userData: UserData = {
     facts: [
       { label: 'Hours', value: '20 h/week, 40 in semester breaks' },
       { label: 'Start', value: 'As soon as possible' },
+      { label: 'Graduation', value: 'M.Sc. expected autumn 2027' },
       {
         label: 'Permit',
         value: '§16b student permit, working student OK',

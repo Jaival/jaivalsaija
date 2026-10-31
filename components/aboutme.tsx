@@ -33,7 +33,7 @@ const inlineLink =
 export default function AboutMe() {
   return (
     <section className={containerStyles.page}>
-      <PageHeader title='About Me.' />
+      <PageHeader title='About Me' />
 
       {/* Above the fold — CSS entrance, visible before hydration. */}
       <div className='-mt-10'>

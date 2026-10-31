@@ -12,7 +12,7 @@ import { durations, easeOut } from '@/utils/animations';
 export default function Experience() {
   return (
     <section className='min-h-svh'>
-      <PageHeader title='Experience.' />
+      <PageHeader title='Experience' />
 
       <div className='-mt-10'>
         <div className='px-4 md:px-8 pb-16 pt-10'>

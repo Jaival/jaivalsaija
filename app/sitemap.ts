@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/projects',
     '/experience',
     '/contactme',
+    '/cv',
   ].map(pathname => ({ url: absoluteUrl(pathname) }));
 
   return [

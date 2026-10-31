@@ -16,7 +16,8 @@
     "code-quality": "npm run lint:strict && npm run type-check && npm run format:check",
     "code-quality:fix": "npm run lint:fix && npm run format:fix",
     "pre-commit": "npm run code-quality:fix && npm run type-check",
-    "clean": "rm -rf .next out dist"
+    "clean": "rm -rf .next out dist",
+    "cv:pdf": "bun scripts/cv-pdf.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -50,7 +51,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@fontsource/google-sans": "^5.3.2",
+    "@fontsource/space-grotesk": "^5.3.0",
     "@next/eslint-plugin-next": "^16.3.1",
+    "@react-pdf/renderer": "^4.9.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.2.0",
     "@types/react": "19.2.18",

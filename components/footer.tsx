@@ -6,11 +6,8 @@ const footerLinks = [
   { label: 'Email', href: `mailto:${userData.email}` },
   { label: 'LinkedIn', href: userData.socialLinks.linkedin, external: true },
   { label: 'GitHub', href: userData.socialLinks.github, external: true },
-  {
-    label: 'CV (PDF)',
-    href: userData.resumeUrl,
-    download: 'Jaival_Saija_CV.pdf',
-  },
+  // The page, not the file: it has the download button, and reads on a phone.
+  { label: 'CV', href: '/cv' },
 ];
 
 export default function Footer() {
@@ -22,11 +19,10 @@ export default function Footer() {
 
         <nav aria-label='Contact' className='mb-6'>
           <ul className='flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base'>
-            {footerLinks.map(({ label, href, external, download }) => (
+            {footerLinks.map(({ label, href, external }) => (
               <li key={label}>
                 <a
                   href={href}
-                  download={download}
                   {...(external && {
                     target: '_blank',
                     rel: 'noopener noreferrer',

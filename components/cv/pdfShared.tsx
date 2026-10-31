@@ -4,25 +4,20 @@ import type { ReactNode } from 'react';
 import { Font, Text, type StyleSheet } from '@react-pdf/renderer';
 import { cv } from '@/utils/cv';
 
-// What both PDF layouts (cvPdf.tsx, cvPdfClassic.tsx) need. Runs only in
+// Setup and helpers for the PDF layout (cvPdfClassic.tsx). Runs only in
 // scripts/cv-pdf.tsx, never in the Next bundle.
 
-// Space Grotesk for the site-style PDF, Google Sans for the classic one.
-for (const pkg of ['space-grotesk', 'google-sans']) {
-  const files = path.join(
-    process.cwd(),
-    'node_modules/@fontsource',
-    pkg,
-    'files',
-  );
-  Font.register({
-    family: pkg,
-    fonts: [400, 600, 700].map(fontWeight => ({
-      src: path.join(files, `${pkg}-latin-${fontWeight}-normal.woff`),
-      fontWeight,
-    })),
-  });
-}
+const fonts = path.join(
+  process.cwd(),
+  'node_modules/@fontsource/google-sans/files',
+);
+Font.register({
+  family: 'google-sans',
+  fonts: [400, 600, 700].map(fontWeight => ({
+    src: path.join(fonts, `google-sans-latin-${fontWeight}-normal.woff`),
+    fontWeight,
+  })),
+});
 // Words never split with a hyphen; long ones move to the next line whole.
 Font.registerHyphenationCallback(word => [word]);
 

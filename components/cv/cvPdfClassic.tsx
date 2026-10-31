@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from '@react-pdf/renderer';
-import type { ReactNode } from 'react';
+import { Children, type ReactNode } from 'react';
 import { cv, type CvEntry, type CvProject } from '@/utils/cv';
 import { photo, plainText, rich } from './pdfShared';
 
@@ -58,6 +58,8 @@ const s = StyleSheet.create({
   // Without this, a link on its own line is clickable across the column.
   ownLine: { alignSelf: 'flex-start' },
   photo: { width: 76, height: 86, objectFit: 'cover' },
+  // Only as wide as the photo, so the headline fits on one line.
+  photoColumn: { width: 76 },
   summary: { marginTop: 12 },
   body: { marginTop: 8 },
   heading: {
@@ -97,13 +99,20 @@ function Bullets({ items }: { items: string[] }) {
 
 function Heading({ children, first }: { children: string; first?: boolean }) {
   return (
-    <Text style={[s.heading, first ? s.first : {}]} minPresenceAhead={40}>
+    <Text style={[s.heading, first ? s.first : {}]}>
       {children}
     </Text>
   );
 }
 
-function Entry({ entry }: { entry: CvEntry }) {
+function Entry({
+  entry,
+  placeInMeta,
+}: {
+  entry: CvEntry;
+  /** Moves the place under the title, so a long title fits a narrow column. */
+  placeInMeta?: boolean;
+}) {
   // An entry without a role explains time between jobs: a plain line.
   if (!entry.role) {
     return (
@@ -112,14 +121,19 @@ function Entry({ entry }: { entry: CvEntry }) {
       </Text>
     );
   }
-  const rest = [entry.place, entry.role].filter(Boolean).join(' | ');
+  const rest = placeInMeta
+    ? entry.role
+    : [entry.place, entry.role].filter(Boolean).join(' | ');
+  const meta = placeInMeta
+    ? [entry.place, entry.dates].filter(Boolean).join(' | ')
+    : entry.dates;
   return (
     <View style={s.entry}>
       <View wrap={false} minPresenceAhead={30}>
         <Text style={s.title}>
           <Text style={s.bold}>{entry.org},</Text> {rest}
         </Text>
-        <Text style={s.meta}>{entry.dates}</Text>
+        <Text style={s.meta}>{meta}</Text>
       </View>
       <Bullets items={entry.bullets} />
     </View>
@@ -127,9 +141,10 @@ function Entry({ entry }: { entry: CvEntry }) {
 }
 
 function Project({ project }: { project: CvProject }) {
+  // A project is a few lines: keep it on one page.
   return (
-    <View style={s.entry}>
-      <View wrap={false} minPresenceAhead={30}>
+    <View style={s.entry} wrap={false}>
+      <View>
         <Text style={s.title}>
           <Text style={s.bold}>{project.name},</Text> {project.tagline}
         </Text>
@@ -155,10 +170,16 @@ function Section({
   first?: boolean;
   children: ReactNode;
 }) {
+  // The heading stays on a page with the first item. minPresenceAhead alone
+  // misses when that item can't be split.
+  const [head, ...rest] = Children.toArray(children);
   return (
     <View>
-      <Heading first={first}>{title}</Heading>
-      {children}
+      <View wrap={false}>
+        <Heading first={first}>{title}</Heading>
+        {head}
+      </View>
+      {rest}
     </View>
   );
 }
@@ -188,7 +209,7 @@ export default function CvPdfClassic({
   const education = (first?: boolean) => (
     <Section key='education' title='EDUCATION' first={first}>
       {cv.education.map(entry => (
-        <Entry key={entry.org + entry.dates} entry={entry} />
+        <Entry key={entry.org + entry.dates} entry={entry} placeInMeta />
       ))}
     </Section>
   );
@@ -258,11 +279,9 @@ export default function CvPdfClassic({
                 </Text>
               ))}
             </Text>
-            <Text>
-              Nationality: {cv.nationality} | {cv.permit}
-            </Text>
+            <Text>{cv.permit}</Text>
           </View>
-          <View style={s.side}>
+          <View style={s.photoColumn}>
             {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop */}
             <Image style={s.photo} src={photo} />
           </View>

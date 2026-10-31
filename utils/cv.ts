@@ -50,7 +50,6 @@ export interface Cv {
   phone: string;
   location: string;
   links: CvLink[];
-  nationality: string;
   /** Street address stays off: the file is public. */
   permit: string;
   photo: string;
@@ -81,9 +80,8 @@ export const cv: Cv = {
       href: 'https://www.linkedin.com/in/jaivalsaija',
     },
   ],
-  nationality: 'Indian',
   permit:
-    'Student residence permit (§16b AufenthG), eligible for working student jobs (20 h/week)',
+    'Student residence permit (§16b AufenthG), eligible for working student jobs (20 h/week)',
   /** In public/. A JPEG, because react-pdf can't read WebP. */
   photo: '/cv-photo.jpg',
   projects: [

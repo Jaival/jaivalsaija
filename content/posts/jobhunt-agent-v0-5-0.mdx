@@ -1,0 +1,102 @@
+export const metadata = {
+  title: 'jobhunt-agent v0.5.0: no number in a letter without a source',
+  date: '2026-10-31',
+  summary:
+    "v0.5.0 refuses to build a cover letter with a number or a tool my own files don't back up, writes each application in a fresh helper that holds only that one job, and moves the workflows I ask for by name into skills.",
+  type: 'post',
+  series: 'jobhunt-agent',
+  release: '0.5.0',
+};
+
+[jobhunt-agent](https://github.com/Jaival/jobhunt-agent) runs every morning on my laptop, searches job boards, scores new ads against my CV and drafts applications for the best ones. The [setup post](/blog/jobhunt-agent-setup) covers how to install it.
+
+[v0.4.0](/blog/jobhunt-agent-v0-4-0) made the scores measurable and moved ad text out of the run that holds my CV. What was left unchecked was the draft itself. The rules said "never invent facts", but nothing stopped a letter from saying "I increased website traffic by 40%" when no file I own says so. v0.5.0, "grounded & modular", checks every letter against its sources before it's built, and writes each application in its own fresh context.
+
+## Every claim needs a source
+
+`build_application.py` already refused letters with a placeholder left in them, a wording I hadn't approved or the wrong length. It now also runs a grounding check on the letter and the CV headline. Two kinds of claims are checked:
+
+- **Numbers.** Every number must appear in my sources. A percentage needs the same percentage: "40 hours" in my CV doesn't ground "40%". "1,200" and "1.200" are the same number, and so are "18 %" and "18 Prozent".
+- **Skills and tools.** Every term from a shipped list, `tools/skills.txt`, plus the `score_bonus` skills in my `config.yaml`, must appear too.
+
+The sources are the files that describe me: the master CV, CLAUDE.md, projects.md, `cv/variants.yaml`, and the job's `ad.json` from the ad reader. CLAUDE.md counts without its "Gaps" section, so a tool I listed as something I don't know yet can't be claimed. A term that's not in my files fails the build with the list:
+
+```text
+FAILED ...: letter: not in your CV, CLAUDE.md, projects.md or the ad: 40%
+```
+
+A term that only the ad has passes with a warning, `from the ad only, not in your files: SEO`, because a letter often names what the ad asks for. "Your ad mentions paid campaigns and SEO. I have not managed an ads budget yet" is honest, and the check can't tell that sentence from a claim. For a term I've reviewed, `grounding_ok: [term]` in application.md lets it through, and job.md gives the reason.
+
+When the build fails, the routine rewrites the letter and builds again. It's told never to add a fact to my files to make a letter pass.
+
+**German was the hard part.** My first idea was to treat capitalised words as possible tool names. German capitalises every noun, so that would fail almost every German letter. The check uses the word list instead and matches whole words without regard to case. Terms that are also ordinary words, like Slack, Excel or SEA, only match with the exact case. The German sample letter still builds, and a test letter with "25 Prozent" and "Siemens NX" fails on exactly those two.
+
+The check has limits I know about. A number written as a word isn't checked. It also doesn't read context: a tool the letter names as a gap counts the same as one it claims. And a tool I never listed in `skills.txt` or `score_bonus` isn't checked at all, so a workspace with an unusual field gets less coverage, not false failures.
+
+## One fresh helper per job
+
+Until now the main run tailored every selected job in one context: the first job's ad extract, letter and build errors were still there when it wrote the second. On a day with three good jobs, the third letter could borrow a phrase or a fix meant for the first.
+
+Each job now goes to a `tailor` subagent, `.claude/agents/tailor.md`, one after the other. It gets one line: the job ID, its folder, the score and the reasons. It attaches the extract, writes job.md and application.md, builds the documents, runs the ATS and recruiter check, and replies with a fixed block that the routine copies into the brief:
+
+```text
+folder / build / pdfs / personalise / grounding / actions
+```
+
+The two subagents are opposites. The ad reader from v0.4.0 reads strangers' text, so it knows nothing about me and can't write or run anything. The tailor knows me: it loads CLAUDE.md and can write and build. In return, it never sees ad text, only the extract, and it has no web, mail, browser or agent tools:
+
+```yaml
+name: tailor
+tools: Read, Write, Edit, Glob, Grep, Bash
+```
+
+It writes only in its own job folder. The ledger, the tracker, outreach notes and the brief stay with the main run. The jobs run one at a time and not in parallel, because Word's PDF export can't run two exports at once.
+
+## Skills for the things I ask for
+
+ROUTINE.md used to hold the daily run and every workflow I start by hand: the ATS review, "update the engine", "remap my CV" and the setup interview. Each scheduled run read all of it. These four are now skills in `.claude/skills/`, and ROUTINE.md holds only the daily run. The phrases are the same as before. RULES.md lists them too, so they also work in a workspace that doesn't have the skills yet.
+
+## Smaller changes
+
+- **The ledger remembers why.** Each row now stores the five sub-scores, the engine version and the model. The Friday review compares them against what happened next, so if replies drop after a release, I can see which release and which sub-score.
+- **University name variants.** `university` in config.yaml can be a list, like `[Universität Mannheim, University of Mannheim]`. A student letter passes when it names any of them, so an English letter for a German university no longer fails the student check.
+- **The guard's status keeps file names.** `guard.py --status` cut long paths after 80 characters, so in a deep workspace the file name was lost. A long path now keeps its end.
+
+## Same scores, checked
+
+The grounding check and the tailor change what happens after a job is scored, not the scoring. The eval should show that, and it does. The v0.5.0 baseline on the 33 labelled ads matches v0.4.0 on all six metrics: in scope 29/33, role type 20/21, hard mismatch 20/21, score inside the range 19/21, tailor decision 30/30, German level 31/33. It was recorded with Claude Opus 5.5 and cost $3.48.
+
+## The release checklist caught one
+
+Before a release, `upgrade.py compare` builds my recent applications with the old and the new engine and shows any difference. On the sample workspace, the first run for v0.5.0 said:
+
+```text
+2026-10-23_Example-Company_Working-Student-Marketing: builds with the old engine but FAILS with the new one:
+  - letter: not in your CV, CLAUDE.md, projects.md or the ad: SEO
+```
+
+That letter is the honest one from above: SEO is in the ad. But compare copied only application.md into its test folders, not the job's `ad.json`, so the check had one source fewer than in a real run. Every update to 0.5.0 would have shown false failures like this. It now copies `ad.json` too, and both sample workspaces say **SAME DOCUMENTS**.
+
+## Upgrading
+
+Open the workspace folder in the Code tab and say:
+
+```text
+update the engine
+```
+
+The migration copies `.claude/agents/tailor.md` and the four skills into the workspace. The ledger gets its three new columns on the next save, and older rows keep them blank. `config.yaml` doesn't change.
+
+This time, the comparison may not say SAME DOCUMENTS. If an older letter names a number or a tool that my files don't back up, compare lists it as failing with the new engine, with the terms. That's the check working: the changelog lists it as a major behaviour change. Correct the claim in that application.md if you still want to send it. A term the letter names as a gap ("I have not worked with PHP yet") goes into `grounding_ok: [PHP]` instead. Applications drafted before v0.5.0 have no `ad.json`, so a number taken from the ad, like the weekly hours, shows up here too. That's expected and nothing to fix.
+
+Then one **Run now**, and three checks:
+
+1. The brief's Sources section shows `engine 0.5.0 (…)` and `guard active`.
+2. Each tailored job's folder has job.md, application.md and the built documents, and the brief lists any `grounding` terms under "Your actions".
+3. The newest rows in `data/seen_jobs.csv` have sub-scores like `skills=4 seniority=5 …` and `0.5.0`.
+
+`python engine/tools/upgrade.py rollback` puts the old engine back. The [upgrade guide](https://github.com/Jaival/jobhunt-agent/blob/v0.5.0/docs/upgrading/v0.5.0.md) has every step, and the [changelog](https://github.com/Jaival/jobhunt-agent/blob/main/CHANGELOG.md) lists every behaviour change.
+
+## What's next
+
+v1.0.0, "versioned & interactive": updates follow tagged releases only, and I can steer the agent with short commands like `why <job>` and a decision checklist in the daily brief. 1.0 is the promise that updates are safe.

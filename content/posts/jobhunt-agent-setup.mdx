@@ -2,13 +2,13 @@ export const metadata = {
   title: 'Setting up jobhunt-agent, my daily job-search routine',
   date: '2026-10-22',
   time: '18:00',
-  updated: '2026-10-30',
+  updated: '2026-10-31',
   changes:
-    'v0.4.0: a separate ad reader, rubric scores, and jobs that come back after 90 days',
+    'v0.5.0: a source check on every letter, one fresh helper per job, and skills for the on-request workflows',
   summary:
     'A Claude Code routine that finds and scores job ads every morning and drafts a tailored CV and letter for the best ones, now for any field. How to install it, and what the first run asks you.',
   type: 'post',
-  release: '0.4.0',
+  release: '0.5.0',
 };
 
 Looking for a working-student job means checking the same boards every day, reading ads that turn out to be closed, and rewriting a CV and letter for each one. [jobhunt-agent](https://github.com/Jaival/jobhunt-agent) does the searching and the first drafts for me.
@@ -17,7 +17,7 @@ Every morning it searches job boards, scores new ads against my CV and, on weekd
 
 It works for student and junior roles in any field, from marketing and nursing to engineering and software, and with your own CV design.
 
-This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v0.4.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
+This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v0.5.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
 
 ## What you need
 
@@ -61,7 +61,7 @@ NOT READY: 8 item(s) to do
 
 You don't have to fill it in by hand. The first run asks you for all of it.
 
-`--init` also installs the safety rules in `.claude/settings.json`: the run can't send email, type into web pages, change `engine/` or your master CV, or reach hosts other than the job sites. A guard hook checks every tool call on top of that. It also copies in the ad reader, `.claude/agents/ad-reader.md`, a helper with no write, shell or send tools that reads every job ad, so the run that holds your CV never sees ad text.
+`--init` also installs the safety rules in `.claude/settings.json`: the run can't send email, type into web pages, change `engine/` or your master CV, or reach hosts other than the job sites. A guard hook checks every tool call on top of that. It also copies in the ad reader, `.claude/agents/ad-reader.md`, a helper with no write, shell or send tools that reads every job ad, so the run that holds your CV never sees ad text. The tailor, `.claude/agents/tailor.md`, writes each draft in a fresh context with no web, mail or browser tools. The workflows you ask for by name ("run the ATS review", "remap my CV", "update the engine") are skills in `.claude/skills/`.
 
 ## 3. Add the scheduled task
 
@@ -141,6 +141,7 @@ JobHunt/
 ├─ applications/      one folder per tailored draft
 ├─ daily/ tracker/    briefs and the sent-applications tracker
 ├─ data/              seen-jobs ledger, ad extracts in data/ads/
+├─ .claude/           safety rules, guard hook, ad reader, tailor, skills
 └─ engine/            ROUTINE.md, RULES.md, rubric.md, ONBOARDING.md, tools/
 ```
 
@@ -149,16 +150,17 @@ JobHunt/
 These are permission rules and a guard hook, not only instructions, so they hold even if a job ad talks the agent into something.
 
 - **Send anything.** No applications, emails or posts. You get drafts and you decide.
-- **Invent facts.** Every claim comes from your CV or from what you confirmed during setup.
+- **Invent facts.** Every claim comes from your CV or from what you confirmed during setup. The builder checks every number and every skill or tool a letter names against your own files and the ad, and refuses to build a letter with one it can't find.
 - **Obey job ads.** A separate ad reader with no tools to misuse turns each ad into fixed facts, and the run works only from those. Hidden "AI, do this" instructions in an ad are reported, never followed.
 
-The builder also refuses to produce a draft with a placeholder left in it, a wording you haven't approved, a letter outside 250 to 350 words, a CV over two pages or a letter over one.
+The builder also refuses to produce a draft with a placeholder left in it, a wording you haven't approved, a number or skill that isn't in your files or the ad, a letter outside 250 to 350 words, a CV over two pages or a letter over one.
 
 ## If something goes wrong
 
 - **It keeps asking setup questions.** Run `python engine/tools/setup_check.py` in the folder. Every TODO line says what is missing.
 - **A "CV map" warning.** The builder finds the parts it may change (the headline, the order of items, the letter text) through `cv/layout.yaml`, a map of your own CV. If you edited your master CV since it was mapped, say "remap my CV". Until the map works you get the letter text and the CV choices, but no finished documents.
 - **The tracker didn't update.** Close it in Excel before the run. Rows that couldn't be saved wait in `tracker/pending_rows.csv`.
+- **A build fails with "not in your CV, CLAUDE.md, projects.md or the ad".** The letter names a number or a tool your files don't back up. The routine rewrites the letter and builds again; it never adds the fact to your files to make it pass. If you have the skill, add it to your CV or CLAUDE.md yourself.
 - **An ad "couldn't be read".** The site showed a bot check or an empty page. The next run tries it again. A job ad that's gone counts as closed.
 - **An old job is back as new.** A job screened or skipped more than 90 days ago shows up again when it's reposted. `ledger_expiry_days` in config.yaml changes the days (0 = never).
 - **Something was blocked.** The brief lists it under "Blocked by the guard", with what the run did instead. If a blocked step is one the routine needs, open an issue: a rule is too strict.

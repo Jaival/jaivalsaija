@@ -84,9 +84,8 @@ const userData: UserData = {
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
-  // Ordered by how much each one says about DevOps work: the two with real
-  // release pipelines first, then the Kubernetes lab (the direction I'm
-  // heading, labelled as learning), then apps with CI, themes last.
+  // Order picked by hand: the agent, mdgloss and the Kubernetes lab first,
+  // then apps and the npm package, client work, Taskly, themes last.
   projects: [
     {
       title: 'jobhunt-agent',
@@ -99,15 +98,12 @@ const userData: UserData = {
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',
     },
     {
-      title: 'react-rough-notation',
+      title: 'mdgloss',
       description:
-        'My maintained fork of the React wrapper for Rough Notation, the hand-drawn highlights on this page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
-      githubUrl: 'https://github.com/Jaival/react-rough-notation',
-      websiteUrl:
-        'https://www.npmjs.com/package/@jaivalsaija/react-rough-notation',
-      websiteLabel: 'npm',
+        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
+      githubUrl: 'https://github.com/Jaival/mdgloss',
       ships:
-        'When the version on main changes, GitHub Actions runs the tests, publishes to npm with provenance, then tags the release. CodeQL scans the code.',
+        'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
     },
     {
       title: 'Kubernetes Learning Lab',
@@ -125,27 +121,21 @@ const userData: UserData = {
         'CI on every pull request: type checks, lint, tests and npm audit. A merge to main deploys the proxy to Vercel from GitHub Actions and smoke-tests it; a version tag builds the Android app on EAS.',
     },
     {
-      title: 'Taskly',
+      title: 'react-rough-notation',
       description:
-        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
-      imgUrl: '/projects/taskly.webp',
-      githubUrl: 'https://github.com/Jaival/taskly-flutter',
-      websiteUrl: 'https://jaival.github.io/taskly-flutter/',
+        'My maintained fork of the React wrapper for Rough Notation, the hand-drawn highlights on this page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
+      githubUrl: 'https://github.com/Jaival/react-rough-notation',
+      websiteUrl:
+        'https://www.npmjs.com/package/@jaivalsaija/react-rough-notation',
+      websiteLabel: 'npm',
       ships:
-        'release-please opens the release PRs. A release builds Android, iOS, macOS, Windows and web, each file with a signed build-provenance attestation. Main deploys the web app to GitHub Pages once the tests and an integration run pass.',
-    },
-    {
-      title: 'mdgloss',
-      description:
-        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
-      githubUrl: 'https://github.com/Jaival/mdgloss',
-      ships:
-        'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
+        'When the version on main changes, GitHub Actions runs the tests, publishes to npm with provenance, then tags the release. CodeQL scans the code.',
     },
     {
       title: 'Invoicely',
       description:
         'An invoicing app for freelancers, in development and built to learn the full stack. So far: Google sign-in, email verification and organizations. Next.js, Postgres on Neon, Drizzle and Better Auth.',
+      imgUrl: '/projects/invoicely.png',
       githubUrl: 'https://github.com/Jaival/invoicely',
       websiteUrl: 'https://invoicely-roan.vercel.app',
       ships:
@@ -169,6 +159,16 @@ const userData: UserData = {
       githubUrl: 'https://github.com/Jaival/jigna-saija',
       websiteUrl: 'https://jignasaija.vercel.app',
       ships: 'Vercel deploys a preview per branch and production from main.',
+    },
+    {
+      title: 'Taskly',
+      description:
+        'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
+      imgUrl: '/projects/taskly.webp',
+      githubUrl: 'https://github.com/Jaival/taskly-flutter',
+      websiteUrl: 'https://jaival.github.io/taskly-flutter/',
+      ships:
+        'release-please opens the release PRs. A release builds Android, iOS, macOS, Windows and web, each file with a signed build-provenance attestation. Main deploys the web app to GitHub Pages once the tests and an integration run pass.',
     },
     {
       title: 'Flat',

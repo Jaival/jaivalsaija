@@ -117,7 +117,8 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
           </Link>
         )}
 
-        <PostTimeline posts={parts} />
+        {/* Newest part first, like the feed; parts keep their numbers. */}
+        <PostTimeline posts={parts.toReversed()} />
       </div>
     </div>
   );

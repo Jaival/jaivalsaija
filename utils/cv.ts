@@ -12,7 +12,7 @@ export interface CvProject {
   tagline: string;
   stack: string[];
   link: CvLink;
-  year: string;
+  dates: string;
   bullets: string[];
 }
 
@@ -22,11 +22,6 @@ export interface CvEntry {
   role?: string;
   dates: string;
   bullets: string[];
-}
-
-export interface CvSkill {
-  title: string;
-  points: string[];
 }
 
 export interface CvLanguage {
@@ -49,28 +44,33 @@ export interface CvNote {
 export interface Cv {
   name: string;
   headline: string;
+  /** The paragraph under the header. */
+  summary: string;
   email: string;
+  phone: string;
   location: string;
   links: CvLink[];
-  nationality: string;
-  /** Phone and street address stay off: the file is public. */
+  /** Street address stays off: the file is public. */
   permit: string;
   photo: string;
   projects: CvProject[];
   experience: CvEntry[];
   education: CvEntry[];
   certifications: string[];
-  skills: CvSkill[];
+  /** A bold label, then the items comma-separated. */
+  skills: CvGroup[];
   leadership: CvNote[];
   languages: CvLanguage[];
-  proficiency: CvGroup[];
 }
 
 export const cv: Cv = {
   name: 'Jaival Saija',
   headline:
-    'M.Sc. Computer Science Student | DevOps, Cloud & AI: AWS, CI/CD, Docker',
+    'Working Student / Junior DevOps & Cloud Engineer | AWS · GitHub Actions · Docker · Linux',
+  summary:
+    "Computer Science master's student at RPTU Kaiserslautern with 10 months as a Junior DevOps Engineer: GitHub Actions pipelines for 3 products, AWS (EC2, S3, IAM, VPC) across Dev, Stage and Production, CloudWatch alerting and incident work. Looking for a working student or junior role in DevOps, cloud or platform engineering. 20 h/week during semester, up to 40 in breaks; available immediately; willing to relocate within Germany.",
   email: 'saijajaival@gmail.com',
+  phone: '+49 174 512 6677',
   location: 'Kaiserslautern, Germany',
   links: [
     { label: 'jaivalsaija.vercel.app', href: 'https://jaivalsaija.vercel.app' },
@@ -80,9 +80,8 @@ export const cv: Cv = {
       href: 'https://www.linkedin.com/in/jaivalsaija',
     },
   ],
-  nationality: 'Indian',
   permit:
-    'Student residence permit (§16b AufenthG), eligible for working student jobs (20 h/week)',
+    'Student residence permit (§16b AufenthG), eligible for working student jobs (20 h/week)',
   /** In public/. A JPEG, because react-pdf can't read WebP. */
   photo: '/cv-photo.jpg',
   projects: [
@@ -94,48 +93,9 @@ export const cv: Cv = {
         label: 'github.com/Jaival/jobhunt-agent',
         href: 'https://github.com/Jaival/jobhunt-agent',
       },
-      year: '2026',
+      dates: 'Sep 2026 – present',
       bullets: [
-        'A daily agent pulls ads from job APIs and Gmail, scores them against my CV and drafts tailored applications for review; Python tools keep a job ledger and block unfinished drafts.',
-      ],
-    },
-    {
-      name: 'NextGleis',
-      tagline: 'Android departure board for German buses and trains',
-      stack: ['Expo', 'React Native', 'TypeScript', 'Node.js on Vercel'],
-      link: {
-        label: 'github.com/Jaival/NextGleis',
-        href: 'https://github.com/Jaival/NextGleis',
-      },
-      year: '2026',
-      bullets: [
-        'Live departures through a serverless proxy that turns transport-API XML into JSON and keeps the keys off the device; CI runs type checks, tests and npm audit; in development, APK on GitHub.',
-      ],
-    },
-    {
-      name: 'NextToBinge',
-      tagline: 'one search for movies, dramas and anime',
-      stack: ['Next.js', 'Supabase', 'Drizzle', 'Clerk'],
-      link: {
-        label: 'nexttobinge.vercel.app',
-        href: 'https://nexttobinge.vercel.app',
-      },
-      year: '2026',
-      bullets: [
-        'Trending lists and watchlists for every title; CI checks lint, types, tests and the build.',
-      ],
-    },
-    {
-      name: 'Invoicely',
-      tagline: 'invoicing app for freelancers (in development)',
-      stack: ['Next.js', 'Postgres (Neon)', 'Drizzle', 'Better Auth'],
-      link: {
-        label: 'invoicely-roan.vercel.app',
-        href: 'https://invoicely-roan.vercel.app',
-      },
-      year: '2026',
-      bullets: [
-        'Google sign-in, email verification and organizations; CI runs lint, type checks, tests and Playwright end-to-end tests.',
+        'Scheduled Claude Code routine that pulls job ads from APIs, an Indeed connector and Gmail alerts, scores them against my CV and drafts applications for my review; Python tools keep a job ledger and block drafts with placeholders. Nothing is sent automatically.',
       ],
     },
     {
@@ -146,22 +106,61 @@ export const cv: Cv = {
         label: 'github.com/Jaival/mdgloss',
         href: 'https://github.com/Jaival/mdgloss',
       },
-      year: '2026',
+      dates: 'Sep 2026 – present',
       bullets: [
         'Annotations are stored next to the files, which never change; CI checks the frontend and Rust code, and a release workflow builds Windows and macOS binaries.',
       ],
     },
     {
       name: 'Kubernetes Lab',
-      tagline: 'hands-on course on a local cluster (learning stage)',
+      tagline: 'self-built learning lab on a local cluster (in progress)',
       stack: ['kind', 'Helm', 'Prometheus', 'Grafana'],
       link: {
         label: 'github.com/Jaival/kubernetes-learning-lab',
         href: 'https://github.com/Jaival/kubernetes-learning-lab',
       },
-      year: '2026',
+      dates: 'Oct 2026 – present',
       bullets: [
-        'Multi-node kind cluster running; Helm and Prometheus/Grafana modules in progress, building toward a CI-deployed capstone.',
+        'Multi-node kind cluster running; adding Helm charts and Prometheus/Grafana monitoring, then a CI-deployed capstone.',
+      ],
+    },
+    {
+      name: 'NextGleis',
+      tagline: 'Android departure board for German buses and trains',
+      stack: ['Expo', 'React Native', 'TypeScript', 'Node.js on Vercel'],
+      link: {
+        label: 'github.com/Jaival/NextGleis',
+        href: 'https://github.com/Jaival/NextGleis',
+      },
+      dates: 'Aug 2026 – Oct 2026',
+      bullets: [
+        'Live departures through a serverless proxy that turns transport-API XML into JSON and keeps the keys off the device; CI runs type checks, tests and npm audit; in development, APK on GitHub.',
+      ],
+    },
+    {
+      name: 'Invoicely',
+      tagline: 'invoicing app for freelancers (in development)',
+      stack: ['Next.js', 'Postgres (Neon)', 'Drizzle', 'Better Auth'],
+      link: {
+        label: 'invoicely-roan.vercel.app',
+        href: 'https://invoicely-roan.vercel.app',
+      },
+      dates: 'Dec 2023 – present',
+      bullets: [
+        'Google sign-in, email verification and organizations; CI runs lint, type checks, tests and Playwright end-to-end tests.',
+      ],
+    },
+    {
+      name: 'NextToBinge',
+      tagline: 'one search for movies, dramas and anime',
+      stack: ['Next.js', 'Supabase', 'Drizzle', 'Clerk'],
+      link: {
+        label: 'nexttobinge.vercel.app',
+        href: 'https://nexttobinge.vercel.app',
+      },
+      dates: 'Apr 2026 – Oct 2026',
+      bullets: [
+        'Trending lists and watchlists for every title; CI checks lint, types, tests and the build.',
       ],
     },
   ],
@@ -177,13 +176,11 @@ export const cv: Cv = {
       role: 'Junior DevOps Engineer',
       dates: 'June 2021 – March 2022',
       bullets: [
+        'Resolved 50+ production incidents in my first six months as the first contact for infrastructure alerts on my shift, tracing them through logs and fixing the networking faults behind most of them.',
         'Automated testing, UAT and dev deployments for 3 products by building their GitHub Actions pipelines.',
-        'Resolved 50+ production incidents in my first six months by tracing server alerts through logs and fixing the networking faults behind most of them.',
         'Secured Dev, Stage and Production on AWS (EC2, S3, VPC) for a .NET CMS product and its 7-person team by writing least-privilege IAM policies and segmenting the VPC.',
-        'Caught 8–10 CPU and memory problems before customers noticed by setting up AWS CloudWatch alarms.',
-        "Monitored the CMS product's health and uptime by writing Python check scripts and scheduling them as cron jobs on Linux.",
-        'Cut new-developer onboarding time by 30% and maintenance time by 20% by writing the deployment runbooks from scratch and rewriting the update SOPs.',
-        'Prevented repeat crashes by leading monthly root-cause post-mortems with the developers, each covering 4–6 incidents.',
+        'Caught 8–10 CPU and memory problems before customers noticed with AWS CloudWatch alarms; added Python uptime checks run as cron jobs on Linux.',
+        'Cut new-developer onboarding time by 30% and maintenance time by 20% by writing the deployment runbooks from scratch and rewriting the update SOPs; led monthly post-mortems with developers, each covering 4–6 incidents.',
         'Trained 7 teammates in Docker as the team began moving its deployment pipeline to containers.',
       ],
     },
@@ -213,7 +210,7 @@ export const cv: Cv = {
       org: 'RPTU Kaiserslautern',
       place: 'Kaiserslautern, Germany',
       role: 'M.Sc. Computer Science',
-      dates: '2023 – Present',
+      dates: '2023 – 2027 (expected)',
       bullets: ['Focus: Distributed Systems and Network Security.'],
     },
     {
@@ -228,55 +225,54 @@ export const cv: Cv = {
     },
   ],
   certifications: [
-    '**AWS Academy Cloud Foundations** and **Google Cloud Platform Fundamentals**',
-    'Cisco **CCNA R&S: Introduction to Networks course** (IP addressing, subnetting, routing).',
     '**AWS Cloud Quest: Generative AI Practitioner**',
+    '**AWS Academy Cloud Foundations**',
+    '**Google Cloud Platform Fundamentals**',
+    'Cisco **CCNA R&S: Introduction to Networks** (course)',
   ],
   skills: [
     {
-      title: 'Cloud Infrastructure & AWS',
-      points: [
-        'Managed and secured EC2, S3 and VPC across Dev, Stage and Production.',
-        'Wrote least-privilege IAM policies and secure network configurations; AWS guardrails such as Service Control Policies are my next step.',
+      label: 'Cloud',
+      items: ['AWS (EC2, S3, IAM, VPC, CloudWatch)', 'Firebase'],
+    },
+    {
+      label: 'CI/CD & IaC',
+      items: ['GitHub Actions', 'Terraform (basics)', 'Git'],
+    },
+    { label: 'Containers', items: ['Docker'] },
+    {
+      label: 'Linux & Scripting',
+      items: ['Linux administration', 'Bash', 'Python', 'cron'],
+    },
+    {
+      label: 'Networking & Security',
+      items: [
+        'VPC segmentation',
+        'least-privilege IAM',
+        'subnetting and routing (CCNA ITN course)',
       ],
     },
     {
-      title: 'CI/CD & Release Management',
-      points: [
-        'Build and fix GitHub Actions pipelines for tests, builds and deployments, at work and in my own projects. Adding automated security checks (shift-left) next.',
-        'Write runbooks so deployments are boring, predictable and safe on a Friday.',
+      label: 'Code & Data',
+      items: [
+        'Python',
+        'JavaScript',
+        'Flutter (Dart)',
+        'PostgreSQL',
+        'MySQL',
+        'Firestore',
       ],
     },
+    { label: 'AI tools', items: ['Claude', 'Claude Code'] },
     {
-      title: 'Troubleshooting & Monitoring',
-      points: [
-        'Trace crashes to their root cause through logs, metrics and errors across the stack.',
-        'Set up dashboards and alerts that catch issues before users do.',
-      ],
-    },
-    {
-      title: 'Security & Networking Fundamentals',
-      points: [
-        'CCNA R&S networking training (IP addressing, subnetting, routing, segmentation), applied to AWS VPC design.',
-        'Explain security trade-offs to developers and agree on a fix instead of blocking releases.',
-      ],
-    },
-    {
-      title: 'Communication & Teamwork',
-      points: [
-        'Work alongside developers, on site or remote, to understand their code and run it in production.',
-        'Explain infrastructure problems to non-technical people in plain English.',
-      ],
+      label: 'Learning',
+      items: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
     },
   ],
   leadership: [
     {
       title: 'Placement Coordinator',
       text: 'Ganpat University (2021). Connected classmates with recruiters and organized campus tech events with companies.',
-    },
-    {
-      title: 'Solo DevOps Support',
-      text: 'Usually the first contact for infrastructure issues on my shift at Maven Infosoft.',
     },
   ],
   languages: [
@@ -288,46 +284,6 @@ export const cv: Cv = {
     { name: 'German', level: 'A1', text: 'A1, actively learning' },
     { name: 'Hindi/Gujarati', level: 'Native', text: 'Native' },
   ],
-  proficiency: [
-    {
-      label: 'Cloud',
-      items: ['AWS (EC2, S3, IAM, VPC)', 'Google Cloud', 'Firebase'],
-    },
-    {
-      label: 'DevOps',
-      items: [
-        'Docker',
-        'Git',
-        'GitHub Actions',
-        'Terraform (basics)',
-        'Linux administration',
-      ],
-    },
-    {
-      label: 'Security',
-      items: ['IAM least privilege', 'VPC network segmentation'],
-    },
-    {
-      label: 'Code',
-      items: ['Python', 'Bash', 'JavaScript', 'Flutter (Dart)'],
-    },
-    { label: 'AI', items: ['Claude', 'Claude Code (AI coding assistant)'] },
-    { label: 'Data', items: ['PostgreSQL', 'MySQL', 'Firestore'] },
-    {
-      label: 'Learning',
-      items: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
-    },
-  ],
-};
-
-/**
- * The two PDFs `bun run cv:pdf` writes to public/, and the switch on /cv
- * picks between. `site` stays at userData.resumeUrl, which the rest of the
- * site links to.
- */
-export const cvDownloads = {
-  site: { label: 'Website style', href: '/cv.pdf' },
-  classic: { label: 'Classic', href: '/cv-classic.pdf' },
 };
 
 /** "June 2021 – March 2022" → "2021–22", "2023 – Present" → "2023–". */

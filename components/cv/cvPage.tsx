@@ -8,7 +8,7 @@ import { cv, yearSpan, type CvEntry, type CvLanguage } from '@/utils/cv';
 import CvDownload from './cvDownload';
 
 // The CV as a page of the site. The words come from utils/cv.ts, the same
-// data components/cv/cvPdf.tsx renders to the PDF this page offers.
+// data components/cv/cvPdfClassic.tsx renders to the PDF this page offers.
 
 /** Not clickable, so no hover lift. */
 const card =
@@ -181,7 +181,7 @@ export default function CvPage() {
               {cv.projects.map((project, i) => (
                 <Reveal key={project.name} index={i}>
                   <article className={card}>
-                    <YearBadge>{project.year}</YearBadge>
+                    <YearBadge>{yearSpan(project.dates)}</YearBadge>
                     <h3 className='pr-20 text-xl md:text-2xl font-bold tracking-tight text-card-foreground'>
                       {project.name}{' '}
                       <span className='font-normal text-muted-foreground'>
@@ -249,30 +249,8 @@ export default function CvPage() {
           <aside>
             <Section title='Skills'>
               <Reveal>
-                <div className={`${card} space-y-5`}>
-                  {cv.skills.map(skill => (
-                    <div key={skill.title}>
-                      <h3 className='font-semibold text-card-foreground'>
-                        {skill.title}
-                      </h3>
-                      {skill.points.map(point => (
-                        <p
-                          key={point}
-                          className='mt-1 text-muted-foreground leading-relaxed'
-                        >
-                          {point}
-                        </p>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </Section>
-
-            <Section title='Tech stack'>
-              <Reveal>
                 <div className={`${card} space-y-4`}>
-                  {cv.proficiency.map(group => (
+                  {cv.skills.map(group => (
                     <div key={group.label}>
                       <h3 className='mb-2 text-xs font-bold uppercase tracking-wider text-primary'>
                         {group.label}

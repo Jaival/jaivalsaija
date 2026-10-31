@@ -29,11 +29,8 @@ const gap = 22;
 
 export type CvVariant = 'student' | 'junior';
 
-/** Data order, with Job-Hunt Agent moved last. */
-export const defaultProjectOrder = [
-  ...cv.projects.map(p => p.name).filter(name => name !== 'Job-Hunt Agent'),
-  'Job-Hunt Agent',
-];
+/** The order in utils/cv.ts. */
+export const defaultProjectOrder = cv.projects.map(p => p.name);
 
 const s = StyleSheet.create({
   page: {

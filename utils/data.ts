@@ -301,7 +301,7 @@ const userData: UserData = {
       id: 1,
       title: 'M.Sc. Computer Science',
       company: 'RPTU Kaiserslautern',
-      year: '2023 – present',
+      year: '2023 – Present',
       companyLink: 'https://cs.rptu.de/en/',
       desc: 'Distributed systems and network security. Close enough to the infrastructure work I was already doing that the theory fills in gaps I used to work around.',
     },

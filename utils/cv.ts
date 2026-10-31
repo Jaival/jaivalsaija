@@ -68,7 +68,7 @@ export const cv: Cv = {
   headline:
     'Working Student / Junior DevOps & Cloud Engineer | AWS · GitHub Actions · Docker · Linux',
   summary:
-    "Computer Science master's student at RPTU Kaiserslautern with 10 months as a Junior DevOps Engineer: GitHub Actions pipelines for 3 products, AWS (EC2, S3, IAM, VPC) across Dev, Stage and Production, CloudWatch alerting and incident work. Looking for a working student or junior role in DevOps, cloud or platform engineering. 20 h/week during semester, up to 40 in breaks; available immediately; willing to relocate within Germany.",
+    "Computer Science master's student at RPTU Kaiserslautern with 10 months as a Junior DevOps Engineer: GitHub Actions pipelines for 3 products, AWS (EC2, S3, IAM, VPC) across Dev, Stage and Production, CloudWatch alerting and incident work. I build with AI coding tools and run a scheduled Claude Code agent with MCP connectors that automates my own job search. Looking for a working student or junior role in DevOps, cloud or platform engineering. 20 h/week during semester, up to 40 in breaks; available immediately; willing to relocate within Germany.",
   email: 'saijajaival@gmail.com',
   phone: '+49 174 512 6677',
   location: 'Kaiserslautern, Germany',
@@ -93,7 +93,7 @@ export const cv: Cv = {
         label: 'github.com/Jaival/jobhunt-agent',
         href: 'https://github.com/Jaival/jobhunt-agent',
       },
-      dates: 'Sep 2026 – present',
+      dates: 'Sep 2026 – Present',
       bullets: [
         'Scheduled Claude Code routine that pulls job ads from APIs, an Indeed connector and Gmail alerts, scores them against my CV and drafts applications for my review; Python tools keep a job ledger and block drafts with placeholders. Nothing is sent automatically.',
       ],
@@ -106,7 +106,7 @@ export const cv: Cv = {
         label: 'github.com/Jaival/mdgloss',
         href: 'https://github.com/Jaival/mdgloss',
       },
-      dates: 'Sep 2026 – present',
+      dates: 'Sep 2026 – Present',
       bullets: [
         'Annotations are stored next to the files, which never change; CI checks the frontend and Rust code, and a release workflow builds Windows and macOS binaries.',
       ],
@@ -119,7 +119,7 @@ export const cv: Cv = {
         label: 'github.com/Jaival/kubernetes-learning-lab',
         href: 'https://github.com/Jaival/kubernetes-learning-lab',
       },
-      dates: 'Oct 2026 – present',
+      dates: 'Oct 2026 – Present',
       bullets: [
         'Multi-node kind cluster running; adding Helm charts and Prometheus/Grafana monitoring, then a CI-deployed capstone.',
       ],
@@ -134,7 +134,7 @@ export const cv: Cv = {
       },
       dates: 'Aug 2026 – Oct 2026',
       bullets: [
-        'Live departures through a serverless proxy that turns transport-API XML into JSON and keeps the keys off the device; CI runs type checks, tests and npm audit; in development, APK on GitHub.',
+        'Live departures through a serverless proxy that turns transport-API XML into JSON and keeps the keys off the device; CI runs type checks, tests and npm audit; APK on GitHub.',
       ],
     },
     {
@@ -145,7 +145,7 @@ export const cv: Cv = {
         label: 'invoicely-roan.vercel.app',
         href: 'https://invoicely-roan.vercel.app',
       },
-      dates: 'Dec 2023 – present',
+      dates: 'Oct 2026 – Present',
       bullets: [
         'Google sign-in, email verification and organizations; CI runs lint, type checks, tests and Playwright end-to-end tests.',
       ],
@@ -263,7 +263,10 @@ export const cv: Cv = {
         'Firestore',
       ],
     },
-    { label: 'AI tools', items: ['Claude', 'Claude Code'] },
+    {
+      label: 'AI-assisted engineering',
+      items: ['Claude Code', 'MCP connectors', 'scheduled agent workflows'],
+    },
     {
       label: 'Learning',
       items: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],

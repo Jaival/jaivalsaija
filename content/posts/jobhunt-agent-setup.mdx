@@ -2,13 +2,13 @@ export const metadata = {
   title: 'Setting up jobhunt-agent, my daily job-search routine',
   date: '2026-10-22',
   time: '18:00',
-  updated: '2026-10-31',
+  updated: '2026-11-01',
   changes:
-    'v0.5.0: a source check on every letter, one fresh helper per job, and skills for the on-request workflows',
+    'v1.0.0: updates from releases only, a Decisions checklist in the brief, commands, and a local history of the workspace',
   summary:
     'A Claude Code routine that finds and scores job ads every morning and drafts a tailored CV and letter for the best ones, now for any field. How to install it, and what the first run asks you.',
   type: 'post',
-  release: '0.5.0',
+  release: '1.0.0',
 };
 
 Looking for a working-student job means checking the same boards every day, reading ads that turn out to be closed, and rewriting a CV and letter for each one. [jobhunt-agent](https://github.com/Jaival/jobhunt-agent) does the searching and the first drafts for me.
@@ -17,7 +17,7 @@ Every morning it searches job boards, scores new ads against my CV and, on weekd
 
 It works for student and junior roles in any field, from marketing and nursing to engineering and software, and with your own CV design.
 
-This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v0.5.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
+This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v1.0.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
 
 ## What you need
 
@@ -61,7 +61,9 @@ NOT READY: 8 item(s) to do
 
 You don't have to fill it in by hand. The first run asks you for all of it.
 
-`--init` also installs the safety rules in `.claude/settings.json`: the run can't send email, type into web pages, change `engine/` or your master CV, or reach hosts other than the job sites. A guard hook checks every tool call on top of that. It also copies in the ad reader, `.claude/agents/ad-reader.md`, a helper with no write, shell or send tools that reads every job ad, so the run that holds your CV never sees ad text. The tailor, `.claude/agents/tailor.md`, writes each draft in a fresh context with no web, mail or browser tools. The workflows you ask for by name ("run the ATS review", "remap my CV", "update the engine") are skills in `.claude/skills/`.
+`--init` also installs the safety rules in `.claude/settings.json`: the run can't send email, type into web pages, change `engine/` or your master CV, or reach hosts other than the job sites. A guard hook checks every tool call on top of that. It also copies in the ad reader, `.claude/agents/ad-reader.md`, a helper with no write, shell or send tools that reads every job ad, so the run that holds your CV never sees ad text. The tailor, `.claude/agents/tailor.md`, writes each draft in a fresh context with no web, mail or browser tools. The workflows you ask for by name ("run the ATS review", "remap my CV", "update the engine") are skills in `.claude/skills/`, and so are the commands below.
+
+It also makes the folder a local git repository, so each daily run is saved as one commit you can look at or undo. The history never gets a remote and is never pushed; `engine/` and `backups/` stay out of it.
 
 ## 3. Add the scheduled task
 
@@ -120,13 +122,28 @@ Progress is saved after every round. If a scheduled run finds the setup unfinish
 ## 5. Check the guard and keep the computer awake
 
 - Permissions are already set up: `--init` installed the rules, and Auto mode handles the rest without stalling. If the first run still asks about a tool, "Always allow" is fine, since an allow rule never overrides a deny rule.
-- Each brief says `guard active` under Sources. If it says **guard NOT active**, run `python engine/tools/setup_check.py --init` and check that the task is a local Code-tab task on your folder.
+- Each brief says `guard active` under Sources, and its first line names the engine version and model. If it says **guard NOT active**, run `python engine/tools/setup_check.py --init` and check that the task is a local Code-tab task on your folder.
 - In **Settings → This computer → System**, turn on **Keep computer awake**. Scheduled tasks only run while the app is open and the computer is awake. After sleep, one missed run from the last seven days catches up.
 - Optional: connect Gmail and Indeed in Claude, and set up email job alerts on StepStone, XING and LinkedIn. Those sites often block automated searches, and alert emails get through.
 
 ## 6. Each morning, open the brief
 
-Open `daily/<today>.md`. It has the top jobs to apply to, the drafts waiting in `applications/`, follow-ups that are due and a short plan for the day. Each job's score comes with its five sub-scores (skills, seniority, language, location, hours) and the reasons, so you can see which judgment to disagree with. Check each draft and send it yourself. Then tell Claude "I sent the application to …" and it adds a row to the tracker.
+Open `daily/<today>.md`. It has the top jobs to apply to, the drafts waiting in `applications/`, follow-ups that are due and a short plan for the day. Each job's score comes with its five sub-scores (skills, seniority, language, location, hours) and the reasons, so you can see which judgment to disagree with. Check each draft and send it yourself.
+
+The brief starts with a **Decisions** checklist: tailor a job that scored 60-69, mark today's drafts as sent, skip a draft that's 7-14 days old. Tick a box in the file (`- [x]`) and the next run does it, then lists it under "Done from your decisions". A box you don't tick stays on the list for 7 days.
+
+## Commands
+
+At the laptop, open the workspace in the Code tab and type a command, with or without the `/`. Each one uses the daily run's tools and checks, so it can't send anything or skip a check.
+
+| Command         | What it does                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| `tailor <url>`  | Reads the ad through the ad reader, scores it and, at 70+ (or on your OK), writes and builds the draft |
+| `why <job>`     | Explains a score: the five sub-scores, hard mismatches, and what would change it. Changes nothing      |
+| `sent <folder>` | Tracker row, folder moved to `applications/_sent/`, first follow-up date                               |
+| `status`        | Drafts to send, follow-ups due, interviews and open actions. Changes nothing                           |
+
+Claude Code has its own `/status`; type `status` or `/job-status` for this one.
 
 ## What lives where
 
@@ -141,7 +158,8 @@ JobHunt/
 ├─ applications/      one folder per tailored draft
 ├─ daily/ tracker/    briefs and the sent-applications tracker
 ├─ data/              seen-jobs ledger, ad extracts in data/ads/
-├─ .claude/           safety rules, guard hook, ad reader, tailor, skills
+├─ .claude/           safety rules, guard hook, ad reader, tailor, skills, commands
+├─ .git/              local history, one commit per daily run
 └─ engine/            ROUTINE.md, RULES.md, rubric.md, ONBOARDING.md, tools/
 ```
 
@@ -163,17 +181,19 @@ The builder also refuses to produce a draft with a placeholder left in it, a wor
 - **A build fails with "not in your CV, CLAUDE.md, projects.md or the ad".** The letter names a number or a tool your files don't back up. The routine rewrites the letter and builds again; it never adds the fact to your files to make it pass. If you have the skill, add it to your CV or CLAUDE.md yourself.
 - **An ad "couldn't be read".** The site showed a bot check or an empty page. The next run tries it again. A job ad that's gone counts as closed.
 - **An old job is back as new.** A job screened or skipped more than 90 days ago shows up again when it's reposted. `ledger_expiry_days` in config.yaml changes the days (0 = never).
+- **A run changed something it shouldn't have.** Ask Claude "what did the last run change?", and to revert that commit if you want it undone.
+- **The history commit failed.** Show Claude the message from the run. A global `commit.gpgsign=true` in your git settings is a known cause. If `setup_check.py` warns that the workspace is inside another repo, move the folder out of it.
 - **Something was blocked.** The brief lists it under "Blocked by the guard", with what the run did instead. If a blocked step is one the routine needs, open an issue: a rule is too strict.
 
 ## Updating
 
-When the daily brief says an engine update is available, open your workspace folder in the Code tab and say:
+The engine updates to tagged releases only. When the daily brief says an engine update is available (a newer release is out), open your workspace folder in the Code tab and say:
 
 ```txt
 update the engine
 ```
 
-Claude puts the new engine next to the old one, backs up your settings, and builds a test application plus up to five of your real ones with both engines to show you the documents still come out the same. It changes nothing until you say yes, and `python engine/tools/upgrade.py rollback` puts everything back. Never edit files in `engine/` yourself: wishes go in `custom.md`.
+Claude puts the new engine next to the old one, backs up your settings, and builds a test application plus up to five of your real ones with both engines to show you the documents still come out the same. It changes nothing until you say yes, and `python engine/tools/upgrade.py rollback` puts everything back. Never edit files in `engine/` yourself: wishes go in `custom.md`. To test changes before they're released, set `engine_channel: next` in config.yaml.
 
 Engines from before October 2026 don't know "update the engine" yet. [`UPGRADING.md`](https://github.com/Jaival/jobhunt-agent/blob/main/UPGRADING.md) has a one-time prompt for them. What each release changes is in its post in the [releases series](/blog/series/jobhunt-agent), and step by step in the repo's [upgrade guides](https://github.com/Jaival/jobhunt-agent/tree/main/docs/upgrading).
 

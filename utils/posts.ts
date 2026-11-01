@@ -29,6 +29,7 @@ const metadataSchema = z.object({
   draft: z.boolean().optional(),
   // Only ids defined in content/series.ts, so a typo can't start a new series.
   series: z.enum(Object.keys(series) as [SeriesId, ...SeriesId[]]).optional(),
+  ownCard: z.boolean().optional(),
   release: z
     .string()
     .regex(/^\d+\.\d+\.\d+$/, 'release is a version like 0.3.0, without a v')
@@ -158,7 +159,9 @@ export type FeedItem =
 
 /**
  * The feed, newest first, with each series collapsed into one item placed at
- * its newest part. A series shows up once, however many parts it has.
+ * its newest part. A series shows up once, however many parts it has. A part
+ * with `ownCard: true` also gets a card of its own, and the series card moves
+ * down to the newest part without one.
  */
 export async function getFeed(): Promise<FeedItem[]> {
   const posts = await getPosts();
@@ -166,12 +169,19 @@ export async function getFeed(): Promise<FeedItem[]> {
   const items: FeedItem[] = [];
 
   for (const post of posts) {
-    if (!post.series) {
+    if (!post.series || post.ownCard) {
       items.push({ kind: 'post', post });
     } else if (!seen.has(post.series)) {
       seen.add(post.series);
-      const parts = posts.filter(p => p.series === post.series).length;
-      items.push({ kind: 'series', id: post.series, latest: post, parts });
+      const parts = posts.filter(p => p.series === post.series);
+      // The card sits at its newest folded part, but "Latest" names the
+      // newest part overall, even one that has its own card above it.
+      items.push({
+        kind: 'series',
+        id: post.series,
+        latest: parts[0],
+        parts: parts.length,
+      });
     }
   }
 

@@ -1,0 +1,107 @@
+export const metadata = {
+  title: 'jobhunt-agent v1.0.0: updates I can trust, and a brief I can answer',
+  date: '2026-11-01',
+  summary:
+    'v1.0.0 updates only to tagged releases, stamps the engine and model on everything it writes, keeps a local git history of my workspace, and lets me steer it with commands like `why <job>` and a checklist I tick in the daily brief.',
+  type: 'post',
+  series: 'jobhunt-agent',
+  release: '1.0.0',
+  ownCard: true,
+};
+
+[jobhunt-agent](https://github.com/Jaival/jobhunt-agent) runs every morning on my laptop, searches job boards, scores new ads against my CV and drafts applications for the best ones. The [setup post](/blog/jobhunt-agent-setup) covers how to install it.
+
+Five releases in, the agent was careful about what it wrote: [v0.3.0](/blog/jobhunt-agent-v0-3-0) fenced in the unattended run, [v0.4.0](/blog/jobhunt-agent-v0-4-0) made the scores measurable and [v0.5.0](/blog/jobhunt-agent-v0-5-0) checks every letter against its sources. Two things were still loose. "update the engine" pulled whatever was on `main`, so an update was only as safe as the last commit. And the only way to talk to the routine was to edit a file and wait for the next morning. v1.0.0, "versioned & interactive", fixes both. 1.0 is the promise that updates are safe.
+
+## Updates come from releases only
+
+Until now the engine followed the `main` branch. `main` only gets release merges, but "the newest commit" is still a moving target. A new setting picks what an update means:
+
+```yaml
+engine_channel: stable # newest vX.Y.Z tag, the default
+# engine_channel: next  # follows the next branch, for testing
+```
+
+On stable, "update the engine" checks out the newest release tag, so `engine/` sits on `v1.0.0` and not on a branch. The daily brief says "engine update available (release v1.0.0)" only when a newer tag exists, not after every commit. An engine that is ahead of the newest release, like mine after testing on `next`, is never moved back. The tests for this run against a local bare repo, so they don't need GitHub.
+
+The tag itself is now checked before it becomes a release. Pushing `vX.Y.Z` starts a workflow that compares the tag with the `VERSION` file, makes sure the CHANGELOG has a section for it, reruns the full test suite and then creates the GitHub Release with that section as its notes. A tag that fails any check makes no release. The v1.0.0 release on GitHub came out of that workflow.
+
+## Every output says what made it
+
+When a score looks wrong, the first question is which engine and which model produced it. Every brief now starts with:
+
+```text
+engine 1.0.0 (1d7384b) · model claude-opus-5-5
+```
+
+Each job.md has an `- **Engine:**` line, and every new ledger row stores the engine version and the model, not only the rows that `ledger.py set` touched in v0.5.0. The CV and letter files stay free of it: their document metadata names only me, because an applicant tracking system reads it too.
+
+## A history of my workspace
+
+My workspace has my CV, my letters, the tracker and the ledger, and every run changes some of them. If a run went wrong, I had backups for engine updates but nothing for an ordinary day. `setup_check.py --init` now makes the workspace a local git repo, with a `.gitignore` that leaves out `engine/`, `backups/` and Office temp files. Each run ends with one commit:
+
+```text
+daily run 2026-11-02, engine v1.0.0
+```
+
+So "what did the last run change?" is a `git show`, and undoing it is a revert. The history never gets a remote and is never pushed: it holds my personal data, and it stays on my laptop. A workspace that already is a git repo is left as it is, and without a git identity the commits go in as "JobHunt routine".
+
+## Commands for one job
+
+The daily run handles the jobs it finds. For a job I find myself, I used to start a full run or explain the steps in chat. Four commands in Claude Code now do it with the same tools and checks as the daily run:
+
+| Command         | What it does                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------- |
+| `tailor <url>`  | The ad reader reads the ad, the rubric scores it, and at 70+ (or on my OK) the tailor writes it |
+| `why <job>`     | The five sub-scores, any hard mismatch, the reasons and what would change the score             |
+| `sent <folder>` | Tracker row, folder moved to `applications/_sent/`, ledger verdict and first follow-up date     |
+| `status`        | Drafts to send, applications waiting, follow-ups due, interviews, open actions, engine version  |
+
+`tailor <url>` goes through the same quarantine as the daily run: the ad reader fetches the ad, so the session that holds my CV still never sees its text. `why` and `status` change nothing. Claude Code already has its own `/status`, so this one also answers to `/job-status`.
+
+## A brief I can answer
+
+The commands need me at the laptop. Most mornings I only read the brief, so the brief now asks me things. It starts with a Decisions checklist:
+
+```markdown
+## Decisions
+
+- [ ] Tailor Acme: Werkstudent Online-Marketing (score 64) `tailor https://www.arbeitsagentur.de/jobsuche/jobdetail/10000-1234567890-S`
+- [ ] Mark as sent: 2026-11-01_Example-GmbH_Werkstudent-Marketing `sent 2026-11-01_Example-GmbH_Werkstudent-Marketing`
+- [ ] Skip the draft 2026-10-23_Muster-AG_Praktikum-PR (9 days old) `skip 2026-10-23_Muster-AG_Praktikum-PR`
+```
+
+I tick a box in the file, and the next run acts on it with the same tools and lists it under "Done from your decisions". A box I don't tick stays on the list for 7 days, then drops off. Weekend runs only search, so a ticked "tailor" waits for Monday.
+
+The tricky part was a run that stops halfway. If a run marks a job as sent, adds the tracker row and then stops before it writes a new brief, the box is still ticked in yesterday's brief, and the next run would add a second row. `decisions.py` now logs each box it acted on in `data/decisions_done.txt`, and a logged box comes back as done, not as a new decision.
+
+## Smaller changes
+
+- **The title filter is fairer to student jobs.** `manager`, `staff`, `leiter` and `lead` dropped every title with them, so "Werkstudent Produktmanagement" never got a score. They now drop only junior and unlabelled titles, where they still match inside a word ("Teamleiter"). Every other exclude word matches at the start of a word only: `art` drops "Art Direction" but no longer "Startup Marketing".
+- **`setup_check.py` warns about a workspace without history,** for example one inside another git repo, where the daily commits can't work.
+
+## The eval, before the tag
+
+The release checklist runs the eval before every tag. On the 33 labelled ads, v1.0.0 agrees with v0.5.0 within the tolerance on all six metrics: in scope 30/33 (was 29), role type 20/21, hard mismatch 20/21, score inside the range 19/21, tailor decision 30/30, German level 31/33. It was recorded with Claude Opus 5.5 and cost $3.87. The title filter change gives the same answer on all 33 ad titles for both sample profiles, so the scores weren't expected to move, and they didn't.
+
+## Upgrading
+
+Open the workspace folder in the Code tab and say:
+
+```text
+update the engine
+```
+
+This is the update that changes your workspace folder itself: `setup_check.py --init` makes it a git repository. Nothing leaves your computer. The migration adds `engine_channel: stable` to config.yaml and copies the four command skills and the updated tailor into `.claude/`. `upgrade.py compare` should say **SAME DOCUMENTS**, and it lists the titles in your ledger that the new title filter treats differently.
+
+Then one **Run now**, and three checks:
+
+1. The brief's first line is `engine 1.0.0 (…) · model …`.
+2. The brief has a Decisions section. It can be empty on a quiet day.
+3. `git log -1` in the workspace shows `daily run <today>, engine v1.0.0`. If the commit failed, a global `commit.gpgsign=true` is a known cause.
+
+`python engine/tools/upgrade.py rollback` puts the old engine back. The workspace history stays, and v0.5.0 ignores it. The [upgrade guide](https://github.com/Jaival/jobhunt-agent/blob/v1.0.0/docs/upgrading/v1.0.0.md) has every step, and the [changelog](https://github.com/Jaival/jobhunt-agent/blob/main/CHANGELOG.md) lists every behaviour change.
+
+## What's next
+
+Nothing is scheduled yet. On the list: a read-only pipeline dashboard, a weekly model-graded check that every claim in a sent letter can be traced to a source, and a look at moving the engine into a Claude Code plugin, where the plugin version would replace the git tags. From here on, the stable channel only moves when a tag passes the checks above.

@@ -110,6 +110,11 @@ export interface PostMetadata {
   /** Id of a series in content/series.ts. Parts are numbered by date. */
   series?: string;
   /**
+   * A series part that gets its own card in the feed and the home list, for a
+   * milestone. It stays a numbered part on the series page.
+   */
+  ownCard?: boolean;
+  /**
    * The software release this version describes, like git tag `v0.3.0`
    * without the `v`. On a series' guide it tags a version; on a release post
    * in that series it names the release and links to the matching version.

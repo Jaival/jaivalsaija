@@ -13,6 +13,9 @@ A place on the site for what I'm building and learning: long posts and short upd
   - A series is one card in the feed (and the home list), not one entry per part: its title,
     description, part count and a link to the newest part, placed at that part's date. The series
     page lists every part. RSS still has one item per part, since readers want each one.
+  - A milestone part (`ownCard: true`, e.g. a 1.0 release) gets its own post card, badged with its
+    part number and series. The series card then sits at its newest part without one, and its
+    "Latest" link still names the newest part overall.
 - **Metadata is an exported object**, not YAML frontmatter, so it needs no extra plugin:
 
   ```mdx
@@ -27,8 +30,8 @@ A place on the site for what I'm building and learning: long posts and short upd
 
   `utils/posts.ts` checks it with zod, so a typo fails the build instead of shipping a broken page.
 
-- **Same-day order**: an optional `time: 'HH:mm'` orders posts that share a date; a post without
-  one counts as 00:00. It isn't shown anywhere, so `date` stays a plain day.
+- **Same-day order**: an optional `time: 'HH:mm'` orders posts that share a date; a post without one
+  counts as 00:00. It isn't shown anywhere, so `date` stays a plain day.
 - **Drafts** (`draft: true`) show in `next dev` only. Production leaves them out of the feed, the
   home list, the static pages and the OG images.
 - **Typography** comes from our own `mdx-components.tsx` (Tidewater tokens, Space Grotesk), not

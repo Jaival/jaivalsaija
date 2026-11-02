@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import series from '@/content/series';
-import { getFeed, type FeedItem } from '@/utils/posts';
+import { getBlog, type FeedItem } from '@/utils/blog';
+import { blogPath, postPath, seriesPath } from '@/utils/blog/paths';
 import PostCover from './postCover';
 import PostMeta, { SeriesMeta } from './postMeta';
 import Reveal from './Reveal';
@@ -20,7 +21,7 @@ function RecentCard({ item }: { item: FeedItem }) {
   if (item.kind === 'series') {
     const { title, description } = series[item.id];
     return (
-      <Link href={`/blog/series/${item.id}`} className={card}>
+      <Link href={seriesPath(item.id)} className={card}>
         <SeriesMeta date={item.latest.date} parts={item.parts} />
         <h3 className={cardTitle}>{title}</h3>
         <p className={cardText}>{description}</p>
@@ -30,7 +31,7 @@ function RecentCard({ item }: { item: FeedItem }) {
 
   const { post } = item;
   return (
-    <Link href={`/blog/${post.slug}`} className={card}>
+    <Link href={postPath(post.slug)} className={card}>
       {post.cover && (
         <PostCover
           cover={post.cover}
@@ -47,7 +48,7 @@ function RecentCard({ item }: { item: FeedItem }) {
 
 /** Home page "Recently": the newest feed entries, below the hero. */
 export default async function RecentPosts() {
-  const items = (await getFeed()).slice(0, LIMIT);
+  const items = (await getBlog()).feed.slice(0, LIMIT);
   if (items.length === 0) {
     return null;
   }
@@ -64,7 +65,7 @@ export default async function RecentPosts() {
             Recently
           </h2>
           <Link
-            href='/blog'
+            href={blogPath}
             className='text-sm font-medium text-primary transition-colors duration-200 ease-out hover:text-brand-to'
           >
             All posts <span aria-hidden>→</span>

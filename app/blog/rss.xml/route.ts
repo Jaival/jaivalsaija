@@ -1,6 +1,7 @@
 import series from '@/content/series';
 import userData from '@/utils/data';
-import { getPosts } from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
+import { blogPath, feedPath, postPath } from '@/utils/blog/paths';
 import { absoluteUrl } from '@/utils/site';
 
 // GET handlers render per request by default; the feed only changes when a
@@ -19,12 +20,12 @@ const escapeXml = (value: string) =>
 const rssDate = (date: string) => new Date(`${date}T00:00:00Z`).toUTCString();
 
 export async function GET() {
-  const posts = await getPosts();
-  const feedUrl = absoluteUrl('/blog/rss.xml');
+  const { posts } = await getBlog();
+  const feedUrl = absoluteUrl(feedPath);
 
   const items = posts
     .map(post => {
-      const url = absoluteUrl(`/blog/${post.slug}`);
+      const url = absoluteUrl(postPath(post.slug));
       const categories = [
         post.type === 'update' ? 'Update' : 'Post',
         ...(post.series ? [series[post.series].title] : []),
@@ -44,7 +45,7 @@ ${categories.map(category => `      <category>${escapeXml(category)}</category>`
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(`${userData.name} - Blog`)}</title>
-    <link>${absoluteUrl('/blog')}</link>
+    <link>${absoluteUrl(blogPath)}</link>
     <description>What I'm building and learning: DevOps, cloud and the projects in between.</description>
     <language>en</language>
     <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />

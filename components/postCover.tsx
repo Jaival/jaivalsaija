@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { PostCover as Cover } from '@/utils/interface';
+import type { PostCover as Cover } from '@/utils/blog/types';
 
 /** A post's cover at 16:9, cropped to fill. Only rendered when one is set. */
 export default function PostCover({

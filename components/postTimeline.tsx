@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import series, { type SeriesId } from '@/content/series';
-import type { FeedItem, Post } from '@/utils/posts';
+import type { FeedItem, Post } from '@/utils/blog';
+import { postPath, seriesPath } from '@/utils/blog/paths';
 import PostCover from './postCover';
 import PostMeta, { SeriesMeta } from './postMeta';
 import Reveal from './Reveal';
@@ -22,7 +23,7 @@ function PostEntry({
   post: Post;
   seriesDisplay: SeriesDisplay;
 }) {
-  const href = `/blog/${post.slug}`;
+  const href = postPath(post.slug);
 
   if (post.type === 'update') {
     const { Content } = post;
@@ -79,7 +80,7 @@ function SeriesEntry({
   latest: Post;
   parts: number;
 }) {
-  const href = `/blog/series/${id}`;
+  const href = seriesPath(id);
   const { title, description } = series[id];
 
   return (
@@ -96,7 +97,7 @@ function SeriesEntry({
       <p className='mt-4 text-sm text-muted-foreground'>
         Latest:{' '}
         <Link
-          href={`/blog/${latest.slug}`}
+          href={postPath(latest.slug)}
           className='font-medium text-foreground underline decoration-border underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary/40'
         >
           Part {latest.seriesPart}, {latest.title}

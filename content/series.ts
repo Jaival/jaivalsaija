@@ -1,4 +1,4 @@
-import type { Series } from '@/utils/interface';
+import type { Series } from '@/utils/blog/types';
 
 // A post joins a series with `series: '<id>'` in its metadata; each id here
 // gets a page at /blog/series/<id> listing its parts in order.

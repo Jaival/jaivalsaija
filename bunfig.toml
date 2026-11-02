@@ -1,0 +1,4 @@
+[test]
+# server-only throws outside a React Server Components build; tests run the
+# server modules directly, so stub it before anything imports it.
+preload = ["./test/setup.ts"]

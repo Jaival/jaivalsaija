@@ -2,12 +2,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PostArticle from '@/components/postArticle';
 import { VersionGraph, VersionHistory } from '@/components/postVersions';
-import {
-  getPost,
-  getPosts,
-  getPostVersion,
-  getPostVersions,
-} from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
+import { parseVersion, postPath, versionSegment } from '@/utils/blog/paths';
 
 interface VersionPageProps {
   params: Promise<{ slug: string; version: string }>;
@@ -18,52 +14,54 @@ interface VersionPageProps {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
-  const versions = await Promise.all(posts.map(getPostVersions));
-  return posts.flatMap((post, index) =>
-    versions[index]
-      .slice(0, -1)
-      .map(({ version }) => ({ slug: post.slug, version: `v${version}` })),
+  const blog = await getBlog();
+  return blog.posts.flatMap(post =>
+    blog
+      .versions(post)
+      .filter(({ isCurrent }) => !isCurrent)
+      .map(({ version }) => ({
+        slug: post.slug,
+        version: versionSegment(version),
+      })),
   );
 }
 
-const versionNumber = (param: string) =>
-  Number(/^v(\d+)$/.exec(param)?.[1] ?? NaN);
+/** The older version a route points at; the current one isn't in here. */
+async function oldVersion(slug: string, segment: string) {
+  const version = parseVersion(segment);
+  const blog = await getBlog();
+  const post = blog.post(slug);
+  const old = version && blog.version(slug, version);
+  return post && old ? { blog, post, old, version } : undefined;
+}
 
 export async function generateMetadata({
   params,
 }: VersionPageProps): Promise<Metadata> {
-  const { slug, version } = await params;
-  const old = await getPostVersion(slug, versionNumber(version));
-  if (!old) {
+  const { slug, version: segment } = await params;
+  const found = await oldVersion(slug, segment);
+  if (!found) {
     return {};
   }
+  const { old, version } = found;
 
   // Search engines should send readers to the current version, not this one.
   return {
-    title: `${old.title} (version ${versionNumber(version)}) - Jaival Saija`,
+    title: `${old.title} (version ${version}) - Jaival Saija`,
     description: old.summary,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: postPath(slug) },
     robots: { index: false, follow: true },
   };
 }
 
 export default async function VersionPage({ params }: VersionPageProps) {
-  const { slug, version: param } = await params;
-  const version = versionNumber(param);
-  const [post, old] = await Promise.all([
-    getPost(slug),
-    getPostVersion(slug, version),
-  ]);
-  if (!post || !old) {
+  const { slug, version: segment } = await params;
+  const found = await oldVersion(slug, segment);
+  if (!found) {
     notFound();
   }
-
-  const versions = await getPostVersions(post);
-  const viewing = versions.find(entry => entry.version === version);
-  if (!viewing || viewing === versions.at(-1)) {
-    notFound();
-  }
+  const { blog, post, old, version } = found;
+  const versions = blog.versions(post);
 
   return (
     <PostArticle

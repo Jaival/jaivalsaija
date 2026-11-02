@@ -4,7 +4,8 @@ import { CommitRail } from '@/components/backToTop';
 import BackgroundElements from '@/components/backgroundElements';
 import PostCover from '@/components/postCover';
 import PostMeta from '@/components/postMeta';
-import type { Post } from '@/utils/posts';
+import type { Post } from '@/utils/blog';
+import { blogPath } from '@/utils/blog/paths';
 import { gradientText } from '@/utils/styles';
 
 const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
@@ -20,12 +21,10 @@ const TITLE_ID = 'post-title';
  */
 export default function PostArticle({
   post,
-  seriesPart,
   versions,
   children,
 }: {
   post: Post;
-  seriesPart?: number;
   versions?: ReactNode;
   children?: ReactNode;
 }) {
@@ -38,7 +37,7 @@ export default function PostArticle({
 
       <div className='relative z-10 max-w-3xl mx-auto px-4 md:px-8 pt-12 md:pt-20'>
         <Link
-          href='/blog'
+          href={blogPath}
           className='animate-enter inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-primary'
           style={step(0)}
         >
@@ -46,12 +45,7 @@ export default function PostArticle({
         </Link>
 
         <header className='mt-8 mb-10'>
-          <PostMeta
-            {...post}
-            seriesPart={seriesPart}
-            seriesDisplay='link'
-            className='animate-enter'
-          />
+          <PostMeta {...post} seriesDisplay='link' className='animate-enter' />
           <h1
             id={TITLE_ID}
             tabIndex={-1}

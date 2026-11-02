@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import series, { type SeriesId } from '@/content/series';
-import type { PostSummary } from '@/utils/interface';
+import { seriesPath } from '@/utils/blog/paths';
+import type { PostSummary } from '@/utils/blog/types';
 import { formatPostDate } from '@/utils/utils';
 
 const badge = 'rounded-full px-2.5 py-0.5 text-xs font-medium';
@@ -72,7 +73,7 @@ export default function PostMeta({
       )}
       {seriesId && seriesDisplay === 'link' && (
         <Link
-          href={`/blog/series/${seriesId}`}
+          href={seriesPath(seriesId)}
           className='text-xs font-medium underline decoration-border underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary/40'
         >
           {series[seriesId].title}

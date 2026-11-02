@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import userData from 'utils/data';
 import { durations, easeOut, spring } from '@/utils/animations';
+import { blogPath } from '@/utils/blog/paths';
 import { useViewTransitionTheme } from '../hooks/useViewTransitionTheme';
 
 /** Active on the page itself and anything nested under it (/blog/<slug>). */
@@ -17,7 +18,7 @@ const navigationItems = [
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
   { href: '/cv', label: 'CV' },
-  { href: '/blog', label: 'Blog' },
+  { href: blogPath, label: 'Blog' },
   { href: '/contactme', label: 'Contact Me' },
 ];
 

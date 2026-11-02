@@ -1,16 +1,19 @@
 import { ImageResponse } from 'next/og';
 import series from '@/content/series';
 import userData from '@/utils/data';
-import { getPost, getPosts } from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
 import { formatPostDate } from '@/utils/utils';
 
 export const alt = 'Blog post by Jaival Saija';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-// One card per post, rendered at build time alongside the page.
+// One card per post, rendered at build time alongside the page. An unknown
+// slug is a 404, as on the page, not a render attempt.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const { posts } = await getBlog();
   return posts.map(({ slug }) => ({ slug }));
 }
 
@@ -22,7 +25,7 @@ export default async function Image({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = (await getBlog()).post(slug);
   const title = post?.title ?? userData.name;
 
   return new ImageResponse(

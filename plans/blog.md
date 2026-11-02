@@ -28,7 +28,8 @@ A place on the site for what I'm building and learning: long posts and short upd
   };
   ```
 
-  `utils/posts.ts` checks it with zod, so a typo fails the build instead of shipping a broken page.
+  `utils/blog/index.ts` checks it with zod, so a typo fails the build instead of shipping a broken
+  page.
 
 - **Same-day order**: an optional `time: 'HH:mm'` orders posts that share a date; a post without one
   counts as 00:00. It isn't shown anywhere, so `date` stays a plain day.
@@ -66,7 +67,9 @@ A place on the site for what I'm building and learning: long posts and short upd
 ```txt
 content/posts/<slug>.mdx           one file per entry; the file name is the URL
 mdx-components.tsx                 element -> styled component map (required by @next/mdx)
-utils/posts.ts                     getPosts() / getPost(slug): read, validate, filter drafts, sort
+utils/blog/index.ts                getBlog(): read, validate, filter drafts, sort, number, version
+utils/blog/reader.ts               fs + MDX adapter; tests swap in posts from memory
+utils/blog/paths.ts                every /blog URL: postPath, seriesPath, versionPath, parseVersion
 app/blog/page.tsx                  the feed
 app/blog/[slug]/page.tsx           the post page, generateStaticParams + dynamicParams = false
 app/blog/[slug]/opengraph-image.tsx

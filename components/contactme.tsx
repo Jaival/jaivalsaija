@@ -112,9 +112,11 @@ export default function ContactMe() {
 
 ${data.name}
 ${data.email}`;
-      window.location.href = `mailto:${userData.email}?subject=${encodeURIComponent(
-        data.subject,
-      )}&body=${encodeURIComponent(body)}`;
+      window.location.assign(
+        `mailto:${userData.email}?subject=${encodeURIComponent(
+          data.subject,
+        )}&body=${encodeURIComponent(body)}`,
+      );
 
       setSubmitStatus('success');
       form.reset();

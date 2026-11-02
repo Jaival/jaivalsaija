@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import series, { type SeriesId } from '@/content/series';
 import { seriesPath } from '@/utils/blog/paths';
+import { formatPostDate, kindLabel } from '@/utils/blog/kind';
 import type { PostSummary } from '@/utils/blog/types';
-import { formatPostDate } from '@/utils/utils';
 
 const badge = 'rounded-full px-2.5 py-0.5 text-xs font-medium';
 const badgeStyles = {
@@ -59,7 +59,7 @@ export default function PostMeta({
         </span>
       ) : (
         <span className={`${badge} ${badgeStyles[type]}`}>
-          {type === 'update' ? 'Update' : 'Post'}
+          {kindLabel(type)}
         </span>
       )}
       {updated && (

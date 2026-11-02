@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import userData from 'utils/data';
 import { useState, type CSSProperties } from 'react';
-import { ProjectCardProps } from '@/utils/interface';
+import type { Project } from '@/utils/data';
 import BackgroundElements from './backgroundElements';
 import Reveal from './Reveal';
 import {
@@ -48,7 +48,7 @@ function ProjectCard({
   websiteUrl,
   websiteLabel = 'Live site',
   ships,
-}: ProjectCardProps) {
+}: Project & { number: number }) {
   const [isLoading, setIsLoading] = useState(true);
   const primaryUrl = websiteUrl ?? githubUrl;
 

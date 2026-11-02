@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { CSSProperties } from 'react';
 import userData from 'utils/data';
-import type { Experience as ExperienceEntry } from '@/utils/interface';
+import type { Experience as ExperienceEntry } from '@/utils/data';
 import PageHeader from './PageHeader';
 import Reveal from './Reveal';
 import { durations, easeOut } from '@/utils/animations';

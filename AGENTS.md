@@ -18,8 +18,8 @@ Jaival Saija's personal site. Edit outside the block above; `next dev` owns it.
   usually touch only that file.
 - Project card images go in `public/projects/`. `imgUrl` is optional: a card without one shows its
   title on a gradient, so leave it out rather than adding a placeholder.
-- The data types are declared twice, in `utils/data.ts` and `utils/interface.ts` (components import
-  props from the latter). Change a field in both.
+- The site content types (`Project`, `Experience`, ...) are declared once, in `utils/data.ts`.
+  Components import them from there. Blog types live in `utils/interface.ts`.
 - Copy voice: first person, plain and concrete (real numbers, real stack names). Match the existing
   entries; write project descriptions from the project's own README.
 

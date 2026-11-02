@@ -1,5 +1,6 @@
-// Blog-related interfaces. The zod schema in utils/posts.ts validates these
-// fields at build time; keep the two in step.
+// Blog types. The zod schema in utils/blog/index.ts validates PostMetadata at
+// build time; keep the two in step. No server-only here: components import
+// these types too.
 export type PostType = 'post' | 'update';
 
 export interface PostMetadata {
@@ -54,6 +55,8 @@ export interface PostSummary extends PostMetadata {
 export interface PostVersionSummary {
   /** 1-based; the highest number is the current post. */
   version: number;
+  /** The live post at /blog/<slug>; every other version is frozen. */
+  isCurrent: boolean;
   /** ISO date the version was written: its `updated`, else its `date`. */
   date: string;
   changes?: string;

@@ -5,7 +5,8 @@ import type { CSSProperties } from 'react';
 import BackgroundElements from '@/components/backgroundElements';
 import PostTimeline from '@/components/postTimeline';
 import series, { type SeriesId } from '@/content/series';
-import { getPost, getPosts, getSeriesPosts } from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
+import { blogPath, postPath, seriesPath } from '@/utils/blog/paths';
 import { gradientText } from '@/utils/styles';
 
 interface SeriesPageProps {
@@ -18,7 +19,7 @@ const isSeriesId = (id: string): id is SeriesId => Object.hasOwn(series, id);
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const { posts } = await getBlog();
   const used = new Set(posts.map(post => post.series).filter(Boolean));
   return [...used].map(id => ({ series: id as string }));
 }
@@ -34,7 +35,7 @@ export async function generateMetadata({
   return {
     title: `${title} - Jaival Saija`,
     description,
-    alternates: { canonical: `/blog/series/${id}` },
+    alternates: { canonical: seriesPath(id) },
   };
 }
 
@@ -47,13 +48,9 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   }
 
   const { title, description, url, guide: guideSlug } = series[id];
-  const parts = await getSeriesPosts(id);
-  const guide = guideSlug ? await getPost(guideSlug) : undefined;
-  if (guideSlug && !guide) {
-    throw new Error(
-      `content/series.ts names guide ${guideSlug}, which isn't a post`,
-    );
-  }
+  const blog = await getBlog();
+  const parts = blog.series(id);
+  const guide = guideSlug ? blog.post(guideSlug) : undefined;
 
   // Above the fold: the CSS entrance, as on the post page.
   return (
@@ -62,7 +59,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 
       <div className='relative z-10 max-w-3xl mx-auto px-4 md:px-8 pt-12 md:pt-20'>
         <Link
-          href='/blog'
+          href={blogPath}
           className='animate-enter inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-primary'
           style={step(0)}
         >
@@ -104,7 +101,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 
         {guide && (
           <Link
-            href={`/blog/${guide.slug}`}
+            href={postPath(guide.slug)}
             className='animate-enter group mb-12 flex flex-col gap-1 rounded-2xl border border-primary/30 bg-card/50 p-5 transition-[border-color,background-color] duration-200 ease-out hover:border-primary/60 hover:bg-card/70'
             style={step(3)}
           >

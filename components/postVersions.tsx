@@ -1,6 +1,6 @@
 import { GitBranch, GitCommitHorizontal, Tag } from 'lucide-react';
 import Link from 'next/link';
-import type { PostVersionSummary } from '@/utils/interface';
+import type { PostVersionSummary } from '@/utils/blog/types';
 import { formatPostDate } from '@/utils/utils';
 import Reveal from './Reveal';
 
@@ -51,9 +51,9 @@ interface VersionsProps {
  * first, each a link to that version. Only rendered with two or more.
  */
 export function VersionGraph({ versions, viewing }: VersionsProps) {
-  const latest = versions.at(-1)!;
-  const isOld = viewing !== latest.version;
   const here = versions.find(entry => entry.version === viewing)!;
+  const current = versions.find(entry => entry.isCurrent)!;
+  const isOld = !here.isCurrent;
 
   return (
     <nav
@@ -109,8 +109,8 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
             Reading v{viewing} from {formatPostDate(here.date)}
           </span>
           {' · '}
-          <Link href={latest.href} className={textLink}>
-            v{latest.version} is current <span aria-hidden>→</span>
+          <Link href={current.href} className={textLink}>
+            v{current.version} is current <span aria-hidden>→</span>
           </Link>
         </span>
       ) : (
@@ -135,8 +135,7 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
  * first, one row per version with what it changed. Other rows are links.
  */
 export function VersionHistory({ versions, viewing }: VersionsProps) {
-  const latest = versions.at(-1)!.version;
-  const isOld = viewing !== latest;
+  const isOld = !versions.find(entry => entry.version === viewing)!.isCurrent;
   const rows = versions.toReversed();
 
   return (
@@ -159,7 +158,10 @@ export function VersionHistory({ versions, viewing }: VersionsProps) {
 
         <ol className='rounded-2xl border border-border bg-card/50 py-2'>
           {rows.map(
-            ({ version, date, changes, href, release, notesHref }, index) => {
+            (
+              { version, isCurrent, date, changes, href, release, notesHref },
+              index,
+            ) => {
               const isHere = version === viewing;
               // The rail joins the dots through each row's padding: from the
               // first dot down, and up to the last, never past either end. The
@@ -199,9 +201,7 @@ export function VersionHistory({ versions, viewing }: VersionsProps) {
                           v{version}
                         </Link>
                       )}
-                      {version === latest && (
-                        <span className={mainTag}>main</span>
-                      )}
+                      {isCurrent && <span className={mainTag}>main</span>}
                       {isHere && <span className={headTag}>HEAD</span>}
                       {release && <ReleaseTag release={release} />}
                     </span>

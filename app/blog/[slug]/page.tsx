@@ -7,13 +7,8 @@ import {
   VersionHistory,
 } from '@/components/postVersions';
 import SeriesNav from '@/components/seriesNav';
-import {
-  getGuideVersion,
-  getPost,
-  getPosts,
-  getPostVersions,
-  getSeriesPosts,
-} from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
+import { postPath } from '@/utils/blog/paths';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -23,7 +18,7 @@ interface PostPageProps {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const { posts } = await getBlog();
   return posts.map(({ slug }) => ({ slug }));
 }
 
@@ -31,7 +26,7 @@ export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = (await getBlog()).post(slug);
   if (!post) {
     return {};
   }
@@ -39,12 +34,12 @@ export async function generateMetadata({
   return {
     title: `${post.title} - Jaival Saija`,
     description: post.summary,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: postPath(slug) },
     openGraph: {
       type: 'article',
       title: post.title,
       description: post.summary,
-      url: `/blog/${slug}`,
+      url: postPath(slug),
       publishedTime: post.date,
       modifiedTime: post.updated,
       authors: ['Jaival Saija'],
@@ -54,21 +49,19 @@ export async function generateMetadata({
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const blog = await getBlog();
+  const post = blog.post(slug);
   if (!post) {
     notFound();
   }
 
-  const parts = post.series ? await getSeriesPosts(post.series) : [];
-  const partIndex = parts.findIndex(part => part.slug === slug);
-  const versions = await getPostVersions(post);
+  const versions = blog.versions(post);
   const hasHistory = versions.length > 1;
-  const guide = await getGuideVersion(post);
+  const guide = blog.guideFor(post);
 
   return (
     <PostArticle
       post={post}
-      seriesPart={partIndex >= 0 ? partIndex + 1 : undefined}
       versions={
         hasHistory ? (
           <VersionGraph versions={versions} viewing={versions.length} />
@@ -81,8 +74,12 @@ export default async function PostPage({ params }: PostPageProps) {
       {hasHistory && (
         <VersionHistory versions={versions} viewing={versions.length} />
       )}
-      {post.series && partIndex >= 0 && (
-        <SeriesNav seriesId={post.series} parts={parts} index={partIndex} />
+      {post.series && post.seriesPart && (
+        <SeriesNav
+          seriesId={post.series}
+          parts={blog.series(post.series)}
+          index={post.seriesPart - 1}
+        />
       )}
     </PostArticle>
   );

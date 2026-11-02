@@ -6,6 +6,7 @@ import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { feedPath } from '@/utils/blog/paths';
 import { siteUrl } from '@/utils/site';
 import './globals.css';
 
@@ -44,9 +45,7 @@ export const metadata: Metadata = {
   // Lets feed readers find the blog's RSS from any page on the site.
   alternates: {
     types: {
-      'application/rss+xml': [
-        { url: '/blog/rss.xml', title: 'Jaival Saija - Blog' },
-      ],
+      'application/rss+xml': [{ url: feedPath, title: 'Jaival Saija - Blog' }],
     },
   },
   openGraph: {

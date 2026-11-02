@@ -2,7 +2,8 @@ import { Rss } from 'lucide-react';
 import { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
 import PostTimeline from '@/components/postTimeline';
-import { getFeed } from '@/utils/posts';
+import { getBlog } from '@/utils/blog';
+import { feedPath } from '@/utils/blog/paths';
 
 export const metadata: Metadata = {
   title: 'Blog - Jaival Saija',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const items = await getFeed();
+  const { feed: items } = await getBlog();
 
   return (
     <div className='min-h-svh pb-24'>
@@ -23,7 +24,7 @@ export default async function BlogPage() {
       <div className='max-w-3xl mx-auto px-4 md:px-8 mt-12'>
         {/* A plain link, not a Next <Link>: the feed is XML, not a page. */}
         <a
-          href='/blog/rss.xml'
+          href={feedPath}
           className='mb-10 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-primary'
         >
           <Rss aria-hidden className='size-4' />

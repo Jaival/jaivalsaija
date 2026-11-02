@@ -19,7 +19,14 @@ Jaival Saija's personal site. Edit outside the block above; `next dev` owns it.
 - Project card images go in `public/projects/`. `imgUrl` is optional: a card without one shows its
   title on a gradient, so leave it out rather than adding a placeholder.
 - The site content types (`Project`, `Experience`, ...) are declared once, in `utils/data.ts`.
-  Components import them from there. Blog types live in `utils/interface.ts`.
+  Components import them from there. Blog types live in `utils/blog/types.ts`.
+
+## Blog
+
+- `getBlog()` in `utils/blog/` is the only way to read posts. It validates all of `content/` once
+  per render, so a content mistake fails the build.
+- Build every blog URL with `utils/blog/paths.ts`; don't write `/blog/...` by hand.
+- Tests: `bun run test`. They run `loadBlog` on posts from memory, not on `content/`.
 - Copy voice: first person, plain and concrete (real numbers, real stack names). Match the existing
   entries; write project descriptions from the project's own README.
 

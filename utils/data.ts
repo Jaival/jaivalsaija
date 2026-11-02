@@ -1,3 +1,5 @@
+import { postPath } from '@/utils/blog/paths';
+
 // Enhanced type definitions for better type safety
 export interface Project {
   title: string;
@@ -92,7 +94,7 @@ const userData: UserData = {
       description:
         'An LLM agent for my own job search, run every day as a Claude Code scheduled task. It pulls new ads from job APIs, Indeed and Gmail alerts, scores them against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. Its rules treat ad text as untrusted input, so prompt-injection attempts get reported instead of followed, and every claim has to come from my master CV. The Python builder then enforces the rest in code: it refuses drafts with placeholders, letters outside 250-350 words or a CV over two pages. Nothing is ever sent automatically.',
       githubUrl: 'https://github.com/Jaival/jobhunt-agent',
-      websiteUrl: '/blog/jobhunt-agent-setup',
+      websiteUrl: postPath('jobhunt-agent-setup'),
       websiteLabel: 'Setup guide',
       ships:
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',

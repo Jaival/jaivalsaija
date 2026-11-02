@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import series, { type SeriesId } from '@/content/series';
-import type { Post } from '@/utils/posts';
+import type { Post } from '@/utils/blog';
+import { postPath, seriesPath } from '@/utils/blog/paths';
 import Reveal from './Reveal';
 
 const card =
@@ -27,7 +28,7 @@ export default function SeriesNav({
             {series[seriesId].title}
           </h2>
           <Link
-            href={`/blog/series/${seriesId}`}
+            href={seriesPath(seriesId)}
             className='text-sm font-medium text-primary transition-colors duration-200 ease-out hover:text-brand-to'
           >
             All {parts.length} {parts.length === 1 ? 'part' : 'parts'}{' '}
@@ -38,7 +39,7 @@ export default function SeriesNav({
         {(previous || next) && (
           <div className='grid gap-4 sm:grid-cols-2'>
             {previous ? (
-              <Link href={`/blog/${previous.slug}`} className={card}>
+              <Link href={postPath(previous.slug)} className={card}>
                 <span className='text-xs font-medium text-muted-foreground'>
                   <span aria-hidden>←</span> Part {index}
                 </span>
@@ -51,7 +52,7 @@ export default function SeriesNav({
             )}
             {next && (
               <Link
-                href={`/blog/${next.slug}`}
+                href={postPath(next.slug)}
                 className={`${card} sm:text-right`}
               >
                 <span className='text-xs font-medium text-muted-foreground'>

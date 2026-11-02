@@ -1,6 +1,7 @@
 import series from '@/content/series';
 import userData from '@/utils/data';
 import { getBlog } from '@/utils/blog';
+import { calendarDay, kindLabel } from '@/utils/blog/kind';
 import { blogPath, feedPath, postPath } from '@/utils/blog/paths';
 import { absoluteUrl } from '@/utils/site';
 
@@ -16,8 +17,8 @@ const escapeXml = (value: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 
-/** RSS wants RFC 822 dates; post dates are calendar days in UTC. */
-const rssDate = (date: string) => new Date(`${date}T00:00:00Z`).toUTCString();
+/** RSS wants RFC 822 dates. */
+const rssDate = (date: string) => calendarDay(date).toUTCString();
 
 export async function GET() {
   const { posts } = await getBlog();
@@ -27,7 +28,7 @@ export async function GET() {
     .map(post => {
       const url = absoluteUrl(postPath(post.slug));
       const categories = [
-        post.type === 'update' ? 'Update' : 'Post',
+        kindLabel(post.type),
         ...(post.series ? [series[post.series].title] : []),
       ];
       return `    <item>

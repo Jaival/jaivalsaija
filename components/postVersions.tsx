@@ -1,7 +1,7 @@
 import { GitBranch, GitCommitHorizontal, Tag } from 'lucide-react';
 import Link from 'next/link';
+import { formatPostDate } from '@/utils/blog/kind';
 import type { PostVersionSummary } from '@/utils/blog/types';
-import { formatPostDate } from '@/utils/utils';
 import Reveal from './Reveal';
 
 // Both views borrow from git: versions are commits on one branch, `main` is

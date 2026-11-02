@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import series from '@/content/series';
 import userData from '@/utils/data';
 import { getBlog } from '@/utils/blog';
-import { formatPostDate } from '@/utils/utils';
+import { formatPostDate, kindLabel } from '@/utils/blog/kind';
 
 export const alt = 'Blog post by Jaival Saija';
 export const size = { width: 1200, height: 630 };
@@ -54,7 +54,7 @@ export default async function Image({
         }}
       >
         {post
-          ? `${post.series ? series[post.series].title : post.type === 'update' ? 'Update' : 'Blog'} · ${formatPostDate(post.date)}`
+          ? `${post.series ? series[post.series].title : kindLabel(post.type)} · ${formatPostDate(post.date)}`
           : 'Blog'}
       </div>
 

@@ -25,14 +25,13 @@ standalone-post OG images.
 
 ## Next
 
-- **CI.** No workflow runs the checks yet; Vercel only builds. Add a GitHub Actions job on pull
-  requests: `bun install --frozen-lockfile`, then `bun run code-quality` (type-check, lint, format
-  check, tests) and `bun run build`.
+- **CI.** Done: `.github/workflows/ci.yml` runs `bun install --frozen-lockfile`,
+  `bun run code-quality` and `bun run build` on every pull request and on `main`. Make the `check`
+  job a required status check in the branch protection for `main`.
 - **CV variants** (review candidate 5) were left for later.
 
 ## Open decisions
 
-- `tsconfig.json` fails `prettier --check` on `main`. It was left as is to keep the PRs small.
 - A content mistake now fails the whole build, not only the page that reads it. That is the intent;
   revisit if drafts in progress start blocking deploys.
 - An old version of a post inherits the current version's `seriesPart`. No versioned post is in a

@@ -95,11 +95,7 @@ function Bullets({ items }: { items: string[] }) {
 }
 
 function Heading({ children, first }: { children: string; first?: boolean }) {
-  return (
-    <Text style={[s.heading, first ? s.first : {}]}>
-      {children}
-    </Text>
-  );
+  return <Text style={[s.heading, first ? s.first : {}]}>{children}</Text>;
 }
 
 function Entry({

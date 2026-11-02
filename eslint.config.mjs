@@ -7,7 +7,6 @@ export default [
     rules: {
       // Code style and formatting
       quotes: ['error', 'single', { avoidEscape: true }],
-      indent: ['warn', 2, { SwitchCase: 1 }],
       semi: ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
       'object-curly-spacing': ['error', 'always'],

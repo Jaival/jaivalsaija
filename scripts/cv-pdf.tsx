@@ -1,24 +1,26 @@
-// Renders the CV PDF: `bun run cv:pdf`. Run it from the repo root after
-// editing utils/cv.ts (words) or components/cv/cvPdfClassic.tsx (layout).
+// Renders utils/cv.ts to a PDF in the Pipeline layout
+// (components/cv/cvPdfPipeline.tsx). public/cv.pdf is my master CV, built
+// outside this repo, so writing over it takes --force.
 //
-//   bun run cv:pdf                                   junior → public/cv.pdf
-//   bun run cv:pdf --variant student --out x.pdf     any variant, any path
+//   bun run cv:pdf --out x.pdf             any other path
+//   bun run cv:pdf --force                 replace public/cv.pdf
 
 import { parseArgs } from 'node:util';
 import { renderToFile } from '@react-pdf/renderer';
-import CvPdfClassic, { type CvVariant } from '@/components/cv/cvPdfClassic';
+import CvPdfPipeline from '@/components/cv/cvPdfPipeline';
 import userData from '@/utils/data';
 
 const { values } = parseArgs({
   options: {
-    variant: { type: 'string', default: 'junior' },
     out: { type: 'string', default: `public${userData.resumeUrl}` },
+    force: { type: 'boolean', default: false },
   },
 });
-if (values.variant !== 'junior' && values.variant !== 'student') {
-  throw new Error(`--variant must be junior or student, not ${values.variant}`);
+if (values.out === `public${userData.resumeUrl}` && !values.force) {
+  throw new Error(
+    `${values.out} is the master CV. Pass --out <path>, or --force to replace it.`,
+  );
 }
-const variant: CvVariant = values.variant;
 
-await renderToFile(<CvPdfClassic variant={variant} />, values.out);
-process.stdout.write(`Wrote ${values.out} (${variant})\n`);
+await renderToFile(<CvPdfPipeline />, values.out);
+process.stdout.write(`Wrote ${values.out}\n`);

@@ -1,20 +1,33 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import type { ReactNode } from 'react';
-import { Font, Text, type StyleSheet } from '@react-pdf/renderer';
+import { Font } from '@react-pdf/renderer';
 import { cv } from '@/utils/cv';
 
-// Setup and helpers for the PDF layout (cvPdfClassic.tsx). Runs only in
+// Setup and helpers for the PDF layout (cvPdfPipeline.tsx). Runs only in
 // scripts/cv-pdf.tsx, never in the Next bundle.
 
-const fonts = path.join(
-  process.cwd(),
-  'node_modules/@fontsource/google-sans/files',
-);
+const fontDir = (pkg: string) =>
+  path.join(process.cwd(), 'node_modules/@fontsource', pkg, 'files');
+const sans = fontDir('google-sans');
+const monoDir = fontDir('jetbrains-mono');
 Font.register({
   family: 'google-sans',
-  fonts: [400, 600, 700].map(fontWeight => ({
-    src: path.join(fonts, `google-sans-latin-${fontWeight}-normal.woff`),
+  fonts: [
+    ...[400, 600, 700].map(fontWeight => ({
+      src: path.join(sans, `google-sans-latin-${fontWeight}-normal.woff`),
+      fontWeight,
+    })),
+    {
+      src: path.join(sans, 'google-sans-latin-400-italic.woff'),
+      fontWeight: 400,
+      fontStyle: 'italic' as const,
+    },
+  ],
+});
+Font.register({
+  family: 'jetbrains-mono',
+  fonts: [400, 500, 700].map(fontWeight => ({
+    src: path.join(monoDir, `jetbrains-mono-latin-${fontWeight}-normal.woff`),
     fontWeight,
   })),
 });
@@ -35,19 +48,3 @@ export const photo = {
   data: readFileSync(path.join(process.cwd(), 'public', cv.photo)),
   format: 'jpg' as const,
 };
-
-/** Turns `**bold**` in the CV strings into bold runs. */
-export function rich(
-  text: string,
-  bold: ReturnType<typeof StyleSheet.create>[string],
-): ReactNode {
-  return text.split('**').map((part, i) =>
-    i % 2 ? (
-      <Text key={i} style={bold}>
-        {part}
-      </Text>
-    ) : (
-      part
-    ),
-  );
-}

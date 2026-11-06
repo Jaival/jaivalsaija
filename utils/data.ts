@@ -73,7 +73,7 @@ export interface UserData {
   /** Work only, newest first. Degrees live in education. */
   experience: Experience[];
   education: Experience[];
-  /** Self-hosted, phone number removed: the repo and the file are public. */
+  /** My master CV PDF, copied in as is. */
   resumeUrl: string;
   socialLinks: SocialLinks;
 }

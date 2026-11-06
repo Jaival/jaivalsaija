@@ -1,0 +1,756 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      /* Fallbacks so the file opens on its own in a browser. */
+      :root {
+        --border: #d3dde0;
+        --radius: 10px;
+        --font-sans: system-ui, sans-serif;
+        --muted-foreground: #5b6669;
+      }
+      body {
+        max-width: 760px;
+        margin: 24px auto !important;
+        padding: 0 12px;
+      }
+      :root {
+        --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+      }
+      body {
+        margin: 0;
+      }
+      .wrap {
+        display: grid;
+        gap: 28px;
+      }
+      .label {
+        font: 600 12px/1.4 var(--font-sans);
+        color: var(--muted-foreground);
+        margin: 0 0 8px 2px;
+        letter-spacing: 0.02em;
+      }
+      /* The site itself: Tidewater light palette */
+      .site {
+        --bg: #f7fbfb;
+        --fg: #14181a;
+        --body: #22292b;
+        --muted: #4a5558;
+        --accent: #0b5e6b;
+        --rule: #d3dde0;
+        --chip: #eef4f5;
+        background: var(--bg);
+        color: var(--body);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        font:
+          14px/1.55 'Space Grotesk',
+          var(--font-sans);
+      }
+      .site.dark {
+        --bg: #0f1719;
+        --fg: #e8f0f1;
+        --body: #cfdadc;
+        --muted: #93a4a8;
+        --accent: #5cc3cf;
+        --rule: #263236;
+        --chip: #172225;
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        background: var(--chip);
+        border-bottom: 1px solid var(--rule);
+      }
+      .bar i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--rule);
+        display: inline-block;
+      }
+      .bar span {
+        margin-left: 10px;
+        font: 11px var(--mono);
+        color: var(--muted);
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 28px;
+        border-bottom: 1px solid var(--rule);
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+      nav b {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      nav b em {
+        color: var(--muted);
+        font-style: normal;
+        font-weight: 400;
+      }
+      nav .links {
+        display: flex;
+        gap: 14px;
+        color: var(--muted);
+      }
+      nav .links .on {
+        color: var(--accent);
+        border-bottom: 1.5px solid var(--accent);
+      }
+      main {
+        padding: 28px 28px 32px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 38px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: var(--fg);
+      }
+      .tag {
+        font: 500 13px var(--mono);
+        color: var(--accent);
+        margin-top: 6px;
+      }
+      .tag .cur {
+        display: inline-block;
+        width: 7px;
+        height: 14px;
+        background: var(--accent);
+        vertical-align: -2px;
+        margin-left: 3px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .photo {
+        width: 104px;
+        height: 104px;
+        border-radius: 10px;
+        flex: none;
+        background: linear-gradient(135deg, #2d4a52, #7fa7ae);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font: 600 11px var(--mono);
+      }
+      .h2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 26px 0 12px;
+        font: 700 12px var(--mono);
+        color: var(--accent);
+        letter-spacing: 0.03em;
+      }
+      .h2::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--rule);
+      }
+      .h2 .n {
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .rows {
+        display: grid;
+        grid-template-columns: 9.5rem 1fr;
+        gap: 4px 14px;
+      }
+      .rows dt {
+        font: 500 12px/1.9 var(--mono);
+        color: var(--accent);
+      }
+      .rows dd {
+        margin: 0;
+        color: var(--body);
+      }
+      .t {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+      }
+      .t h3 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--fg);
+      }
+      .t h3 b {
+        font-weight: 600;
+      }
+      .t h3 span {
+        color: var(--muted);
+      }
+      .d {
+        font: 12px var(--mono);
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .repo {
+        font: 12px var(--mono);
+        color: var(--muted);
+        text-decoration: underline;
+        text-decoration-color: var(--rule);
+        text-underline-offset: 3px;
+      }
+      .ctx {
+        font-style: italic;
+        color: var(--muted);
+        margin: 2px 0 0;
+      }
+      .job {
+        border-left: 2px solid var(--accent);
+        padding-left: 14px;
+      }
+      ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 2px 0;
+      }
+      li::marker {
+        color: var(--accent);
+      }
+      .item {
+        margin-bottom: 16px;
+      }
+      .ships {
+        margin-top: 4px;
+        font-size: 13px;
+      }
+      .ships code {
+        font: 500 11.5px var(--mono);
+        color: var(--accent);
+        margin-right: 6px;
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .btn {
+        font: 500 13px var(--font-sans);
+        padding: 9px 18px;
+        border-radius: 6px;
+        background: var(--accent);
+        color: var(--bg);
+      }
+      .btn.o {
+        background: transparent;
+        color: var(--accent);
+        border: 1.5px solid var(--accent);
+      }
+      .btn code {
+        font-family: var(--mono);
+      }
+      .kind {
+        font: 500 11px var(--mono);
+        color: var(--accent);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 1px 6px;
+        margin-right: 8px;
+      }
+      .post {
+        padding: 10px 0;
+        border-bottom: 1px dashed var(--rule);
+      }
+      .post p {
+        margin: 3px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      .field label {
+        display: block;
+        font: 500 12px var(--mono);
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+      .field div {
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 8px 10px;
+        color: var(--muted);
+        font-size: 13px;
+        background: var(--bg);
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 28px;
+      }
+      .term {
+        font: 12px/1.7 var(--mono);
+        background: var(--chip);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 12px 14px;
+        color: var(--body);
+      }
+      .term .p {
+        color: var(--accent);
+      }
+      .ok {
+        color: #2f8a5a;
+      }
+      .lead {
+        font-size: 18px;
+        color: var(--fg);
+        line-height: 1.45;
+        margin: 0 0 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- HOME -->
+      <div>
+        <p class="label">1 · Home ( / )</p>
+        <div class="site">
+          <div class="bar">
+            <i></i><i></i><i></i><span>jaivalsaija.vercel.app</span>
+          </div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span>about</span><span>projects</span><span>experience</span
+              ><span>cv</span><span>blog</span><span>contact</span
+              ><span>◐</span>
+            </div>
+          </nav>
+          <main>
+            <div class="head">
+              <div>
+                <h1>Jaival Saija</h1>
+                <div class="tag">
+                  $ junior-devops-engineer --aws --github-actions --docker<span
+                    class="cur"
+                  ></span>
+                </div>
+                <p style="max-width: 520px; margin: 14px 0 0">
+                  Junior DevOps &amp; Cloud Engineer. I kept AWS running in
+                  production at Maven Infosoft and fixed 50+ incidents in my
+                  first six months. Now an M.Sc. student at RPTU Kaiserslautern,
+                  building a Kubernetes lab.
+                </p>
+              </div>
+              <div class="photo">photo</div>
+            </div>
+            <div class="h2">status</div>
+            <dl class="rows">
+              <dt>looking_for</dt>
+              <dd>
+                Working student or junior role · DevOps, cloud, platform ·
+                anywhere in Germany
+              </dd>
+              <dt>hours</dt>
+              <dd>20 h/week in semester · up to 40 in breaks</dd>
+              <dt>start</dt>
+              <dd><span class="ok">●</span> available immediately</dd>
+              <dt>permit</dt>
+              <dd>§16b AufenthG student permit</dd>
+              <dt>languages</dt>
+              <dd>English C1 · German A1</dd>
+            </dl>
+            <div class="btns">
+              <span class="btn">Download CV</span
+              ><span class="btn o">View my work</span>
+            </div>
+            <div class="h2">recent posts</div>
+            <div class="post">
+              <div class="t">
+                <h3>
+                  <span class="kind">release</span
+                  ><b>jobhunt-agent v1.0.0: updates I can trust</b>
+                </h3>
+                <span class="d">01 Nov 2026</span>
+              </div>
+            </div>
+            <div class="post">
+              <div class="t">
+                <h3>
+                  <span class="kind">update</span
+                  ><b>Publishing to npm with no token</b>
+                </h3>
+                <span class="d">26 Oct 2026</span>
+              </div>
+            </div>
+            <div class="post" style="border: 0">
+              <div class="t">
+                <h3>
+                  <span class="kind">update</span
+                  ><b>Building this blog without a database</b>
+                </h3>
+                <span class="d">22 Oct 2026</span>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div>
+        <p class="label">2 · About me ( /aboutme )</p>
+        <div class="site">
+          <div class="bar"><i></i><i></i><i></i><span>/aboutme</span></div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span class="on">about</span><span>projects</span
+              ><span>experience</span><span>cv</span><span>blog</span
+              ><span>contact</span>
+            </div>
+          </nav>
+          <main>
+            <div class="tag" style="margin: 0 0 6px">$ whoami</div>
+            <p class="lead">
+              I'm a DevOps engineer. I like deployments that are boring, and
+              servers that stay up without anyone watching them.
+            </p>
+            <div class="h2">story</div>
+            <p style="margin: 0 0 10px">
+              I got into computers at 15, mostly because of games… Cloud is the
+              part that held me: CGPA 8.67, top 10% of my class.
+            </p>
+            <p style="margin: 0">
+              My first job was at Maven Infosoft, running AWS for a .NET CMS
+              across Dev, Stage and Production. Alerts came to me first…
+            </p>
+            <div class="h2">skills</div>
+            <dl class="rows">
+              <dt>cloud</dt>
+              <dd>AWS (EC2, S3, IAM, VPC, CloudWatch), Firebase</dd>
+              <dt>ci_cd &amp; iac</dt>
+              <dd>GitHub Actions, Terraform (basics), Git</dd>
+              <dt>containers</dt>
+              <dd>
+                Docker
+                <span class="muted">· learning: Kubernetes (kind), Helm</span>
+              </dd>
+              <dt>monitoring</dt>
+              <dd>
+                AWS CloudWatch alarms
+                <span class="muted">· learning: Prometheus, Grafana</span>
+              </dd>
+              <dt>…</dt>
+              <dd class="muted">same rows as the CV</dd>
+            </dl>
+          </main>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div>
+        <p class="label">3 · Projects ( /projects )</p>
+        <div class="site">
+          <div class="bar"><i></i><i></i><i></i><span>/projects</span></div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span>about</span><span class="on">projects</span
+              ><span>experience</span><span>cv</span><span>blog</span
+              ><span>contact</span>
+            </div>
+          </nav>
+          <main>
+            <div class="tag" style="margin: 0 0 4px">
+              $ ls ~/projects --sort=devops
+            </div>
+            <div class="h2">projects <span class="n">11</span></div>
+            <div class="item job">
+              <div class="t">
+                <h3>
+                  <b>Kubernetes Learning Lab</b>
+                  <span>· kind, Helm, Prometheus, Grafana</span>
+                </h3>
+                <span class="d">10/2026 – present</span>
+              </div>
+              <span class="repo"
+                >github.com/Jaival/kubernetes-learning-lab</span
+              >
+              <p style="margin: 4px 0 0">
+                Fourteen modules on a local three-node kind cluster, from Pods
+                and Gateway API routing to RBAC, Helm and Argo CD.
+              </p>
+              <div class="ships">
+                <code>ships:</code
+                ><span class="muted"
+                  >Nothing ships yet. The capstone will deploy through Argo
+                  CD.</span
+                >
+              </div>
+            </div>
+            <div class="item job">
+              <div class="t">
+                <h3>
+                  <b>NextGleis</b>
+                  <span>· Expo, React Native, Node.js on Vercel</span>
+                </h3>
+                <span class="d">08/2026 – 10/2026</span>
+              </div>
+              <span class="repo">github.com/Jaival/NextGleis</span>
+              <p style="margin: 4px 0 0">
+                Android departure board for German buses and trains; a
+                serverless proxy turns DB XML into JSON and keeps keys off the
+                device.
+              </p>
+              <div class="ships">
+                <code>ships:</code
+                ><span class="muted"
+                  >CI on every PR · merge to main deploys the proxy and
+                  smoke-tests it · tag builds the APK on EAS</span
+                >
+              </div>
+            </div>
+            <div class="item job" style="margin: 0">
+              <div class="t">
+                <h3>
+                  <b>jobhunt-agent</b> <span>· Claude Code, MCP, Python</span>
+                </h3>
+                <span class="d">09/2026 – present</span>
+              </div>
+              <span class="repo">github.com/Jaival/jobhunt-agent</span>
+              <span class="muted">·</span> <span class="repo">setup guide</span>
+              <div class="ships">
+                <code>ships:</code
+                ><span class="muted"
+                  >pytest suite builds a sample workspace end to end</span
+                >
+              </div>
+            </div>
+            <p class="muted" style="margin: 16px 0 0; font: 12px var(--mono)">
+              … mdgloss, react-rough-notation, Invoicely, NextToBinge, Taskly,
+              themes (same row style; image shows as a small thumbnail at right
+              when the card has one)
+            </p>
+          </main>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div>
+        <p class="label">4 · Experience ( /experience )</p>
+        <div class="site">
+          <div class="bar"><i></i><i></i><i></i><span>/experience</span></div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span>about</span><span>projects</span
+              ><span class="on">experience</span><span>cv</span><span>blog</span
+              ><span>contact</span>
+            </div>
+          </nav>
+          <main>
+            <div class="tag" style="margin: 0 0 4px">$ git log --career</div>
+            <div class="h2">experience</div>
+            <div class="item">
+              <div class="t">
+                <h3>
+                  <b>Career break</b>
+                  <span>· Master's preparation and relocation to Germany</span>
+                </h3>
+                <span class="d">04/2022 – 09/2023</span>
+              </div>
+            </div>
+            <div class="item job">
+              <div class="t">
+                <h3>
+                  <b>Junior DevOps Engineer</b>
+                  <span>· Maven Infosoft, Ahmedabad</span>
+                </h3>
+                <span class="d">06/2021 – 03/2022</span>
+              </div>
+              <p class="ctx">
+                IT services company (~10 staff). CI/CD for 3 products; AWS for a
+                .NET school-management CMS (7 EC2 servers).
+              </p>
+              <ul>
+                <li>
+                  Resolved 50+ production incidents in my first six months…
+                </li>
+                <li>
+                  Automated testing, UAT and dev deployments for 3 products with
+                  GitHub Actions.
+                </li>
+                <li class="muted">+ 5 more</li>
+              </ul>
+            </div>
+            <div class="item job">
+              <div class="t">
+                <h3>
+                  <b>Junior Developer Intern</b>
+                  <span>· Apexa Information System</span>
+                </h3>
+                <span class="d">01/2020 – 06/2020</span>
+              </div>
+              <p class="ctx">
+                Internship on a task-management app for about 4 users, built end
+                to end.
+              </p>
+            </div>
+            <div class="h2">education</div>
+            <div class="item">
+              <div class="t">
+                <h3>
+                  <b>M.Sc. Computer Science</b>
+                  <span>· RPTU Kaiserslautern</span>
+                </h3>
+                <span class="d">10/2023 – 09/2027 (exp.)</span>
+              </div>
+              <p style="margin: 2px 0 0">
+                Focus: Distributed Systems, Network Security
+              </p>
+            </div>
+            <div class="item" style="margin: 0">
+              <div class="t">
+                <h3><b>B.Tech CSE</b> <span>· Ganpat University</span></h3>
+                <span class="d">08/2017 – 05/2021</span>
+              </div>
+              <p style="margin: 2px 0 0">
+                Cloud-Based Applications · CGPA 8.67 / 10 (top 10%)
+              </p>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <div>
+        <p class="label">5 · Blog ( /blog ) — dark theme</p>
+        <div class="site dark">
+          <div class="bar"><i></i><i></i><i></i><span>/blog</span></div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span>about</span><span>projects</span><span>experience</span
+              ><span>cv</span><span class="on">blog</span><span>contact</span>
+            </div>
+          </nav>
+          <main>
+            <div class="tag" style="margin: 0 0 4px">$ tail -f ~/blog</div>
+            <div class="h2">series</div>
+            <dl class="rows">
+              <dt>jobhunt-agent</dt>
+              <dd>setup guide + 4 releases · v0.3.0 → v1.0.0</dd>
+              <dt>kubernetes-lab</dt>
+              <dd>1 post</dd>
+            </dl>
+            <div class="h2">all posts</div>
+            <div class="post">
+              <div class="t">
+                <h3>
+                  <span class="kind">release</span
+                  ><b
+                    >jobhunt-agent v1.0.0: updates I can trust, and a brief I
+                    can answer</b
+                  >
+                </h3>
+                <span class="d">01 Nov 2026</span>
+              </div>
+              <p>
+                Updates only to tagged releases, stamps the engine and model on
+                everything it writes.
+              </p>
+            </div>
+            <div class="post">
+              <div class="t">
+                <h3>
+                  <span class="kind">update</span
+                  ><b
+                    >Publishing to npm with no token: trusted publishing over
+                    OIDC</b
+                  >
+                </h3>
+                <span class="d">26 Oct 2026</span>
+              </div>
+              <p>(summary from the post)</p>
+            </div>
+            <div class="post" style="border: 0">
+              <div class="t">
+                <h3>
+                  <span class="kind">update</span
+                  ><b>Starting a Kubernetes course on a local kind cluster</b>
+                </h3>
+                <span class="d">13 Oct 2026</span>
+              </div>
+              <p>(summary from the post)</p>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div>
+        <p class="label">6 · Contact ( /contactme )</p>
+        <div class="site">
+          <div class="bar"><i></i><i></i><i></i><span>/contactme</span></div>
+          <nav>
+            <b>jaival<em>@</em>saija<em>:~$</em></b>
+            <div class="links">
+              <span>about</span><span>projects</span><span>experience</span
+              ><span>cv</span><span>blog</span><span class="on">contact</span>
+            </div>
+          </nav>
+          <main>
+            <div class="tag" style="margin: 0 0 4px">$ ping jaival</div>
+            <div class="h2">contact</div>
+            <div class="grid2">
+              <div>
+                <dl class="rows" style="grid-template-columns: 6rem 1fr">
+                  <dt>email</dt>
+                  <dd>saijajaival@gmail.com</dd>
+                  <dt>linkedin</dt>
+                  <dd>in/jaivalsaija</dd>
+                  <dt>github</dt>
+                  <dd>Jaival</dd>
+                  <dt>location</dt>
+                  <dd>Kaiserslautern, Germany</dd>
+                </dl>
+                <div class="term" style="margin-top: 14px">
+                  <span class="p">$</span> curl jaivalsaija.vercel.app/cv.pdf
+                  -O<br /><span class="ok">✓</span> Jaival_Saija_CV.pdf · 2
+                  pages
+                </div>
+              </div>
+              <div>
+                <div class="field">
+                  <label>--name</label>
+                  <div>Your name</div>
+                </div>
+                <div class="field">
+                  <label>--email</label>
+                  <div>you@company.de</div>
+                </div>
+                <div class="field">
+                  <label>--message</label>
+                  <div style="height: 52px">Hi Jaival, …</div>
+                </div>
+                <span class="btn">Send <code>↵</code></span>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

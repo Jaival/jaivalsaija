@@ -39,6 +39,20 @@ const nextConfig = {
     // formats: ['image/avif', 'image/webp', 'image/png', 'image/jpeg'],
   },
 
+  // The old Vercel production alias still serves the site. Send it to the
+  // custom domain so search engines index one host. Matches the exact host
+  // only, so preview deployments (jaivalsaija-git-*.vercel.app) still work.
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'jaivalsaija.vercel.app' }],
+        destination: 'https://www.jaivalsaija.dev/:path*',
+        permanent: true,
+      },
+    ];
+  },
+
   // Security headers for better performance and security
   async headers() {
     return [

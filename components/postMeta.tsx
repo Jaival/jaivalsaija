@@ -1,113 +1,100 @@
 import Link from 'next/link';
+import { Fragment, type ReactNode } from 'react';
+import { KindTag } from '@/components/pipeline';
 import series, { type SeriesId } from '@/content/series';
 import { seriesPath } from '@/utils/blog/paths';
-import { formatPostDate, kindLabel } from '@/utils/blog/kind';
+import { formatPostDate, kindLabel, postKind } from '@/utils/blog/kind';
 import type { PostSummary } from '@/utils/blog/types';
 
-const badge = 'rounded-full px-2.5 py-0.5 text-xs font-medium';
-const badgeStyles = {
-  post: 'bg-primary/10 text-primary',
-  update: 'bg-highlight/20 text-highlight-foreground dark:text-highlight',
-  series: 'bg-brand-to/15 text-brand-to',
-};
-
 function PostDate({ date }: { date: string }) {
-  return (
-    <time dateTime={date} className='font-mono'>
-      {formatPostDate(date)}
-    </time>
-  );
+  return <time dateTime={date}>{formatPostDate(date)}</time>;
 }
-
-const row = 'flex flex-wrap items-center gap-3 text-sm text-muted-foreground';
 
 type PostMetaProps = Pick<
   PostSummary,
-  'date' | 'updated' | 'type' | 'draft' | 'seriesPart' | 'readingMinutes'
+  | 'date'
+  | 'updated'
+  | 'type'
+  | 'release'
+  | 'draft'
+  | 'seriesPart'
+  | 'readingMinutes'
 > & {
   series?: SeriesId;
-  /**
-   * How to show the series name: a link to its page, plain text (inside a
-   * card that is already a link), or not at all (on the series page itself).
-   */
-  seriesDisplay?: 'link' | 'text' | 'none';
   className?: string;
 };
 
 /**
- * Date, kind, update date, reading time, series and draft flag: the line
- * above every entry's title or body. A part of a series is badged "Part n"
- * rather than Post or Update: being in the series is what matters about it.
+ * The mono line above a post's title: kind tag, then date, update date,
+ * reading time and series part, `·` separated.
  */
 export default function PostMeta({
   date,
   updated,
   type,
+  release,
   draft,
   series: seriesId,
   seriesPart,
   readingMinutes,
-  seriesDisplay = 'text',
   className = '',
 }: PostMetaProps) {
-  return (
-    <div className={`${row} ${className}`}>
-      <PostDate date={date} />
-      {seriesId ? (
-        <span className={`${badge} ${badgeStyles.series}`}>
-          {seriesPart ? `Part ${seriesPart}` : 'Series'}
-        </span>
-      ) : (
-        <span className={`${badge} ${badgeStyles[type]}`}>
-          {kindLabel(type)}
-        </span>
-      )}
-      {updated && (
-        <span className='text-xs font-medium'>
-          Updated <PostDate date={updated} />
-        </span>
-      )}
-      {/* Updates are a paragraph or two; a read time there is noise. */}
-      {type === 'post' && (
-        <span className='text-xs font-medium'>{readingMinutes} min read</span>
-      )}
-      {seriesId && seriesDisplay === 'link' && (
-        <Link
-          href={seriesPath(seriesId)}
-          className='text-xs font-medium underline decoration-border underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary/40'
-        >
-          {series[seriesId].title}
-        </Link>
-      )}
-      {seriesId && seriesDisplay === 'text' && (
-        <span className='text-xs font-medium'>{series[seriesId].title}</span>
-      )}
-      {draft && (
-        <span className='rounded-full border border-dashed border-warning px-2.5 py-0.5 text-xs font-medium text-warning'>
-          Draft
-        </span>
-      )}
-    </div>
-  );
-}
+  const facts: { key: string; node: ReactNode }[] = [
+    { key: 'date', node: <PostDate date={date} /> },
+  ];
+  if (updated) {
+    facts.push({
+      key: 'updated',
+      node: (
+        <>
+          updated <PostDate date={updated} />
+        </>
+      ),
+    });
+  }
+  // Updates are a paragraph or two; a read time there is noise.
+  if (type === 'post') {
+    facts.push({ key: 'read', node: `${readingMinutes} min read` });
+  }
+  if (seriesId) {
+    facts.push({
+      key: 'series',
+      node: (
+        <>
+          {seriesPart && `part ${seriesPart} of `}
+          <Link
+            href={seriesPath(seriesId)}
+            className='underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary'
+          >
+            {series[seriesId].title}
+          </Link>
+        </>
+      ),
+    });
+  }
 
-/** The meta line for a whole series in the feed: last updated, part count. */
-export function SeriesMeta({
-  date,
-  parts,
-  className = '',
-}: {
-  date: string;
-  parts: number;
-  className?: string;
-}) {
   return (
-    <div className={`${row} ${className}`}>
-      <PostDate date={date} />
-      <span className={`${badge} ${badgeStyles.series}`}>Series</span>
-      <span className='text-xs font-medium'>
-        {parts} {parts === 1 ? 'part' : 'parts'}
-      </span>
-    </div>
+    <p
+      className={`flex flex-wrap items-center gap-y-1 font-mono text-sm text-muted-foreground ${className}`}
+    >
+      <KindTag>
+        {kindLabel(postKind({ type, release, series: seriesId }))}
+      </KindTag>
+      {draft && (
+        <span className='mr-2 inline-block rounded-sm border border-dashed border-warning px-1.5 leading-6 text-warning'>
+          draft
+        </span>
+      )}
+      {facts.map(({ key, node }, i) => (
+        <Fragment key={key}>
+          {i > 0 && (
+            <span aria-hidden className='px-2'>
+              ·
+            </span>
+          )}
+          <span>{node}</span>
+        </Fragment>
+      ))}
+    </p>
   );
 }

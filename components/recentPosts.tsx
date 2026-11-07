@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { KindTag, SectionLabel, TitleLine } from '@/components/pipeline';
 import { getBlog } from '@/utils/blog';
-import { kindLabel, formatPostDate } from '@/utils/blog/kind';
+import { formatPostDate, kindLabel, postKind } from '@/utils/blog/kind';
 import { blogPath, postPath } from '@/utils/blog/paths';
 import Reveal from './Reveal';
 
@@ -43,7 +43,7 @@ export default async function RecentPosts() {
               <TitleLine
                 title={
                   <>
-                    <KindTag>{kindLabel(post.type)}</KindTag>
+                    <KindTag>{kindLabel(postKind(post))}</KindTag>
                     {post.title}
                   </>
                 }

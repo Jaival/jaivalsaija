@@ -1,10 +1,28 @@
 import { describe, expect, test } from 'bun:test';
-import { calendarDay, formatPostDate, kindLabel } from './kind';
+import { calendarDay, formatPostDate, kindLabel, postKind } from './kind';
 
 describe('post kind', () => {
-  test('each type has its label', () => {
+  test('each kind has its label', () => {
     expect(kindLabel('post')).toBe('Post');
     expect(kindLabel('update')).toBe('Update');
+    expect(kindLabel('release')).toBe('Release');
+  });
+
+  test('a series part that names a release is a release', () => {
+    expect(
+      postKind({ type: 'post', release: '1.0.0', series: 'jobhunt-agent' }),
+    ).toBe('release');
+  });
+
+  test('a guide with a release tag but no series stays a post', () => {
+    expect(postKind({ type: 'post', release: '1.0.0' })).toBe('post');
+  });
+
+  test('anything else is its type', () => {
+    expect(postKind({ type: 'update', series: 'kubernetes-lab' })).toBe(
+      'update',
+    );
+    expect(postKind({ type: 'post' })).toBe('post');
   });
 
   test('a date is the calendar day it names, in any time zone', () => {

@@ -80,7 +80,7 @@ export function CommitRail({
           className='absolute left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary ring-4 ring-primary/20'
           style={{ top }}
         >
-          <span className='absolute right-4 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-highlight/60 bg-background px-1.5 font-mono text-[0.625rem] leading-4 text-highlight-strong lg:block'>
+          <span className='absolute right-4 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-highlight/60 bg-background px-1.5 font-mono text-sm leading-5 text-highlight-strong lg:block'>
             {label}
           </span>
         </motion.div>

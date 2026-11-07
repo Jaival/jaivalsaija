@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { Fragment, type CSSProperties, type ReactNode } from 'react';
 
 // The shared parts of the "A · Pipeline" look: an engineer's terminal, with
 // lowercase mono labels, title lines with the date on the right and an accent
@@ -162,4 +162,25 @@ export function KindTag({ children }: { children: string }) {
       {children}
     </span>
   );
+}
+
+/**
+ * `https://github.com/Jaival/x` → `github.com/Jaival/x`, as the CV writes it.
+ * A phone can wrap a long one after a slash, never inside a name.
+ */
+export function BareUrl({ url }: { url: string }) {
+  const parts = url
+    .replace(/^https?:\/\//, '')
+    .replace(/\/$/, '')
+    .split('/');
+  return parts.map((part, i) => (
+    <Fragment key={i}>
+      {i > 0 && (
+        <>
+          /<wbr />
+        </>
+      )}
+      {part}
+    </Fragment>
+  ));
 }

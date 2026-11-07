@@ -66,6 +66,7 @@ export default async function VersionPage({ params }: VersionPageProps) {
   return (
     <PostArticle
       post={old}
+      oldVersion={version}
       versions={<VersionGraph versions={versions} viewing={version} />}
     >
       <VersionHistory versions={versions} viewing={version} />

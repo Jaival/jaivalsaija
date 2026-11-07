@@ -3,31 +3,33 @@ import userData from 'utils/data';
 // Contact routes on every page, so the CV is never more than one click away.
 // LinkedIn and GitHub first: they're what recruiters check.
 const footerLinks = [
-  { label: 'Email', href: `mailto:${userData.email}` },
-  { label: 'LinkedIn', href: userData.socialLinks.linkedin, external: true },
-  { label: 'GitHub', href: userData.socialLinks.github, external: true },
+  { label: 'email', href: `mailto:${userData.email}` },
+  { label: 'linkedin', href: userData.socialLinks.linkedin, external: true },
+  { label: 'github', href: userData.socialLinks.github, external: true },
   // The page, not the file: it has the download button, and reads on a phone.
-  { label: 'CV', href: '/cv' },
+  { label: 'cv', href: '/cv' },
 ];
 
+const dot = <span aria-hidden>·</span>;
+
+/** One mono line, `·` separated, under a rule. */
 export default function Footer() {
   return (
-    <footer>
-      <div className='max-w-6xl px-4 py-12 mx-auto md:py-20'>
-        {/* Decorative line */}
-        <div className='h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-8' />
-
-        <nav aria-label='Contact' className='mb-6'>
-          <ul className='flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base'>
+    <footer className='border-t border-border'>
+      <div className='max-w-4xl px-4 md:px-8 py-8 mx-auto'>
+        <nav aria-label='Contact'>
+          <ul className='flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-sm text-muted-foreground'>
+            <li>© {new Date().getFullYear()} Jaival Saija</li>
             {footerLinks.map(({ label, href, external }) => (
-              <li key={label}>
+              <li key={label} className='flex items-center gap-x-3'>
+                {dot}
                 <a
                   href={href}
                   {...(external && {
                     target: '_blank',
                     rel: 'noopener noreferrer',
                   })}
-                  className='font-medium text-primary border-b border-transparent hover:border-primary transition-colors duration-200 ease-out'
+                  className='underline decoration-transparent underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary'
                 >
                   {label}
                 </a>
@@ -35,22 +37,6 @@ export default function Footer() {
             ))}
           </ul>
         </nav>
-
-        <div className='flex flex-wrap items-center justify-center text-base text-muted-foreground'>
-          <span className='mr-2'>© {new Date().getFullYear()}.</span>
-
-          <div className='group mr-2'>
-            <span className='relative inline-block'>
-              <span className='font-semibold text-primary cursor-default'>
-                Jaival Saija.
-              </span>
-              {/* Sliding underline — hover feedback, so it stays. */}
-              <span className='absolute left-0 bottom-0 w-full h-0.5 bg-highlight scale-x-0 group-hover:scale-x-100 transition-transform duration-200 ease-out origin-left' />
-            </span>
-          </div>
-
-          <span>All Rights Reserved.</span>
-        </div>
       </div>
     </footer>
   );

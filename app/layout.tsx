@@ -1,5 +1,5 @@
 import { Metadata, Viewport } from 'next';
-import { Space_Grotesk } from 'next/font/google';
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from '../utils/provider';
 import Navbar from '@/components/navbar';
@@ -15,6 +15,14 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-space-grotesk',
+});
+
+// The mono accent of the Pipeline look, site-wide. A variable font, so one
+// file covers every weight. app/globals.css maps it to --font-mono.
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
 });
 
 export const metadata: Metadata = {
@@ -83,7 +91,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={spaceGrotesk.variable}
+      className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}
       data-scroll-behavior='smooth'
       suppressHydrationWarning
     >

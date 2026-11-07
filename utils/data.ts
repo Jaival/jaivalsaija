@@ -32,15 +32,11 @@ export interface About {
 
 /** What a recruiter filters on before reading anything else. */
 export interface Availability {
-  /** One line: the role I'm looking for. */
-  role: string;
   /** Short label/value pairs. Plain text, so ATS and screen readers get it. */
   facts: { label: string; value: string }[];
 }
 
 export interface SocialLinks {
-  instagram: string;
-  twitter: string;
   linkedin: string;
   github: string;
 }
@@ -171,7 +167,6 @@ const userData: UserData = {
     ],
   },
   availability: {
-    role: "I'm looking for a working student (20 h/week) or junior role in DevOps or cloud, anywhere in Germany.",
     // Worded like the CV (utils/cv.ts). Home shows these as status rows.
     facts: [
       {
@@ -205,8 +200,6 @@ const userData: UserData = {
   ],
   resumeUrl: '/cv.pdf',
   socialLinks: {
-    instagram: 'https://www.instagram.com/jaivalsaija/',
-    twitter: 'https://x.com/Jaival469',
     linkedin: 'https://www.linkedin.com/in/jaivalsaija/',
     github: 'https://github.com/Jaival',
   },

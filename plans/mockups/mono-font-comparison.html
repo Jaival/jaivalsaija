@@ -1,38 +1,134 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
-<!-- Saved 2026-11-07 while picking the v4 revamp look. Not the chosen design: v4 follows plans/site-revamp.md (issue #33). Open in a browser. -->
-<style>:root{--background:#0b1418;--foreground:#eef4f5;--card:#121f25;--border:#ffffff1a;--muted-foreground:#9fb1b6;--code-background:#0a1216;--radius:10px;--chart-1:#8fd8e6;--chart-2:#7cc4ff;--chart-3:#f2b880}body{background:var(--background);color:var(--foreground);padding:24px;max-width:1100px;margin:0 auto}</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Geist+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>
-  body{margin:0;font-family:'Space Grotesk',sans-serif}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:12px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
-  .name{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--chart-1);margin-bottom:10px}
-  h3{font-family:'Space Grotesk';font-weight:700;font-size:22px;margin:0 0 4px}
-  p{font-family:'Space Grotesk';font-size:14px;line-height:1.5;color:var(--muted-foreground);margin:0 0 12px}
-  .meta{font-size:12px;color:var(--muted-foreground);margin-bottom:10px}
-  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-  .tag{font-size:11px;border:1px solid var(--border);border-radius:999px;padding:2px 8px}
-  pre{margin:0;background:var(--code-background);border-radius:calc(var(--radius) - 2px);padding:12px;font-size:12.5px;line-height:1.6;overflow:hidden}
-  .k{color:var(--chart-2)}.s{color:var(--chart-3)}.c{color:var(--muted-foreground)}
-</style></head><body>
-<div class="grid" id="g"></div>
-<script>
-const fonts=[["JetBrains Mono","Pick"],["Space Mono","Same family"],["Geist Mono",""],["IBM Plex Mono",""]];
-const g=document.getElementById('g');
-for(const [f,note] of fonts){
-  const m=`style="font-family:'${f}',monospace"`;
-  g.insertAdjacentHTML('beforeend',`<div class="card">
-  <div class="name" ${m}>${f}${note?' · '+note:''}</div>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Saved 2026-11-07 while picking the v4 revamp look. Not the chosen design: v4 follows plans/site-revamp.md (issue #33). Open in a browser. -->
+    <style>
+      :root {
+        --background: #0b1418;
+        --foreground: #eef4f5;
+        --card: #121f25;
+        --border: #ffffff1a;
+        --muted-foreground: #9fb1b6;
+        --code-background: #0a1216;
+        --radius: 10px;
+        --chart-1: #8fd8e6;
+        --chart-2: #7cc4ff;
+        --chart-3: #f2b880;
+      }
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        padding: 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=Geist+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 12px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+      .name {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--chart-1);
+        margin-bottom: 10px;
+      }
+      h3 {
+        font-family: 'Space Grotesk';
+        font-weight: 700;
+        font-size: 22px;
+        margin: 0 0 4px;
+      }
+      p {
+        font-family: 'Space Grotesk';
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--muted-foreground);
+        margin: 0 0 12px;
+      }
+      .meta {
+        font-size: 12px;
+        color: var(--muted-foreground);
+        margin-bottom: 10px;
+      }
+      .tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .tag {
+        font-size: 11px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 2px 8px;
+      }
+      pre {
+        margin: 0;
+        background: var(--code-background);
+        border-radius: calc(var(--radius) - 2px);
+        padding: 12px;
+        font-size: 12.5px;
+        line-height: 1.6;
+        overflow: hidden;
+      }
+      .k {
+        color: var(--chart-2);
+      }
+      .s {
+        color: var(--chart-3);
+      }
+      .c {
+        color: var(--muted-foreground);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid" id="g"></div>
+    <script>
+      const fonts = [
+        ['JetBrains Mono', 'Pick'],
+        ['Space Mono', 'Same family'],
+        ['Geist Mono', ''],
+        ['IBM Plex Mono', ''],
+      ];
+      const g = document.getElementById('g');
+      for (const [f, note] of fonts) {
+        const m = `style="font-family:'${f}',monospace"`;
+        g.insertAdjacentHTML(
+          'beforeend',
+          `<div class="card">
+  <div class="name" ${m}>${f}${note ? ' · ' + note : ''}</div>
   <h3>Dockerizing Invoicely</h3>
   <p>I cut the image from 1.2 GB to 180 MB with a multi-stage build on bun:1-alpine.</p>
   <div class="meta" ${m}>2026-10-28 · Post · 6 min read</div>
-  <div class="tags">${['Docker','Next.js','Bun','0O1lI'].map(t=>`<span class="tag" ${m}>${t}</span>`).join('')}</div>
+  <div class="tags">${['Docker', 'Next.js', 'Bun', '0O1lI'].map(t => `<span class="tag" ${m}>${t}</span>`).join('')}</div>
 <pre ${m}><span class="c"># build stage</span>
 <span class="k">FROM</span> oven/bun:1-alpine <span class="k">AS</span> build
 <span class="k">RUN</span> bun install --frozen-lockfile
 <span class="k">COPY</span> --from=build /app/.next <span class="s">./.next</span>
 <span class="k">const</span> port = env.PORT ?? <span class="s">3000</span>; <span class="c">// => != {}</span></pre>
-</div>`);
-}
-</script></body></html>
+</div>`,
+        );
+      }
+    </script>
+  </body>
+</html>

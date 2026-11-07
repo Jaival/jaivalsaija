@@ -21,8 +21,8 @@ mockup `plans/site-revamp-mockup.html`.
 - **Not-found** (`app/not-found.tsx`): `$ cd /path` → `cd: /path: no such file or directory`, h1
   "not found", plain "Back to home" button. The path comes from `components/missingPath.tsx`
   (prerendered as `…`, filled in after hydration, no mismatch).
-- **Loading** (`components/LoadingSpinner.tsx`): `$ loading` + cursor, fades in after 200 ms.
-  The old spin keyframes are removed.
+- **Loading** (`components/LoadingSpinner.tsx`): `$ loading` + cursor, fades in after 200 ms. The
+  old spin keyframes are removed.
 - **Data test** `utils/cv.test.ts`: every CV experience, education and project date is
   `MM/YYYY – MM/YYYY`, `– present` or `(expected)`; every CV project has a non-empty stack.
 - **Readability**: mono text ≥ 14 px in the new parts. Muted text already passes AA: light 5.7:1,

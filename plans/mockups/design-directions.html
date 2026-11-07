@@ -1,152 +1,641 @@
 <!doctype html>
-<html><head><meta charset="utf-8">
-<!-- Saved 2026-11-07 while picking the v4 revamp look. Not the chosen design: v4 follows plans/site-revamp.md (issue #33). Open in a browser. -->
-<style>:root{--background:#0b1418;--foreground:#eef4f5;--card:#121f25;--border:#ffffff1a;--muted-foreground:#9fb1b6;--code-background:#0a1216;--radius:10px;--chart-1:#8fd8e6;--chart-2:#7cc4ff;--chart-3:#f2b880}body{background:var(--background);color:var(--foreground);padding:24px;max-width:1100px;margin:0 auto}</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:'Space Grotesk',sans-serif}
-.m{font-family:'JetBrains Mono',monospace}
-.lbl{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
-.lbl b{font-size:18px}.lbl span{font-size:13px;color:var(--muted-foreground)}
-.frame{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:28px}
-.nav{display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.nav a{margin-left:18px;text-decoration:none;color:inherit;opacity:.75}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Saved 2026-11-07 while picking the v4 revamp look. Not the chosen design: v4 follows plans/site-revamp.md (issue #33). Open in a browser. -->
+    <style>
+      :root {
+        --background: #0b1418;
+        --foreground: #eef4f5;
+        --card: #121f25;
+        --border: #ffffff1a;
+        --muted-foreground: #9fb1b6;
+        --code-background: #0a1216;
+        --radius: 10px;
+        --chart-1: #8fd8e6;
+        --chart-2: #7cc4ff;
+        --chart-3: #f2b880;
+      }
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        padding: 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .m {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .lbl {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin: 0 0 8px;
+      }
+      .lbl b {
+        font-size: 18px;
+      }
+      .lbl span {
+        font-size: 13px;
+        color: var(--muted-foreground);
+      }
+      .frame {
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin-bottom: 28px;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+      }
+      .nav a {
+        margin-left: 18px;
+        text-decoration: none;
+        color: inherit;
+        opacity: 0.75;
+      }
 
-/* A: Editorial */
-.A{background:#f6f2ea;color:#1c1a17;padding:22px 28px 26px}
-.A .nav{border-bottom:1px solid #1c1a1722;padding-bottom:12px}
-.A h1{font-size:58px;line-height:.95;letter-spacing:-.035em;margin:28px 0 14px;font-weight:600}
-.A h1 em{font-style:normal;color:#c2512f}
-.A .lead{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;font-size:15px;line-height:1.5}
-.A .facts{font-size:12.5px;line-height:1.9;border-left:1px solid #1c1a1722;padding-left:16px;color:#5a544c}
-.A .facts b{color:#1c1a17;font-weight:500}
-.A h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:28px 0 4px;color:#5a544c;font-weight:500}
-.A .row{display:grid;grid-template-columns:40px 1fr auto;gap:14px;padding:11px 0;border-top:1px solid #1c1a1722;align-items:baseline}
-.A .row:last-child{border-bottom:1px solid #1c1a1722}
-.A .row .n{font-size:12px;color:#c2512f}
-.A .row .t{font-size:19px;font-weight:600}
-.A .row .t small{font-size:13px;font-weight:400;color:#5a544c;margin-left:8px}
-.A .row .s{font-size:12px;color:#5a544c}
+      /* A: Editorial */
+      .A {
+        background: #f6f2ea;
+        color: #1c1a17;
+        padding: 22px 28px 26px;
+      }
+      .A .nav {
+        border-bottom: 1px solid #1c1a1722;
+        padding-bottom: 12px;
+      }
+      .A h1 {
+        font-size: 58px;
+        line-height: 0.95;
+        letter-spacing: -0.035em;
+        margin: 28px 0 14px;
+        font-weight: 600;
+      }
+      .A h1 em {
+        font-style: normal;
+        color: #c2512f;
+      }
+      .A .lead {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 28px;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      .A .facts {
+        font-size: 12.5px;
+        line-height: 1.9;
+        border-left: 1px solid #1c1a1722;
+        padding-left: 16px;
+        color: #5a544c;
+      }
+      .A .facts b {
+        color: #1c1a17;
+        font-weight: 500;
+      }
+      .A h2 {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 28px 0 4px;
+        color: #5a544c;
+        font-weight: 500;
+      }
+      .A .row {
+        display: grid;
+        grid-template-columns: 40px 1fr auto;
+        gap: 14px;
+        padding: 11px 0;
+        border-top: 1px solid #1c1a1722;
+        align-items: baseline;
+      }
+      .A .row:last-child {
+        border-bottom: 1px solid #1c1a1722;
+      }
+      .A .row .n {
+        font-size: 12px;
+        color: #c2512f;
+      }
+      .A .row .t {
+        font-size: 19px;
+        font-weight: 600;
+      }
+      .A .row .t small {
+        font-size: 13px;
+        font-weight: 400;
+        color: #5a544c;
+        margin-left: 8px;
+      }
+      .A .row .s {
+        font-size: 12px;
+        color: #5a544c;
+      }
 
-/* B: Blueprint */
-.B{background:#0b1a2b;color:#dce8f5;padding:22px 26px 26px;
-  background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:24px 24px}
-.B .nav b{color:#7cc4ff}
-.B .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:22px;margin-top:26px;align-items:center}
-.B h1{font-size:32px;line-height:1.08;margin:0 0 10px;letter-spacing:-.02em}
-.B p{font-size:14.5px;line-height:1.55;color:#a9bccf;margin:0 0 14px}
-.B .btn{display:inline-block;font-size:13px;padding:8px 14px;border-radius:6px;margin-right:8px}
-.B .btn.p{background:#7cc4ff;color:#0b1a2b;font-weight:600}
-.B .btn.g{border:1px solid #7cc4ff66;color:#7cc4ff}
-.B .diag{border:1px dashed #7cc4ff55;border-radius:10px;padding:14px;position:relative;background:#0b1a2bcc}
-.B .diag .cap{font-size:11px;color:#7cc4ff;margin-bottom:10px;letter-spacing:.06em}
-.B .flow{display:flex;align-items:center;gap:6px}
-.B .node{flex:1;border:1px solid #7cc4ff88;border-radius:7px;padding:8px 6px;text-align:center;font-size:11.5px;background:#10263d}
-.B .node small{display:block;color:#a9bccf;font-size:10.5px;margin-top:2px}
-.B .arr{color:#7cc4ff;font-size:13px}
-.B .chk{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.B .chk span{font-size:11px;border-radius:99px;padding:2px 8px;background:#2e7d5b33;color:#7de0b0;border:1px solid #7de0b044}
-.B h2{font-size:12px;color:#7cc4ff;margin:26px 0 10px;letter-spacing:.08em}
-.B .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.B .card{border:1px solid #ffffff1f;border-radius:9px;padding:12px;background:#10263dcc}
-.B .card b{font-size:15px}
-.B .card p{font-size:12.5px;margin:6px 0 10px}
-.B .pipe{display:flex;gap:4px;font-size:10.5px}
-.B .pipe i{font-style:normal;flex:1;text-align:center;padding:3px 0;border-radius:4px;background:#2e7d5b40;color:#7de0b0}
-.B .pipe i.w{background:#8a6d1f40;color:#f2cf6b}
+      /* B: Blueprint */
+      .B {
+        background: #0b1a2b;
+        color: #dce8f5;
+        padding: 22px 26px 26px;
+        background-image:
+          linear-gradient(#ffffff0a 1px, transparent 1px),
+          linear-gradient(90deg, #ffffff0a 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+      .B .nav b {
+        color: #7cc4ff;
+      }
+      .B .hero {
+        display: grid;
+        grid-template-columns: 1fr 1.05fr;
+        gap: 22px;
+        margin-top: 26px;
+        align-items: center;
+      }
+      .B h1 {
+        font-size: 32px;
+        line-height: 1.08;
+        margin: 0 0 10px;
+        letter-spacing: -0.02em;
+      }
+      .B p {
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: #a9bccf;
+        margin: 0 0 14px;
+      }
+      .B .btn {
+        display: inline-block;
+        font-size: 13px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        margin-right: 8px;
+      }
+      .B .btn.p {
+        background: #7cc4ff;
+        color: #0b1a2b;
+        font-weight: 600;
+      }
+      .B .btn.g {
+        border: 1px solid #7cc4ff66;
+        color: #7cc4ff;
+      }
+      .B .diag {
+        border: 1px dashed #7cc4ff55;
+        border-radius: 10px;
+        padding: 14px;
+        position: relative;
+        background: #0b1a2bcc;
+      }
+      .B .diag .cap {
+        font-size: 11px;
+        color: #7cc4ff;
+        margin-bottom: 10px;
+        letter-spacing: 0.06em;
+      }
+      .B .flow {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .B .node {
+        flex: 1;
+        border: 1px solid #7cc4ff88;
+        border-radius: 7px;
+        padding: 8px 6px;
+        text-align: center;
+        font-size: 11.5px;
+        background: #10263d;
+      }
+      .B .node small {
+        display: block;
+        color: #a9bccf;
+        font-size: 10.5px;
+        margin-top: 2px;
+      }
+      .B .arr {
+        color: #7cc4ff;
+        font-size: 13px;
+      }
+      .B .chk {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .B .chk span {
+        font-size: 11px;
+        border-radius: 99px;
+        padding: 2px 8px;
+        background: #2e7d5b33;
+        color: #7de0b0;
+        border: 1px solid #7de0b044;
+      }
+      .B h2 {
+        font-size: 12px;
+        color: #7cc4ff;
+        margin: 26px 0 10px;
+        letter-spacing: 0.08em;
+      }
+      .B .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .B .card {
+        border: 1px solid #ffffff1f;
+        border-radius: 9px;
+        padding: 12px;
+        background: #10263dcc;
+      }
+      .B .card b {
+        font-size: 15px;
+      }
+      .B .card p {
+        font-size: 12.5px;
+        margin: 6px 0 10px;
+      }
+      .B .pipe {
+        display: flex;
+        gap: 4px;
+        font-size: 10.5px;
+      }
+      .B .pipe i {
+        font-style: normal;
+        flex: 1;
+        text-align: center;
+        padding: 3px 0;
+        border-radius: 4px;
+        background: #2e7d5b40;
+        color: #7de0b0;
+      }
+      .B .pipe i.w {
+        background: #8a6d1f40;
+        color: #f2cf6b;
+      }
 
-/* C: Bento */
-.C{background:#0f1d24;color:#eef4f5;padding:22px 24px 24px}
-.C .nav b{color:#8fd8e6}
-.C .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:118px;gap:10px;margin-top:18px}
-.C .t{background:#16272f;border:1px solid #ffffff14;border-radius:14px;padding:14px;overflow:hidden;position:relative}
-.C .hero{grid-column:span 2;grid-row:span 2;background:linear-gradient(150deg,#1b3a45,#16272f 60%)}
-.C .hero h1{font-size:34px;line-height:1.05;margin:4px 0 10px;letter-spacing:-.02em}
-.C .hero p{font-size:13.5px;line-height:1.5;color:#b5c7cc;margin:0}
-.C .k{font-size:11px;color:#8fd8e6;letter-spacing:.06em;margin-bottom:6px}
-.C .status{grid-column:span 2}
-.C .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fe0a0;box-shadow:0 0 0 4px #5fe0a022;margin-right:8px}
-.C .status .big{font-size:17px;font-weight:600}
-.C .status .sm{font-size:12px;color:#b5c7cc;margin-top:6px;line-height:1.7}
-.C .stack{grid-column:span 1;grid-row:span 1}
-.C .chips{display:flex;flex-wrap:wrap;gap:5px}
-.C .chips span{font-size:10.5px;border:1px solid #ffffff22;border-radius:99px;padding:2px 7px}
-.C .post{grid-column:span 1}
-.C .post b{font-size:14px;display:block;line-height:1.25}
-.C .post .d{font-size:11px;color:#b5c7cc;margin-top:8px}
-.C .proj{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column}
-.C .shot{flex:1;border-radius:9px;margin-top:8px;background:linear-gradient(135deg,#f0f6f7,#cfe3e8);position:relative}
-.C .shot::before{content:'';position:absolute;inset:14px 14px auto 14px;height:12px;border-radius:4px;background:#0f1d2422}
-.C .shot::after{content:'';position:absolute;left:14px;right:40%;top:38px;bottom:14px;border-radius:6px;background:#0f1d2414}
-.C .proj b{font-size:17px}
-.C .gh{grid-column:span 2}
-.C .cells{display:grid;grid-template-columns:repeat(26,1fr);gap:3px;margin-top:6px}
-.C .cells i{aspect-ratio:1;border-radius:2px;background:#8fd8e6}
-.C .cta{grid-column:span 2;display:flex;align-items:center;justify-content:space-between;background:#8fd8e6;color:#0f1d24}
-.C .cta b{font-size:18px}
-.C .cta span{font-size:12px;border:1.5px solid #0f1d24;border-radius:99px;padding:5px 12px;font-weight:700}
-</style></head><body>
-
-<div class="lbl"><b>A · Editorial</b><span>Magazine layout. Big type, numbered rows, warm paper. Calm and confident.</span></div>
-<div class="frame"><div class="A">
-  <div class="nav"><b>Jaival Saija</b><div class="m"><a>Work</a><a>Writing</a><a>About</a><a>CV</a></div></div>
-  <h1>Boring deploys.<br><em>Servers that stay up.</em></h1>
-  <div class="lead">
-    <div>I'm a DevOps engineer and M.Sc. student in Kaiserslautern. I ran AWS in production, and I build CI/CD that nobody has to watch.</div>
-    <div class="facts m"><b>Looking for</b> working student / junior<br><b>Hours</b> 20 h/week, 40 in breaks<br><b>Start</b> now · <b>Permit</b> §16b<br><b>Languages</b> EN C1 · DE A1</div>
-  </div>
-  <h2 class="m">Selected work</h2>
-  <div class="row"><span class="n m">01</span><span class="t">Invoicely<small>Next.js · Neon · Docker</small></span><span class="s m">2026</span></div>
-  <div class="row"><span class="n m">02</span><span class="t">jobhunt-agent<small>Python · Claude Code</small></span><span class="s m">2026</span></div>
-  <div class="row"><span class="n m">03</span><span class="t">NextGleis<small>Expo · Vercel · EAS</small></span><span class="s m">2025</span></div>
-  <div class="row"><span class="n m">04</span><span class="t">react-rough-notation<small>npm · OIDC</small></span><span class="s m">2024</span></div>
-</div></div>
-
-<div class="lbl"><b>B · Blueprint</b><span>Architecture-drawing look. Grid paper, a live pipeline in the hero, CI status on each project.</span></div>
-<div class="frame"><div class="B">
-  <div class="nav m"><b>◇ jaival.saija</b><div><a>projects</a><a>blog</a><a>about</a><a>cv</a></div></div>
-  <div class="hero">
-    <div>
-      <h1>I build the pipeline between your commit and production.</h1>
-      <p>Junior DevOps & Cloud engineer. Ran AWS in production. Now M.Sc. CS in Kaiserslautern, open to working-student roles.</p>
-      <span class="btn p">Download CV</span><span class="btn g m">see the work →</span>
+      /* C: Bento */
+      .C {
+        background: #0f1d24;
+        color: #eef4f5;
+        padding: 22px 24px 24px;
+      }
+      .C .nav b {
+        color: #8fd8e6;
+      }
+      .C .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 118px;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .C .t {
+        background: #16272f;
+        border: 1px solid #ffffff14;
+        border-radius: 14px;
+        padding: 14px;
+        overflow: hidden;
+        position: relative;
+      }
+      .C .hero {
+        grid-column: span 2;
+        grid-row: span 2;
+        background: linear-gradient(150deg, #1b3a45, #16272f 60%);
+      }
+      .C .hero h1 {
+        font-size: 34px;
+        line-height: 1.05;
+        margin: 4px 0 10px;
+        letter-spacing: -0.02em;
+      }
+      .C .hero p {
+        font-size: 13.5px;
+        line-height: 1.5;
+        color: #b5c7cc;
+        margin: 0;
+      }
+      .C .k {
+        font-size: 11px;
+        color: #8fd8e6;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+      }
+      .C .status {
+        grid-column: span 2;
+      }
+      .C .dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #5fe0a0;
+        box-shadow: 0 0 0 4px #5fe0a022;
+        margin-right: 8px;
+      }
+      .C .status .big {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .C .status .sm {
+        font-size: 12px;
+        color: #b5c7cc;
+        margin-top: 6px;
+        line-height: 1.7;
+      }
+      .C .stack {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      .C .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .C .chips span {
+        font-size: 10.5px;
+        border: 1px solid #ffffff22;
+        border-radius: 99px;
+        padding: 2px 7px;
+      }
+      .C .post {
+        grid-column: span 1;
+      }
+      .C .post b {
+        font-size: 14px;
+        display: block;
+        line-height: 1.25;
+      }
+      .C .post .d {
+        font-size: 11px;
+        color: #b5c7cc;
+        margin-top: 8px;
+      }
+      .C .proj {
+        grid-column: span 2;
+        grid-row: span 2;
+        display: flex;
+        flex-direction: column;
+      }
+      .C .shot {
+        flex: 1;
+        border-radius: 9px;
+        margin-top: 8px;
+        background: linear-gradient(135deg, #f0f6f7, #cfe3e8);
+        position: relative;
+      }
+      .C .shot::before {
+        content: '';
+        position: absolute;
+        inset: 14px 14px auto 14px;
+        height: 12px;
+        border-radius: 4px;
+        background: #0f1d2422;
+      }
+      .C .shot::after {
+        content: '';
+        position: absolute;
+        left: 14px;
+        right: 40%;
+        top: 38px;
+        bottom: 14px;
+        border-radius: 6px;
+        background: #0f1d2414;
+      }
+      .C .proj b {
+        font-size: 17px;
+      }
+      .C .gh {
+        grid-column: span 2;
+      }
+      .C .cells {
+        display: grid;
+        grid-template-columns: repeat(26, 1fr);
+        gap: 3px;
+        margin-top: 6px;
+      }
+      .C .cells i {
+        aspect-ratio: 1;
+        border-radius: 2px;
+        background: #8fd8e6;
+      }
+      .C .cta {
+        grid-column: span 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #8fd8e6;
+        color: #0f1d24;
+      }
+      .C .cta b {
+        font-size: 18px;
+      }
+      .C .cta span {
+        font-size: 12px;
+        border: 1.5px solid #0f1d24;
+        border-radius: 99px;
+        padding: 5px 12px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lbl">
+      <b>A · Editorial</b
+      ><span
+        >Magazine layout. Big type, numbered rows, warm paper. Calm and
+        confident.</span
+      >
     </div>
-    <div class="diag">
-      <div class="cap m">FIG. 1 — HOW THIS SITE SHIPS</div>
-      <div class="flow m">
-        <div class="node">git push<small>main</small></div><span class="arr">→</span>
-        <div class="node">Actions<small>lint · test</small></div><span class="arr">→</span>
-        <div class="node">Vercel<small>build</small></div><span class="arr">→</span>
-        <div class="node">www<small>.dev</small></div>
+    <div class="frame">
+      <div class="A">
+        <div class="nav">
+          <b>Jaival Saija</b>
+          <div class="m"><a>Work</a><a>Writing</a><a>About</a><a>CV</a></div>
+        </div>
+        <h1>Boring deploys.<br /><em>Servers that stay up.</em></h1>
+        <div class="lead">
+          <div>
+            I'm a DevOps engineer and M.Sc. student in Kaiserslautern. I ran AWS
+            in production, and I build CI/CD that nobody has to watch.
+          </div>
+          <div class="facts m">
+            <b>Looking for</b> working student / junior<br /><b>Hours</b> 20
+            h/week, 40 in breaks<br /><b>Start</b> now ·
+            <b>Permit</b> §16b<br /><b>Languages</b> EN C1 · DE A1
+          </div>
+        </div>
+        <h2 class="m">Selected work</h2>
+        <div class="row">
+          <span class="n m">01</span
+          ><span class="t">Invoicely<small>Next.js · Neon · Docker</small></span
+          ><span class="s m">2026</span>
+        </div>
+        <div class="row">
+          <span class="n m">02</span
+          ><span class="t"
+            >jobhunt-agent<small>Python · Claude Code</small></span
+          ><span class="s m">2026</span>
+        </div>
+        <div class="row">
+          <span class="n m">03</span
+          ><span class="t">NextGleis<small>Expo · Vercel · EAS</small></span
+          ><span class="s m">2025</span>
+        </div>
+        <div class="row">
+          <span class="n m">04</span
+          ><span class="t">react-rough-notation<small>npm · OIDC</small></span
+          ><span class="s m">2024</span>
+        </div>
       </div>
-      <div class="chk m"><span>✓ types</span><span>✓ lint:strict</span><span>✓ 48 tests</span><span>✓ deployed 2h ago</span></div>
     </div>
-  </div>
-  <h2 class="m">// PROJECTS</h2>
-  <div class="cards">
-    <div class="card"><b>Invoicely</b><p>Invoicing for freelancers. Next.js, Neon, Better Auth.</p><div class="pipe m"><i>lint</i><i>e2e</i><i>migrate</i><i>docker</i></div></div>
-    <div class="card"><b>NextGleis</b><p>Android departure board with a serverless DB proxy.</p><div class="pipe m"><i>audit</i><i>test</i><i>vercel</i><i>eas</i></div></div>
-    <div class="card"><b>K8s Lab</b><p>14 modules on a three-node kind cluster, to GitOps.</p><div class="pipe m"><i>kind</i><i>helm</i><i class="w">argo</i><i class="w">gitops</i></div></div>
-  </div>
-</div></div>
 
-<div class="lbl"><b>C · Bento</b><span>Tile grid. Everything a recruiter checks fits on one screen, no scroll.</span></div>
-<div class="frame"><div class="C">
-  <div class="nav m"><b>jaival</b><div><a>work</a><a>blog</a><a>about</a><a>cv</a></div></div>
-  <div class="grid">
-    <div class="t hero"><div class="k m">DEVOPS · CLOUD</div><h1>Jaival Saija</h1><p>I like deployments that are boring, and servers that stay up without anyone watching them. Ran AWS in production; now M.Sc. CS in Kaiserslautern.</p></div>
-    <div class="t status"><div class="k m">STATUS</div><div class="big"><span class="dot"></span>Open to working-student roles</div><div class="sm m">20 h/week · start now · §16b · EN C1 · DE A1</div></div>
-    <div class="t stack"><div class="k m">STACK</div><div class="chips m"><span>AWS</span><span>Terraform</span><span>Docker</span><span>K8s</span><span>Actions</span><span>Linux</span></div></div>
-    <div class="t post"><div class="k m">LATEST POST</div><b>Dockerizing Invoicely</b><div class="d m">10/2026 · 6 min</div></div>
-    <div class="t proj"><div class="k m">FEATURED</div><b>Invoicely</b><div class="shot"></div></div>
-    <div class="t gh"><div class="k m">GITHUB · LAST 6 MONTHS</div><div class="cells" id="cells"></div></div>
-    <div class="t cta"><b>Get my CV</b><span class="m">PDF ↓</span></div>
-  </div>
-</div></div>
+    <div class="lbl">
+      <b>B · Blueprint</b
+      ><span
+        >Architecture-drawing look. Grid paper, a live pipeline in the hero, CI
+        status on each project.</span
+      >
+    </div>
+    <div class="frame">
+      <div class="B">
+        <div class="nav m">
+          <b>◇ jaival.saija</b>
+          <div><a>projects</a><a>blog</a><a>about</a><a>cv</a></div>
+        </div>
+        <div class="hero">
+          <div>
+            <h1>I build the pipeline between your commit and production.</h1>
+            <p>
+              Junior DevOps & Cloud engineer. Ran AWS in production. Now M.Sc.
+              CS in Kaiserslautern, open to working-student roles.
+            </p>
+            <span class="btn p">Download CV</span
+            ><span class="btn g m">see the work →</span>
+          </div>
+          <div class="diag">
+            <div class="cap m">FIG. 1 — HOW THIS SITE SHIPS</div>
+            <div class="flow m">
+              <div class="node">git push<small>main</small></div>
+              <span class="arr">→</span>
+              <div class="node">Actions<small>lint · test</small></div>
+              <span class="arr">→</span>
+              <div class="node">Vercel<small>build</small></div>
+              <span class="arr">→</span>
+              <div class="node">www<small>.dev</small></div>
+            </div>
+            <div class="chk m">
+              <span>✓ types</span><span>✓ lint:strict</span
+              ><span>✓ 48 tests</span><span>✓ deployed 2h ago</span>
+            </div>
+          </div>
+        </div>
+        <h2 class="m">// PROJECTS</h2>
+        <div class="cards">
+          <div class="card">
+            <b>Invoicely</b>
+            <p>Invoicing for freelancers. Next.js, Neon, Better Auth.</p>
+            <div class="pipe m">
+              <i>lint</i><i>e2e</i><i>migrate</i><i>docker</i>
+            </div>
+          </div>
+          <div class="card">
+            <b>NextGleis</b>
+            <p>Android departure board with a serverless DB proxy.</p>
+            <div class="pipe m">
+              <i>audit</i><i>test</i><i>vercel</i><i>eas</i>
+            </div>
+          </div>
+          <div class="card">
+            <b>K8s Lab</b>
+            <p>14 modules on a three-node kind cluster, to GitOps.</p>
+            <div class="pipe m">
+              <i>kind</i><i>helm</i><i class="w">argo</i><i class="w">gitops</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<script>
-const c=document.getElementById('cells');
-for(let i=0;i<52;i++){const e=document.createElement('i');e.style.opacity=(0.12+((i*37)%11)/12).toFixed(2);c.appendChild(e)}
-</script>
-</body></html>
+    <div class="lbl">
+      <b>C · Bento</b
+      ><span
+        >Tile grid. Everything a recruiter checks fits on one screen, no
+        scroll.</span
+      >
+    </div>
+    <div class="frame">
+      <div class="C">
+        <div class="nav m">
+          <b>jaival</b>
+          <div><a>work</a><a>blog</a><a>about</a><a>cv</a></div>
+        </div>
+        <div class="grid">
+          <div class="t hero">
+            <div class="k m">DEVOPS · CLOUD</div>
+            <h1>Jaival Saija</h1>
+            <p>
+              I like deployments that are boring, and servers that stay up
+              without anyone watching them. Ran AWS in production; now M.Sc. CS
+              in Kaiserslautern.
+            </p>
+          </div>
+          <div class="t status">
+            <div class="k m">STATUS</div>
+            <div class="big">
+              <span class="dot"></span>Open to working-student roles
+            </div>
+            <div class="sm m">20 h/week · start now · §16b · EN C1 · DE A1</div>
+          </div>
+          <div class="t stack">
+            <div class="k m">STACK</div>
+            <div class="chips m">
+              <span>AWS</span><span>Terraform</span><span>Docker</span
+              ><span>K8s</span><span>Actions</span><span>Linux</span>
+            </div>
+          </div>
+          <div class="t post">
+            <div class="k m">LATEST POST</div>
+            <b>Dockerizing Invoicely</b>
+            <div class="d m">10/2026 · 6 min</div>
+          </div>
+          <div class="t proj">
+            <div class="k m">FEATURED</div>
+            <b>Invoicely</b>
+            <div class="shot"></div>
+          </div>
+          <div class="t gh">
+            <div class="k m">GITHUB · LAST 6 MONTHS</div>
+            <div class="cells" id="cells"></div>
+          </div>
+          <div class="t cta"><b>Get my CV</b><span class="m">PDF ↓</span></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const c = document.getElementById('cells');
+      for (let i = 0; i < 52; i++) {
+        const e = document.createElement('i');
+        e.style.opacity = (0.12 + ((i * 37) % 11) / 12).toFixed(2);
+        c.appendChild(e);
+      }
+    </script>
+  </body>
+</html>

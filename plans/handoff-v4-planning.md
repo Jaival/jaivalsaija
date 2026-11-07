@@ -3,8 +3,8 @@
 ## Done
 
 - `v3` branch: frozen snapshot of the site before the v4 revamp (cut from `main` at `7124ce6`).
-- `revamp/v4`: integration branch off `main`. Each phase is one PR into it; one final PR
-  `revamp/v4` → `main` ships the whole revamp at once.
+- `revamp/v4`: integration branch off `main`. Each phase is one PR into it; one final PR `revamp/v4`
+  → `main` ships the whole revamp at once.
 - `revamp/v4-foundation`: phase 1 branch, off `revamp/v4`. Holds only the saved mockups so far.
 - Design: v4 follows `plans/site-revamp.md` (issue #33, now `ready-for-agent`) and its mockup
   `plans/site-revamp-mockup.html`.

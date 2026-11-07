@@ -141,7 +141,7 @@ const userData: UserData = {
       githubUrl: 'https://github.com/Jaival/invoicely',
       websiteUrl: 'https://invoicely-roan.vercel.app',
       ships:
-        'CI runs lint, types, unit and database tests, checks the migrations match the schema, then runs Playwright end-to-end tests. Vercel migrates the matching Neon branch before each build: production for main, a shared dev branch for previews.',
+        'CI runs lint, types, unit and database tests, checks the migrations match the schema, then runs Playwright end-to-end tests. Vercel migrates the matching Neon branch before each build: production for main, a shared dev branch for previews. It also runs locally with Docker Compose: a 453 MB multi-stage, non-root image, with migrations run before the app starts.',
     },
     {
       title: 'Taskly',

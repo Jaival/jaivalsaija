@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { KindTag, SectionLabel, TitleLine } from '@/components/pipeline';
+import { KindTag, SectionLabel } from '@/components/pipeline';
 import { getBlog } from '@/utils/blog';
 import { formatPostDate, kindLabel, postKind } from '@/utils/blog/kind';
 import { blogPath, postPath } from '@/utils/blog/paths';
 import Reveal from './Reveal';
 
-const SHOWN = 3;
+const SHOWN = 4;
 
 /**
- * Home "recent posts": the newest feed entries as rows, a kind tag before the
- * title and the date at the right. A series counts once, as its newest part,
+ * Home "git log": the newest feed entries as log lines, the date first, then
+ * a kind tag and the title. A series counts once, as its newest part,
  * so one busy series can't fill the list.
  */
 export default async function RecentPosts() {
@@ -28,7 +28,7 @@ export default async function RecentPosts() {
 
   return (
     <section className='mt-12'>
-      <SectionLabel>recent posts</SectionLabel>
+      <SectionLabel>git log</SectionLabel>
       <ul>
         {posts.map(post => (
           <Reveal
@@ -38,17 +38,18 @@ export default async function RecentPosts() {
           >
             <Link
               href={postPath(post.slug)}
-              className='block py-3 [&_h3]:transition-colors [&_h3]:duration-200 [&_h3]:ease-out hover:[&_h3]:text-primary'
+              className='flex flex-col gap-x-4 py-3 sm:flex-row sm:items-baseline [&_h3]:transition-colors [&_h3]:duration-200 [&_h3]:ease-out hover:[&_h3]:text-primary'
             >
-              <TitleLine
-                title={
-                  <>
-                    <KindTag>{kindLabel(postKind(post))}</KindTag>
-                    {post.title}
-                  </>
-                }
-                dates={formatPostDate(post.date)}
-              />
+              <time
+                dateTime={post.date}
+                className='shrink-0 font-mono text-sm text-muted-foreground sm:w-28'
+              >
+                {formatPostDate(post.date)}
+              </time>
+              <h3 className='text-foreground'>
+                <KindTag>{kindLabel(postKind(post))}</KindTag>
+                {post.title}
+              </h3>
             </Link>
           </Reveal>
         ))}

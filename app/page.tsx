@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Hero from '@/components/hero';
+import PipelineCards from '@/components/pipelineCards';
 import RecentPosts from '@/components/recentPosts';
 
 // Set per page, not in the root layout: a layout canonical is inherited by
@@ -12,6 +13,7 @@ export default function HomePage() {
     <section className='pt-10 md:pt-16 pb-20'>
       <div className='max-w-4xl mx-auto px-4 md:px-8'>
         <Hero />
+        <PipelineCards />
         <RecentPosts />
       </div>
     </section>

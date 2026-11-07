@@ -1,13 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import {
-  CommandLine,
-  Cursor,
-  Rows,
-  SectionLabel,
-  flagLabel,
-} from '@/components/pipeline';
 import { cv } from '@/utils/cv';
 import userData from '@/utils/data';
 
@@ -18,81 +11,68 @@ const button =
 const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
 
 /**
- * Home, above the fold: the name, a `$` tagline, the short profile, the status
- * a recruiter filters on, and the two CTAs. The entrance is CSS, so all of it
- * is painted and readable before any JS arrives.
+ * Home, above the fold: an availability pill, the headline, who I am, the two
+ * CTAs and the photo. /cv is the document; home leads with a claim, so the two
+ * don't open the same way. The entrance is CSS, so all of it is painted and
+ * readable before any JS arrives.
  */
 export default function Hero() {
+  const [degree] = cv.education;
   return (
-    <>
-      <header
-        className='animate-enter flex flex-col-reverse gap-6 sm:flex-row sm:items-start sm:justify-between'
-        style={step(1)}
-      >
-        <div className='min-w-0'>
-          <h1 className='text-4xl md:text-5xl font-bold tracking-tight text-foreground'>
-            {userData.name}
-          </h1>
-          <CommandLine className='mt-2'>
-            {cv.tagline}
-            <Cursor />
-          </CommandLine>
-          <p className='mt-4 max-w-xl text-foreground leading-relaxed'>
-            {userData.intro}
-          </p>
+    <header className='flex flex-col-reverse gap-6 sm:flex-row sm:items-start sm:justify-between'>
+      <div className='min-w-0'>
+        <p
+          className='animate-enter inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-sm text-foreground'
+          style={step(1)}
+        >
+          <span aria-hidden className='text-success'>
+            ●
+          </span>
+          {userData.availability.summary}
+        </p>
+        <h1
+          className='animate-enter mt-4 max-w-2xl text-4xl md:text-5xl font-bold tracking-tight text-balance text-foreground'
+          style={step(2)}
+        >
+          {userData.headline}
+        </h1>
+        <p className='animate-enter mt-3 text-muted-foreground' style={step(3)}>
+          {userData.name} · {degree.title} student, {degree.org}
+        </p>
+
+        {/* The CV is a static file, so a plain <a>; Link would try a
+            client-side route. */}
+        <div
+          className='animate-enter mt-6 flex flex-wrap gap-3'
+          style={step(4)}
+        >
+          <a
+            href={userData.resumeUrl}
+            download='Jaival_Saija_CV.pdf'
+            className={`${button} bg-primary text-primary-foreground hover:bg-primary/90`}
+          >
+            Download CV
+          </a>
+          <Link
+            href='/projects'
+            className={`${button} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground`}
+          >
+            View my work
+          </Link>
         </div>
-
-        <Image
-          src={userData.avatarUrl}
-          alt={`Photo of ${userData.name}`}
-          width={144}
-          height={144}
-          sizes='144px'
-          loading='eager'
-          fetchPriority='high'
-          className='size-28 md:size-36 shrink-0 rounded-xl object-cover shadow-md'
-        />
-      </header>
-
-      {/* Plain text in the HTML: ATS and screen readers get it as it is. */}
-      <section className='animate-enter mt-10' style={step(2)}>
-        <SectionLabel>status</SectionLabel>
-        <Rows
-          labelWidth='8rem'
-          rows={userData.availability.facts.map(({ label, value }) => ({
-            label: flagLabel(label),
-            value:
-              label === 'Start' ? (
-                <>
-                  <span aria-hidden className='mr-1.5 text-success'>
-                    ●
-                  </span>
-                  {value}
-                </>
-              ) : (
-                value
-              ),
-          }))}
-        />
-      </section>
-
-      {/* The CV is a static file, so a plain <a>; Link would try a
-          client-side route. */}
-      <div className='animate-enter mt-8 flex flex-wrap gap-3' style={step(3)}>
-        <a
-          href={userData.resumeUrl}
-          download='Jaival_Saija_CV.pdf'
-          className={`${button} bg-primary text-primary-foreground hover:bg-primary/90`}
-        >
-          Download CV
-        </a>
-        <Link
-          href='/projects'
-          className={`${button} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground`}
-        >
-          View my work
-        </Link>
       </div>
-    </>
+
+      <Image
+        src={userData.avatarUrl}
+        alt={`Photo of ${userData.name}`}
+        width={144}
+        height={144}
+        sizes='144px'
+        loading='eager'
+        fetchPriority='high'
+        className='animate-enter size-28 md:size-36 shrink-0 rounded-xl object-cover shadow-md'
+        style={step(1)}
+      />
+    </header>
   );
 }

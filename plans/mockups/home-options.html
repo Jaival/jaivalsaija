@@ -1,0 +1,493 @@
+<!doctype html>
+<!-- Home page directions, 2026-11-07. Superseded by home-combined.html; kept for later. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      .site {
+        --bg: oklch(0.18 0.02 225);
+        --fg: oklch(0.96 0.008 200);
+        --card: oklch(0.22 0.024 225);
+        --pri: oklch(0.82 0.11 200);
+        --pri-fg: oklch(0.2 0.04 220);
+        --mut: oklch(0.72 0.02 215);
+        --line: oklch(1 0 0 / 10%);
+        --ok: oklch(0.78 0.14 150);
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Space Grotesk', sans-serif;
+        border-radius: var(--radius);
+        padding: 28px 28px 32px;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .pri {
+        color: var(--pri);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font:
+          700 12px 'JetBrains Mono',
+          monospace;
+        color: var(--pri);
+        margin: 22px 0 10px;
+      }
+      .label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .btn.solid {
+        background: var(--pri);
+        color: var(--pri-fg);
+      }
+      .btn.ghost {
+        border: 2px solid var(--pri);
+        color: var(--pri);
+      }
+      .avatar {
+        border-radius: 12px;
+        object-fit: cover;
+      }
+      h3.opt {
+        margin: 26px 0 4px;
+        font-size: 16px;
+      }
+      p.why {
+        margin: 0 0 10px;
+        color: var(--muted-foreground);
+        font-size: 13px;
+      }
+
+      /* A */
+      .term {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: oklch(0.15 0.02 225);
+      }
+      .term .bar {
+        display: flex;
+        gap: 6px;
+        padding: 9px 12px;
+        border-bottom: 1px solid var(--line);
+        align-items: center;
+      }
+      .term .bar i {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: oklch(1 0 0 / 18%);
+        display: block;
+      }
+      .term .bar span {
+        margin-left: 8px;
+        font-size: 11px;
+      }
+      .term .body {
+        padding: 14px 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        line-height: 1.7;
+      }
+      .term .cmd {
+        color: var(--pri);
+        margin-top: 8px;
+      }
+      .term .cmd:first-child {
+        margin-top: 0;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 150px 1fr 70px;
+        gap: 12px;
+      }
+      .cursor {
+        display: inline-block;
+        width: 7px;
+        height: 14px;
+        background: var(--pri);
+        vertical-align: -2px;
+      }
+
+      /* B */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 13px;
+      }
+      .badge {
+        font:
+          500 11px 'JetBrains Mono',
+          monospace;
+        color: var(--ok);
+      }
+      .card h4 {
+        margin: 6px 0 2px;
+        font-size: 15px;
+      }
+      .wide {
+        grid-column: span 2;
+      }
+
+      /* C */
+      .big {
+        font-size: 40px;
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 8px 0 14px;
+      }
+      .big em {
+        font-style: normal;
+        color: var(--pri);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-top: 20px;
+      }
+      .stats div {
+        padding: 14px 4px;
+      }
+      .stats div + div {
+        border-left: 1px solid var(--line);
+        padding-left: 16px;
+      }
+      .stats b {
+        display: block;
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .feature {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 6px;
+      }
+
+      /* D */
+      .split {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        gap: 28px;
+      }
+      .side h2 {
+        margin: 12px 0 2px;
+        font-size: 22px;
+      }
+      .side .links {
+        font:
+          12px/1.9 'JetBrains Mono',
+          monospace;
+        color: var(--mut);
+        margin-top: 10px;
+      }
+      .log {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+      }
+      .log .e {
+        display: grid;
+        grid-template-columns: 62px 1fr;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px dashed var(--line);
+      }
+      .log .e:last-child {
+        border-bottom: 0;
+      }
+      .log .t {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 14px;
+        color: var(--fg);
+      }
+      .tag {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0 5px;
+        color: var(--pri);
+        font-size: 11px;
+        margin-right: 6px;
+      }
+      .now {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 13px;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 class="opt">A · Terminal session</h3>
+    <p class="why">
+      Home becomes one live shell. The CV stays a document; home reads as the
+      "engineer" side.
+    </p>
+    <div class="site">
+      <div class="term">
+        <div class="bar">
+          <i></i><i></i><i></i><span class="mono mut">jaival@saija: ~</span>
+        </div>
+        <div class="body">
+          <div class="cmd">$ whoami</div>
+          <div>
+            <span style="font: 700 26px 'Space Grotesk'">Jaival Saija</span>
+          </div>
+          <div class="mut">
+            Junior DevOps &amp; Cloud Engineer · Kaiserslautern
+          </div>
+          <div class="cmd">$ status</div>
+          <div>
+            <span class="ok">●</span> available now · working student or junior
+            · 20 h/week
+          </div>
+          <div class="cmd">$ ls ~/projects --sort=recent | head -3</div>
+          <div class="row">
+            <span>mdgloss/</span><span class="mut">Tauri 2, Rust, React</span
+            ><span class="ok">passing</span>
+          </div>
+          <div class="row">
+            <span>jobhunt-agent/</span
+            ><span class="mut">Claude Code, MCP, Python</span
+            ><span class="ok">v1.0.0</span>
+          </div>
+          <div class="row">
+            <span>kubernetes-lab/</span
+            ><span class="mut">kind, Helm, Argo CD</span
+            ><span class="mut">wip</span>
+          </div>
+          <div class="cmd">$ tail -2 ~/blog</div>
+          <div>
+            <span class="mut">07 Nov</span> Dockerizing Invoicely: 3.74 GB down
+            to 453 MB
+          </div>
+          <div><span class="mut">01 Nov</span> jobhunt-agent v1.0.0</div>
+          <div class="cmd">$ <span class="cursor"></span></div>
+        </div>
+      </div>
+      <div class="btns">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">All projects</span>
+      </div>
+    </div>
+
+    <h3 class="opt">B · Pipeline dashboard</h3>
+    <p class="why">
+      Home looks like a CI board: small header, a grid of cards with build
+      badges. Shows DevOps work, not a CV summary.
+    </p>
+    <div class="site">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <img
+          class="avatar"
+          src="D:/Projects/jaivalsaija/public/headshot.webp"
+          width="48"
+          height="48"
+        />
+        <div>
+          <div style="font-weight: 700; font-size: 20px; line-height: 1.1">
+            Jaival Saija
+          </div>
+          <div class="mono pri" style="font-size: 12px">
+            junior-devops-engineer · kaiserslautern
+          </div>
+        </div>
+        <div style="margin-left: auto" class="mono">
+          <span class="ok">●</span>
+          <span style="font-size: 12px">available now</span>
+        </div>
+      </div>
+      <div class="label">pipelines</div>
+      <div class="grid">
+        <div class="card">
+          <span class="badge">✓ ci passing</span>
+          <h4>mdgloss</h4>
+          <div class="mut">Tauri 2 · Rust · React</div>
+        </div>
+        <div class="card">
+          <span class="badge">✓ v1.0.0 released</span>
+          <h4>jobhunt-agent</h4>
+          <div class="mut">Claude Code · MCP · Python</div>
+        </div>
+        <div class="card">
+          <span class="badge" style="color: var(--mut)">◌ in progress</span>
+          <h4>Kubernetes Lab</h4>
+          <div class="mut">kind · Helm · Argo CD</div>
+        </div>
+        <div class="card wide">
+          <div class="mono pri" style="font-size: 11px">recent posts</div>
+          <div style="margin-top: 6px">
+            Dockerizing Invoicely: 3.74 GB down to 453 MB
+            <span class="mut mono" style="font-size: 11px">· 07 Nov</span>
+          </div>
+          <div>
+            jobhunt-agent v1.0.0
+            <span class="mut mono" style="font-size: 11px">· 01 Nov</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="mono pri" style="font-size: 11px">at maven infosoft</div>
+          <b style="font-size: 22px">50+</b>
+          <div class="mut">incidents resolved in 6 months</div>
+        </div>
+      </div>
+      <div class="btns">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">All projects</span>
+      </div>
+    </div>
+
+    <h3 class="opt">C · Statement + numbers</h3>
+    <p class="why">
+      A big claim leads, the name is small. Three numbers and two featured
+      projects. Reads like a pitch, the CV like the proof.
+    </p>
+    <div class="site">
+      <div class="mono pri" style="font-size: 12px">
+        jaival saija · junior devops &amp; cloud engineer
+      </div>
+      <div class="big">
+        I build pipelines and<br />keep <em>AWS</em> running.
+      </div>
+      <div class="mut" style="max-width: 480px">
+        M.Sc. student at RPTU Kaiserslautern. Available now as a working student
+        or junior, anywhere in Germany.
+      </div>
+      <div class="btns">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">View my work</span>
+      </div>
+      <div class="stats">
+        <div><b>50+</b><span class="mut">incidents resolved</span></div>
+        <div><b>3</b><span class="mut">products on GitHub Actions</span></div>
+        <div><b>10 mo</b><span class="mut">production AWS</span></div>
+      </div>
+      <div class="label">building now</div>
+      <div class="feature">
+        <div class="card">
+          <h4 style="margin: 0 0 2px">Kubernetes Learning Lab</h4>
+          <div class="mut">
+            14 modules on kind, ending in GitOps with Argo CD.
+          </div>
+        </div>
+        <div class="card">
+          <h4 style="margin: 0 0 2px">jobhunt-agent</h4>
+          <div class="mut">
+            Daily LLM job search with prompt-injection guards.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="opt">D · Profile + activity log</h3>
+    <p class="why">
+      Two columns: who I am on the left, what I did lately on the right as a git
+      log. Home changes every week; the CV does not.
+    </p>
+    <div class="site">
+      <div class="split">
+        <div class="side">
+          <img
+            class="avatar"
+            src="D:/Projects/jaivalsaija/public/headshot.webp"
+            width="120"
+            height="120"
+          />
+          <h2>Jaival Saija</h2>
+          <div class="mut">Junior DevOps &amp; Cloud Engineer</div>
+          <div class="links">
+            github.com/Jaival<br />linkedin/jaivalsaija<br />kaiserslautern, de
+          </div>
+          <div
+            class="btns"
+            style="flex-direction: column; align-items: flex-start"
+          >
+            <span class="btn solid">Download CV</span>
+          </div>
+        </div>
+        <div>
+          <div class="now">
+            <span class="ok">●</span> <b>Available now</b>
+            <span class="mut">· working student or junior · 20 h/week</span>
+          </div>
+          <div class="mono pri" style="font-size: 12px; margin-bottom: 4px">
+            $ git log --since=3.months
+          </div>
+          <div class="log">
+            <div class="e">
+              <span class="mut">07 Nov</span
+              ><span class="t"
+                ><span class="tag">post</span>Dockerizing Invoicely: 3.74 GB to
+                453 MB</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">01 Nov</span
+              ><span class="t"
+                ><span class="tag">release</span>jobhunt-agent v1.0.0</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">13 Oct</span
+              ><span class="t"
+                ><span class="tag">start</span>Kubernetes Learning Lab, module
+                1</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">Oct</span
+              ><span class="t"
+                ><span class="tag">ship</span>NextGleis Android build on
+                EAS</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">Sep</span
+              ><span class="t"
+                ><span class="tag">start</span>mdgloss: Tauri 2 markdown
+                reader</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

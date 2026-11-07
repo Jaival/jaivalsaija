@@ -38,13 +38,6 @@ export const spring = {
   duration: 0.35,
 } as const;
 
-/** Playful spring. Reserved for rare moments of delight. */
-export const springPlayful = {
-  type: 'spring',
-  bounce: 0.25,
-  duration: 0.5,
-} as const;
-
 /** Entrance recipe for scroll reveals and JS-driven entrances. */
 export const enterTransition = {
   duration: durations.enter,

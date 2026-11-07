@@ -83,6 +83,10 @@ tags) and restyles it in the same language.
 29. As Jaival, I want each phase to be its own PR, so that I can stop after any page.
 30. As Jaival, I want a data test that fails on a wrong date format, so that a typo never reaches
     the site.
+31. As a non-technical screener (HR), I want mono labels, dates and nav at a readable size, so that
+    the terminal look does not make the page hard to read.
+32. As a non-technical screener (HR), I want a plain "Download CV" button wherever the CV is
+    offered, so that I don't have to read a `curl` command to find it.
 
 ## Implementation Decisions
 
@@ -98,7 +102,12 @@ width.
 4. **Projects**: all projects as timeline rows with thumbnails.
 5. **About**: `$ whoami` lead line, the story, skill rows from the CV module.
 6. **Blog**: list page, series page and post page, with the version history restyled.
-7. **Contact**: contact rows, a terminal box with the CV download, the restyled form.
+7. **Contact**: contact rows, a terminal box with the CV download, the restyled form. The terminal
+   box is decoration; a plain "Download CV" button sits next to it.
+
+**Readability.** Mono text is never smaller than 14 px (`text-sm`): labels, dates, nav, kind tags.
+The mockup's 11–12 px sizes are too small. Muted text meets WCAG AA contrast (4.5:1) on the
+background, in light and dark.
 
 **Shared parts** (built in Foundation, used by every page; the `/cv` page moves to them too):
 
@@ -160,5 +169,7 @@ below it. The only new animation is the cursor: one CSS blink, still under `pref
 
 - The `/cv` page (PR #32) is the reference build of this look; the shared parts are extracted from
   it.
+- Readability points (stories 31–32) came from a three-reviewer pass (recruiter, DevOps hiring
+  manager, HR) on 11/2026. Their content and proof points are issue #35.
 - Mockup: `plans/site-revamp-mockup.html`. Blog post titles in it are real; the summaries marked
   "(summary from the post)" are placeholders.

@@ -69,7 +69,7 @@ export const cv: Cv = {
   phone: '+49 174 512 6677',
   location: 'Kaiserslautern, Germany',
   links: [
-    { label: 'jaivalsaija.vercel.app', href: 'https://jaivalsaija.vercel.app' },
+    { label: 'jaivalsaija.dev', href: 'https://www.jaivalsaija.dev' },
     { label: 'github.com/Jaival', href: 'https://github.com/Jaival' },
     {
       label: 'linkedin.com/in/jaivalsaija',

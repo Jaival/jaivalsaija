@@ -43,10 +43,10 @@ the last page phase.
 
 ## Left before `revamp/v4` merges into `main`
 
-1. Review and merge this PR and #55. #55 fixes the old gradient buttons (`/cv` "Download PDF",
-   error boundary), the v1.0.0 summary backticks, and RSS / OG kinds (now `postKind()`). It also
-   sets jobhunt-agent to 09/2026 on the site and in `utils/cv.ts` (Jaival: v0.0.1 was local only,
-   so the repo starts a month later).
+1. Review and merge this PR and #55. #55 fixes the old gradient buttons (`/cv` "Download PDF", error
+   boundary), the v1.0.0 summary backticks, and RSS / OG kinds (now `postKind()`). It also sets
+   jobhunt-agent to 09/2026 on the site and in `utils/cv.ts` (Jaival: v0.0.1 was local only, so the
+   repo starts a month later).
 2. `public/cv.pdf`: Jaival changes German "actively learning" to "learning A2" in the Word source
    and exports the PDF again.
 3. Merge `main` into `revamp/v4` (no new commits on `main` today), then one full pass over every

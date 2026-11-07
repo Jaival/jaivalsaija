@@ -92,7 +92,7 @@ const userData: UserData = {
     },
     {
       title: 'jobhunt-agent',
-      dates: '10/2026 – present',
+      dates: '09/2026 – present',
       stack: ['Claude Code', 'MCP (Gmail, Indeed)', 'Python'],
       description:
         'An LLM agent for my own job search, run every day as a Claude Code scheduled task. It pulls new ads from job APIs, Indeed and Gmail alerts, scores them against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. Its rules treat ad text as untrusted input, so prompt-injection attempts get reported instead of followed, and every claim has to come from my master CV. The Python builder then enforces the rest in code: it refuses drafts with placeholders, letters outside 250-350 words or a CV over two pages. Nothing is ever sent automatically.',

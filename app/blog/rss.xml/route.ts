@@ -1,7 +1,7 @@
 import series from '@/content/series';
 import userData from '@/utils/data';
 import { getBlog } from '@/utils/blog';
-import { calendarDay, kindLabel } from '@/utils/blog/kind';
+import { calendarDay, kindLabel, postKind } from '@/utils/blog/kind';
 import { blogPath, feedPath, postPath } from '@/utils/blog/paths';
 import { absoluteUrl } from '@/utils/site';
 
@@ -28,7 +28,7 @@ export async function GET() {
     .map(post => {
       const url = absoluteUrl(postPath(post.slug));
       const categories = [
-        kindLabel(post.type),
+        kindLabel(postKind(post)),
         ...(post.series ? [series[post.series].title] : []),
       ];
       return `    <item>

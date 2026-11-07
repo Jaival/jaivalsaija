@@ -59,11 +59,11 @@ export default class ErrorBoundary extends Component<Props, State> {
               should still work.
             </p>
 
-            <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+            <div className='flex flex-col sm:flex-row gap-3 justify-center'>
               <button
                 type='button'
                 onClick={() => window.location.reload()}
-                className='px-6 py-3 bg-gradient-to-r from-brand-from to-brand-to text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl transition-[box-shadow,transform] duration-200 ease-out active:scale-[0.97]'
+                className='inline-flex items-center justify-center h-11 px-8 text-sm font-medium rounded-md bg-primary text-primary-foreground transition-[background-color,transform] duration-200 ease-out hover:bg-primary/90 active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               >
                 Refresh Page
               </button>
@@ -73,7 +73,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 // A full page load on purpose: it discards the crashed React tree.
                 // eslint-disable-next-line @next/next/no-location-assign-relative-destination
                 onClick={() => (window.location.href = '/')}
-                className='px-6 py-3 bg-transparent border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-primary-foreground transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.97]'
+                className='inline-flex items-center justify-center h-11 px-8 text-sm font-medium rounded-md border-2 border-primary text-primary transition-[background-color,color,transform] duration-200 ease-out hover:bg-primary hover:text-primary-foreground active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               >
                 Go Home
               </button>

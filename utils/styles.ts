@@ -91,7 +91,6 @@ export const containerStyles = {
 // Display sizes need negative tracking and tight leading: type set for body
 // copy looks loose and gappy once it is 60px tall.
 export const titleStyles = {
-  hero: 'text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-foreground mb-4',
   page: 'pt-12 sm:pt-16 md:pt-20 pb-4 text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold tracking-tighter leading-[0.95] text-center md:text-left',
   section:
     'text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] mb-6',

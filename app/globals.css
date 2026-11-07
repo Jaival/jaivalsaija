@@ -151,10 +151,6 @@
   --brand-to: oklch(0.52 0.13 245);
   /* Hand-drawn highlights behind the hero roles (rough-notation). Pastels
      here, deep tints in dark mode, so text-foreground reads on both. */
-  --mark-1: oklch(0.78 0.12 40);
-  --mark-2: oklch(0.92 0.025 70);
-  --mark-3: oklch(0.89 0.05 135);
-  --mark-4: oklch(0.87 0.03 245);
   --chart-1: oklch(0.5 0.09 205);
   --chart-2: oklch(0.68 0.15 40);
   --chart-3: oklch(0.62 0.11 150);
@@ -199,10 +195,6 @@
   --highlight-strong: oklch(0.8 0.12 45);
   --brand-from: oklch(0.82 0.11 200);
   --brand-to: oklch(0.76 0.11 240);
-  --mark-1: oklch(0.45 0.1 35);
-  --mark-2: oklch(0.42 0.04 70);
-  --mark-3: oklch(0.42 0.06 140);
-  --mark-4: oklch(0.42 0.06 245);
   --chart-1: oklch(0.82 0.11 200);
   --chart-2: oklch(0.78 0.13 45);
   --chart-3: oklch(0.78 0.12 150);

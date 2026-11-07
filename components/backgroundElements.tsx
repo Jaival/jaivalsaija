@@ -1,8 +1,7 @@
 import { memo } from 'react';
 
 interface BackgroundElementsProps {
-  variant?: 'default' | 'contact' | 'minimal' | 'hero';
-  className?: string;
+  variant?: 'default' | 'contact' | 'minimal';
 }
 
 /**
@@ -58,25 +57,11 @@ const glows: Record<
         'absolute top-10 right-10 w-28 h-28 bg-primary/15 rounded-full blur-2xl opacity-40',
     },
   ],
-  hero: [
-    {
-      id: 'blue-hero',
-      className:
-        'absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-full blur-xl opacity-45',
-    },
-    {
-      id: 'orange-hero',
-      className:
-        'absolute bottom-20 right-10 w-40 h-40 bg-highlight/20 rounded-full blur-xl opacity-30',
-    },
-  ],
 };
 
 const BackgroundElements = memo<BackgroundElementsProps>(
-  ({ variant = 'default', className = '' }) => {
-    const isHeroPage =
-      className.includes('hero') || className.includes('overflow-hidden');
-    const elements = glows[isHeroPage ? 'hero' : variant];
+  ({ variant = 'default' }) => {
+    const elements = glows[variant];
 
     return (
       <>

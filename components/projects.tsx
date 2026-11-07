@@ -155,7 +155,7 @@ function ProjectCard({
 export default function Projects() {
   return (
     <section className='relative py-20 px-4 min-h-svh'>
-      <BackgroundElements className='projects-page' />
+      <BackgroundElements />
 
       <div className='container mx-auto max-w-6xl relative z-10'>
         {/* Above the fold: CSS entrance, no hydration wait. */}

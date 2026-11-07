@@ -60,6 +60,8 @@ export interface UserData {
   githubUsername: string;
   name: string;
   designation: string;
+  /** The short profile under the name on home. */
+  intro: string;
   avatarUrl: string;
   email: string;
   address: string;
@@ -83,6 +85,8 @@ const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
   designation: 'Junior DevOps & Cloud Engineer',
+  intro:
+    'Junior DevOps & Cloud Engineer. I kept AWS running in production at Maven Infosoft and fixed 50+ incidents in my first six months. Now an M.Sc. student at RPTU Kaiserslautern, building a Kubernetes lab.',
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
@@ -167,19 +171,17 @@ const userData: UserData = {
   },
   availability: {
     role: "I'm looking for a working student (20 h/week) or junior role in DevOps or cloud, anywhere in Germany.",
+    // Worded like the CV (utils/cv.ts). Home shows these as status rows.
     facts: [
-      { label: 'Hours', value: '20 h/week, 40 in semester breaks' },
-      { label: 'Start', value: 'As soon as possible' },
-      { label: 'Graduation', value: 'M.Sc. expected autumn 2027' },
       {
-        label: 'Permit',
+        label: 'Looking for',
         value:
-          '§16b AufenthG, valid until 07/2028: up to 20 h/week in semester, full-time in breaks',
+          'Working student or junior role · DevOps, cloud, platform · anywhere in Germany',
       },
-      {
-        label: 'Languages',
-        value: 'English C1 (work language), German A2 (learning)',
-      },
+      { label: 'Hours', value: '20 h/week in semester · up to 40 in breaks' },
+      { label: 'Start', value: 'Available immediately' },
+      { label: 'Permit', value: '§16b AufenthG student permit' },
+      { label: 'Languages', value: 'English C1 · German A1' },
     ],
   },
   skills: [

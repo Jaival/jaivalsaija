@@ -1,99 +1,66 @@
 import Link from 'next/link';
-import series from '@/content/series';
-import { getBlog, type FeedItem } from '@/utils/blog';
-import { blogPath, postPath, seriesPath } from '@/utils/blog/paths';
-import PostCover from './postCover';
-import PostMeta, { SeriesMeta } from './postMeta';
+import { KindTag, SectionLabel, TitleLine } from '@/components/pipeline';
+import { getBlog } from '@/utils/blog';
+import { kindLabel, formatPostDate } from '@/utils/blog/kind';
+import { blogPath, postPath } from '@/utils/blog/paths';
 import Reveal from './Reveal';
 
-// Home leads with DevOps work, so the cards are picked by hand, not by date.
-// A post slug or a series id; one that no longer exists is skipped.
-const PINNED = ['npm-trusted-publishing', 'kubernetes-lab', 'jobhunt-agent'];
+const SHOWN = 3;
 
-const feedKey = (item: FeedItem) =>
-  item.kind === 'post' ? item.post.slug : item.id;
-
-const card =
-  'group flex h-full flex-col rounded-2xl border border-border bg-card/50 p-6 shadow-lg backdrop-blur-sm transition-[border-color,box-shadow,translate] duration-200 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl reduced-transparency:bg-card reduced-transparency:backdrop-blur-none';
-
-const cardTitle =
-  'mt-4 text-xl font-bold tracking-tight text-balance transition-colors duration-200 ease-out group-hover:text-primary';
-
-const cardText = 'mt-2 text-muted-foreground leading-relaxed line-clamp-3';
-
-// The whole card is one link: to the post, or for a series, its page.
-function RecentCard({ item }: { item: FeedItem }) {
-  if (item.kind === 'series') {
-    const { title, description } = series[item.id];
-    return (
-      <Link href={seriesPath(item.id)} className={card}>
-        <SeriesMeta date={item.latest.date} parts={item.parts} />
-        <h3 className={cardTitle}>{title}</h3>
-        <p className={cardText}>{description}</p>
-      </Link>
-    );
-  }
-
-  const { post } = item;
-  return (
-    <Link href={postPath(post.slug)} className={card}>
-      {post.cover && (
-        <PostCover
-          cover={post.cover}
-          sizes='(max-width: 768px) 100vw, 330px'
-          className='mb-5 rounded-xl'
-        />
-      )}
-      <PostMeta {...post} />
-      <h3 className={cardTitle}>{post.title}</h3>
-      <p className={cardText}>{post.summary}</p>
-    </Link>
-  );
-}
-
-/** Home page "Writing": the pinned feed entries, below the hero. */
+/**
+ * Home "recent posts": the newest feed entries as rows, a kind tag before the
+ * title and the date at the right. A series counts once, as its newest part,
+ * so one busy series can't fill the list.
+ */
 export default async function RecentPosts() {
   const { feed } = await getBlog();
-  const items = PINNED.flatMap(key =>
-    feed.filter(item => feedKey(item) === key),
-  );
-  if (items.length === 0) {
+  // A part with its own card can also be its series' newest part; show it once.
+  const posts = [
+    ...new Map(
+      feed
+        .map(item => (item.kind === 'post' ? item.post : item.latest))
+        .map(post => [post.slug, post]),
+    ).values(),
+  ].slice(0, SHOWN);
+  if (posts.length === 0) {
     return null;
   }
 
   return (
-    // Same container as the hero, so the heading lines up with the text above.
-    <section aria-labelledby='writing-heading' className='px-4 pb-24'>
-      <div className='container mx-auto max-w-6xl'>
-        <Reveal className='flex items-baseline justify-between gap-4 mb-8'>
-          <h2
-            id='writing-heading'
-            className='text-3xl md:text-4xl font-bold tracking-tight'
+    <section className='mt-12'>
+      <SectionLabel>recent posts</SectionLabel>
+      <ul>
+        {posts.map(post => (
+          <Reveal
+            as='li'
+            key={post.slug}
+            className='border-b border-dashed border-border last:border-0'
           >
-            Writing
-          </h2>
-          <Link
-            href={blogPath}
-            className='text-sm font-medium text-primary transition-colors duration-200 ease-out hover:text-brand-to'
-          >
-            All posts <span aria-hidden>→</span>
-          </Link>
-        </Reveal>
-
-        <ul className='grid gap-4 md:grid-cols-3'>
-          {items.map((item, index) => (
-            <Reveal
-              as='li'
-              key={feedKey(item)}
-              index={index}
-              className='h-full'
+            <Link
+              href={postPath(post.slug)}
+              className='block py-3 [&_h3]:transition-colors [&_h3]:duration-200 [&_h3]:ease-out hover:[&_h3]:text-primary'
             >
-              {/* Lift on hover is CSS on the card; Reveal owns the entrance. */}
-              <RecentCard item={item} />
-            </Reveal>
-          ))}
-        </ul>
-      </div>
+              <TitleLine
+                title={
+                  <>
+                    <KindTag>{kindLabel(post.type)}</KindTag>
+                    {post.title}
+                  </>
+                }
+                dates={formatPostDate(post.date)}
+              />
+            </Link>
+          </Reveal>
+        ))}
+      </ul>
+      <Reveal>
+        <Link
+          href={blogPath}
+          className='mt-3 inline-block font-mono text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary'
+        >
+          all posts <span aria-hidden>→</span>
+        </Link>
+      </Reveal>
     </section>
   );
 }

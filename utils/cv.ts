@@ -110,7 +110,7 @@ export const cv: Cv = {
     {
       label: 'languages',
       value:
-        'English C1 · German A1 (Goethe certificate), actively learning · Hindi, Gujarati native',
+        'English C1 · German A1 (Goethe certificate), learning A2 · Hindi, Gujarati native',
     },
   ],
   education: [

@@ -1,4 +1,5 @@
 import { postPath } from '@/utils/blog/paths';
+import type { CvEntry } from '@/utils/cv';
 
 // Enhanced type definitions for better type safety
 export interface Project {
@@ -15,20 +16,6 @@ export interface Project {
    * workflows actually do: a recruiter's engineer will click through.
    */
   ships?: string;
-}
-
-export interface Experience {
-  id: number;
-  title: string;
-  /** Left out for a gap entry, which has no employer. */
-  company?: string;
-  year: string;
-  companyLink?: string;
-  desc: string;
-  /** Results with numbers, shown as a list under desc. */
-  highlights?: string[];
-  /** A dated line that explains time between jobs, styled as a note. */
-  gap?: boolean;
 }
 
 export interface About {
@@ -72,10 +59,12 @@ export interface UserData {
   skills: SkillGroup[];
   /** Started, not yet something I'd claim as a skill. */
   learning: string[];
-  /** Work only, newest first. Degrees live in education. */
-  experience: Experience[];
-  education: Experience[];
   /** My master CV PDF, copied in as is. */
+  /**
+   * Older work that /experience shows after the CV's jobs, but the CV
+   * leaves out. Same shape and date format as the CV's entries.
+   */
+  earlierWork: CvEntry[];
   resumeUrl: string;
   socialLinks: SocialLinks;
 }
@@ -184,7 +173,10 @@ const userData: UserData = {
         label: 'Permit',
         value: '§16b AufenthG student permit, valid until 07/2028',
       },
-      { label: 'Languages', value: 'English C1 · German A2 (learning)' },
+      {
+        label: 'Languages',
+        value: 'English C1 · German A1 (Goethe certificate), learning A2',
+      },
     ],
   },
   skills: [
@@ -222,66 +214,16 @@ const userData: UserData = {
     { group: 'Data', items: ['PostgreSQL', 'MySQL', 'Firestore'] },
   ],
   learning: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
-  experience: [
+  earlierWork: [
     {
-      id: 1,
-      title: "Master's preparation and move to Germany",
-      year: '2022 – 2023',
-      desc: "After Maven I prepared my applications for a Master's and moved from India to Germany to start at RPTU.",
-      gap: true,
-    },
-    {
-      id: 2,
-      title: 'Junior DevOps Engineer',
-      company: 'Maven Infosoft Pvt. Ltd., Ahmedabad',
-      year: 'Jun 2021 – Mar 2022',
-      companyLink: 'https://in.linkedin.com/company/maven-infosoft-pvt-ltd',
-      desc: 'I ran the AWS infrastructure for a .NET CMS product across dev, stage and production, and alerts came to me first.',
-      highlights: [
-        'Resolved 50+ production incidents in my first six months, tracing alerts through logs and fixing the networking faults behind most of them.',
-        'Built the GitHub Actions pipelines for testing, UAT and dev deployments of 3 products.',
-        'Secured dev, stage and production (EC2, S3, VPC) for a 7-person team with least-privilege IAM policies and a segmented VPC.',
-        'Caught 8–10 CPU and memory problems before customers noticed, with CloudWatch alarms.',
-        'Cut new-developer onboarding by 30% and maintenance time by 20% by writing the deployment runbooks and rewriting the update SOPs.',
-        'Led monthly root-cause post-mortems with the developers, 4–6 incidents each, and trained 7 teammates in Docker as we moved the pipeline to containers.',
-      ],
-    },
-    {
-      id: 3,
-      title: 'Junior Developer (Intern)',
-      company: 'Apexa Information System Pvt. Ltd., Ahmedabad',
-      year: 'Jan 2020 – Jun 2020',
-      companyLink: 'https://apexa.in/',
-      desc: 'Built a task management app in Flutter for iOS and Android, with Firebase behind it for real-time sync. I designed the data structure and deployed it to Firebase Hosting, then fixed the 5–6 bugs and UI issues the senior developers raised in review.',
-      highlights: [
-        'Later rebuilt it as the open-source Taskly, with Riverpod, offline support, and GitHub Actions that test it and build releases for every platform.',
-      ],
-    },
-    {
-      id: 4,
       title: 'Mobile App Developer (In-house)',
-      company: 'Ganpat University | Institute of Computer Technology',
-      year: 'May 2019 – Jun 2019',
-      companyLink: 'https://ict.guni.ac.in/',
-      desc: 'A scheduling app so professors and students could book meetings without the email back and forth. I built it with a 4-person student team, from the interface to a test phase with professors.',
-    },
-  ],
-  education: [
-    {
-      id: 1,
-      title: 'M.Sc. Computer Science',
-      company: 'RPTU Kaiserslautern',
-      year: '2023 – Present',
-      companyLink: 'https://cs.rptu.de/en/',
-      desc: 'Distributed systems and network security. Close enough to the infrastructure work I was already doing that the theory fills in gaps I used to work around.',
-    },
-    {
-      id: 2,
-      title: 'B.Tech Computer Science & Engineering',
-      company: 'Ganpat University | Institute of Computer Technology',
-      year: 'Aug 2017 – May 2021',
-      companyLink: 'https://ict.guni.ac.in/',
-      desc: 'Specialized in cloud-based applications, which was an unusual track to pick at the time. CGPA 8.67, top 10% of the class. It meant I was writing serverless functions and setting up cloud networking while it was still coursework.',
+      org: 'Institute of Computer Technology, Ganpat University, India',
+      dates: '05/2019 – 06/2019',
+      context:
+        'A scheduling app so professors and students could book meetings without the email back and forth.',
+      bullets: [
+        'Built it with a 4-person student team, from the interface to a test phase with professors.',
+      ],
     },
   ],
   resumeUrl: '/cv.pdf',

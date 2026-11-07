@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { cv } from './cv';
+import userData from './data';
 
 // Dates read as a range: "MM/YYYY – MM/YYYY", or one that ends in
 // "– present" or "(expected)". A typo here would reach /cv, the experience
@@ -10,6 +11,10 @@ const range = new RegExp(`^${month} – (${month}( \\(expected\\))?|present)$`);
 const dated = [
   ...cv.experience.map(entry => ({ name: entry.title, dates: entry.dates })),
   ...cv.education.map(entry => ({ name: entry.title, dates: entry.dates })),
+  ...userData.earlierWork.map(entry => ({
+    name: entry.title,
+    dates: entry.dates,
+  })),
   ...cv.projects.map(project => ({ name: project.name, dates: project.dates })),
 ];
 

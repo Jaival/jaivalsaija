@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/experience' },
   title: 'Experience - Jaival Saija',
   description:
-    'My DevOps job at Maven Infosoft with its numbers, the internships before it, and my degrees.',
+    'My DevOps job at Maven Infosoft with its numbers, the internship before it, and my degrees.',
 };
 
 export default function ExperiencePage() {

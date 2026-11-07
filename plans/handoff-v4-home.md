@@ -1,7 +1,7 @@
 # Handoff: v4 phase 2, Home (2026-11-07)
 
-Branch `revamp/v4-home` → PR #49 into `revamp/v4`, on top of phase 1 (#48, merged).
-Spec: `plans/site-revamp.md` (issue #33), mockup `plans/site-revamp-mockup.html` ("1 · Home").
+Branch `revamp/v4-home` → PR #49 into `revamp/v4`, on top of phase 1 (#48, merged). Spec:
+`plans/site-revamp.md` (issue #33), mockup `plans/site-revamp-mockup.html` ("1 · Home").
 
 ## Done
 

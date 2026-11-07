@@ -180,8 +180,11 @@ const userData: UserData = {
       },
       { label: 'Hours', value: '20 h/week in semester · up to 40 in breaks' },
       { label: 'Start', value: 'Available immediately' },
-      { label: 'Permit', value: '§16b AufenthG student permit' },
-      { label: 'Languages', value: 'English C1 · German A1' },
+      {
+        label: 'Permit',
+        value: '§16b AufenthG student permit, valid until 07/2028',
+      },
+      { label: 'Languages', value: 'English C1 · German A2 (learning)' },
     ],
   },
   skills: [

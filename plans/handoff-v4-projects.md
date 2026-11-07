@@ -1,8 +1,8 @@
 # Handoff: v4 phase 4, Projects (2026-11-07)
 
-Branch `revamp/v4-projects` → PR into `revamp/v4`, stacked on phase 3 (#50) and phase 2 (#49),
-neither merged yet. Spec: `plans/site-revamp.md` (issue #33), mockup `plans/site-revamp-mockup.html`
-("3 · Projects").
+Branch `revamp/v4-projects` → PR #51 into `revamp/v4`, rebased after phases 2 (#49) and 3 (#50)
+merged. Spec: `plans/site-revamp.md` (issue #33), mockup `plans/site-revamp-mockup.html` ("3 ·
+Projects").
 
 ## Done
 

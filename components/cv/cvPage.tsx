@@ -6,10 +6,10 @@ import {
   CommandLine,
   Rows,
   SectionLabel,
-  Timeline,
   TitleLine,
 } from '@/components/pipeline';
-import { cv, type CvEntry } from '@/utils/cv';
+import CvEntry from '@/components/cvEntry';
+import { cv } from '@/utils/cv';
 import CvDownload from './cvDownload';
 
 // The CV as a page of the site, laid out like the "A · Pipeline" PDF. It is
@@ -29,42 +29,6 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       <SectionLabel>{title}</SectionLabel>
       {children}
     </section>
-  );
-}
-
-function EntryBody({ entry }: { entry: CvEntry }) {
-  return (
-    <>
-      <TitleLine title={entry.title} org={entry.org} dates={entry.dates} />
-      {entry.context && (
-        <p className='mt-1 italic text-muted-foreground leading-relaxed'>
-          {entry.context}
-        </p>
-      )}
-      {entry.details && (
-        <p className='mt-1 text-foreground leading-relaxed'>{entry.details}</p>
-      )}
-      {entry.bullets.length > 0 && (
-        <ul className={bullets}>
-          {entry.bullets.map(item => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      )}
-    </>
-  );
-}
-
-function Entry({ entry }: { entry: CvEntry }) {
-  // A job sits on the accent timeline; a gap or a degree does not.
-  return entry.bullets.length > 0 ? (
-    <Timeline>
-      <EntryBody entry={entry} />
-    </Timeline>
-  ) : (
-    <article>
-      <EntryBody entry={entry} />
-    </article>
   );
 }
 
@@ -172,7 +136,7 @@ export default function CvPage() {
           <div className='space-y-5'>
             {cv.education.map(entry => (
               <Reveal key={entry.title}>
-                <Entry entry={entry} />
+                <CvEntry entry={entry} />
               </Reveal>
             ))}
           </div>
@@ -182,7 +146,7 @@ export default function CvPage() {
           <div className='space-y-5'>
             {cv.experience.map(entry => (
               <Reveal key={entry.title + entry.dates}>
-                <Entry entry={entry} />
+                <CvEntry entry={entry} />
               </Reveal>
             ))}
           </div>

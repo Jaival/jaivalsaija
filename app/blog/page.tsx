@@ -3,9 +3,10 @@ import { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
 import PostTimeline from '@/components/postTimeline';
 import { getBlog } from '@/utils/blog';
-import { feedPath } from '@/utils/blog/paths';
+import { blogPath, feedPath } from '@/utils/blog/paths';
 
 export const metadata: Metadata = {
+  alternates: { canonical: blogPath },
   title: 'Blog - Jaival Saija',
   description:
     "What I'm building and learning: longer posts on DevOps and cloud work, and short updates in between.",

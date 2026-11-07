@@ -43,3 +43,6 @@ next-env.d.ts
 
 # openidea
 /.openidea
+
+# Lighthouse CI
+.lighthouseci/

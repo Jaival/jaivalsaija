@@ -72,20 +72,23 @@ export function SectionLabel({
  * mono at the right edge. On phones the date goes under the title.
  */
 export function TitleLine({
+  as: Heading = 'h3',
   title,
   org,
   dates,
 }: {
+  /** `h2` for rows that follow the page's h1 with no section label between. */
+  as?: 'h2' | 'h3';
   title: ReactNode;
   org?: ReactNode;
   dates: string;
 }) {
   return (
     <div className='flex flex-col gap-x-6 sm:flex-row sm:items-baseline sm:justify-between'>
-      <h3 className='text-lg text-foreground'>
+      <Heading className='text-lg text-foreground'>
         <span className='font-semibold'>{title}</span>
         {org && <span className='text-muted-foreground'> · {org}</span>}
-      </h3>
+      </Heading>
       <p className='shrink-0 font-mono text-sm whitespace-nowrap text-muted-foreground'>
         {dates}
       </p>

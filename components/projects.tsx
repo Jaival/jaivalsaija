@@ -36,7 +36,7 @@ function ProjectRow({ project }: { project: Project }) {
 
   return (
     <Timeline>
-      <TitleLine title={title} org={stack.join(', ')} dates={dates} />
+      <TitleLine as='h2' title={title} org={stack.join(', ')} dates={dates} />
       {(githubUrl || websiteUrl) && (
         <p className='mt-1 flex flex-wrap items-baseline gap-x-2'>
           {githubUrl && (

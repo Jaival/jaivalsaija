@@ -18,12 +18,12 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Jaival Saija | DevOps Engineer · AI Automation',
+  title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
   description:
-    'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
+    'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
   keywords: [
     'DevOps Engineer',
-    'AI Automation',
+    'Cloud Engineer',
     'LLM Agents',
     'AWS',
     'Cloud Security',
@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     'Kubernetes',
     'Working Student',
     'Werkstudent',
-    'AI Automation',
     'Kaiserslautern',
     'Germany',
   ],
@@ -52,16 +51,16 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Jaival Saija | DevOps Engineer · AI Automation',
+    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
     description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
+      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaival Saija | DevOps Engineer · AI Automation',
+    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
     description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps, cloud or AI automation in Germany.',
+      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
     creator: '@Jaival469',
   },
 };

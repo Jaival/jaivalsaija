@@ -10,20 +10,20 @@ RPTU Kaiserslautern.
 
 ## What I'm looking for
 
-A working student or junior role in DevOps, cloud or AI automation, anywhere in Germany.
+**Junior DevOps & Cloud Engineer.** A working student (20 h/week) or junior role in DevOps or cloud,
+anywhere in Germany.
 
 - **Hours:** 20 h/week in semester, up to 40 in breaks
 - **Start:** as soon as possible
-- **Permit:** §16b AufenthG student residence permit, working student OK
-- **Languages:** English C1, German A1
+- **Permit:** §16b AufenthG student residence permit, valid until 07/2028. It allows up to 20 h/week
+  during the semester and full-time work in semester breaks. It can be renewed for the rest of my
+  Master's; after graduation I can apply for an 18-month job-seeker permit (§20 AufenthG).
+- **Languages:** English C1 (work language), German A2 (learning)
 
 ## Where to look first
 
 If you have five minutes, these show the most:
 
-- **[jobhunt-agent](https://github.com/Jaival/jobhunt-agent)**: an LLM agent that runs my job search
-  every day as a Claude Code scheduled task. Job ad text is treated as untrusted input, and a Python
-  builder refuses drafts that break its rules. Nothing is sent automatically.
 - **[react-rough-notation](https://github.com/Jaival/react-rough-notation)**: my maintained npm
   package. Releases go out through GitHub Actions with npm trusted publishing over OIDC, so no npm
   token is stored anywhere. I wrote up how in
@@ -31,12 +31,15 @@ If you have five minutes, these show the most:
 - **[Kubernetes Learning Lab](https://github.com/Jaival/kubernetes-learning-lab)**: where I'm
   learning Kubernetes on a local three-node kind cluster, through Helm, Prometheus and Argo CD.
   Started October 2026, still in progress.
+- **[jobhunt-agent](https://github.com/Jaival/jobhunt-agent)**: an LLM agent that runs my job search
+  every day as a Claude Code scheduled task. Job ad text is treated as untrusted input, and a Python
+  builder refuses drafts that break its rules. Nothing is sent automatically.
 - **Experience**: 10 months as a Junior DevOps Engineer at Maven Infosoft, running AWS for a .NET
   CMS across dev, stage and production. 50+ incidents resolved in the first six months, GitHub
   Actions pipelines for 3 products. The details are on the
   [experience page](https://www.jaivalsaija.dev/experience).
 
-All projects, with how each one is built, tested and released, are on the
+Seven selected projects, with how each one is built, tested and released, are on the
 [projects page](https://www.jaivalsaija.dev/projects).
 
 ## About this repo

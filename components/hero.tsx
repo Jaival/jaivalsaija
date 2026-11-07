@@ -22,8 +22,8 @@ const colors = [
 ];
 const roles = [
   'DevOps Engineer.',
-  'LLM Agents & Automation.',
   'AWS Cloud & Security.',
+  'CI/CD & GitHub Actions.',
   'Incident Responder.',
 ];
 
@@ -87,9 +87,10 @@ export default function Hero() {
           <div className='animate-enter space-y-4 max-w-2xl' style={step(3)}>
             <p className='text-lg md:text-xl text-muted-foreground leading-relaxed'>
               I kept AWS running in production at Maven Infosoft and fixed 50+
-              incidents in my first six months. Now I build LLM agents with
-              guardrails, like the one that drafts my job applications every
-              day, next to an M.Sc. at RPTU Kaiserslautern.
+              incidents in my first six months. Now I&apos;m doing an M.Sc. at
+              RPTU Kaiserslautern, and every project I ship has CI on each
+              change, from token-free npm releases over OIDC to a serverless
+              proxy deployed from GitHub Actions.
             </p>
             <p className='text-lg md:text-xl font-medium text-foreground leading-relaxed'>
               {userData.availability.role}

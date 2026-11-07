@@ -23,6 +23,12 @@ export interface Project {
    * workflows actually do: a recruiter's engineer will click through.
    */
   ships?: string;
+  /**
+   * The badge on a home card, set by hand: 'ok' for a green check (CI
+   * passing, a release out), 'wip' for work still in progress. Check the
+   * repo's last CI run or release before changing it.
+   */
+  status?: { label: string; state: 'ok' | 'wip' };
 }
 
 export interface About {
@@ -34,6 +40,8 @@ export interface About {
 export interface Availability {
   /** Short label/value pairs. Plain text, so ATS and screen readers get it. */
   facts: { label: string; value: string }[];
+  /** The one-line pill above the home headline. */
+  summary: string;
 }
 
 export interface SocialLinks {
@@ -45,8 +53,8 @@ export interface UserData {
   githubUsername: string;
   name: string;
   designation: string;
-  /** The short profile under the name on home. */
-  intro: string;
+  /** The home headline: what I do, true in the present tense. */
+  headline: string;
   avatarUrl: string;
   email: string;
   address: string;
@@ -68,8 +76,7 @@ const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
   designation: 'Junior DevOps & Cloud Engineer',
-  intro:
-    'Junior DevOps & Cloud Engineer. I kept AWS running in production at Maven Infosoft and fixed 50+ incidents in my first six months. Now an M.Sc. student at RPTU Kaiserslautern, building a Kubernetes lab.',
+  headline: 'I build CI pipelines and fix what breaks in production.',
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
@@ -85,6 +92,7 @@ const userData: UserData = {
       githubUrl: 'https://github.com/Jaival/mdgloss',
       ships:
         'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
+      status: { label: 'ci passing', state: 'ok' },
     },
     {
       title: 'jobhunt-agent',
@@ -97,6 +105,7 @@ const userData: UserData = {
       websiteLabel: 'Setup guide',
       ships:
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',
+      status: { label: 'v1.0.0 released', state: 'ok' },
     },
     {
       title: 'Kubernetes Learning Lab',
@@ -106,6 +115,7 @@ const userData: UserData = {
         "Where I'm learning Kubernetes, starting from Docker. Fourteen modules on a local three-node kind cluster, from Pods and Gateway API routing to RBAC, Helm, Prometheus, and Argo CD with GitHub Actions, ending in a capstone app deployed through GitOps. I started in October 2026: the course material is in the repo, and my exercise work goes in module by module.",
       githubUrl: 'https://github.com/Jaival/kubernetes-learning-lab',
       ships: 'Nothing ships yet. The capstone will deploy through Argo CD.',
+      status: { label: 'in progress', state: 'wip' },
     },
     {
       title: 'react-rough-notation',
@@ -167,7 +177,8 @@ const userData: UserData = {
     ],
   },
   availability: {
-    // Worded like the CV (utils/cv.ts). Home shows these as status rows.
+    // Worded like the CV (utils/cv.ts). /aboutme shows these as status rows.
+    summary: 'Available now · working student or junior role',
     facts: [
       {
         label: 'Looking for',

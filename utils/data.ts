@@ -4,8 +4,15 @@ import type { CvEntry } from '@/utils/cv';
 // Enhanced type definitions for better type safety
 export interface Project {
   title: string;
+  /**
+   * First and last commit month, "MM/YYYY – MM/YYYY", or "– present" while
+   * work goes on. The data test checks the form.
+   */
+  dates: string;
+  /** The main tools, shown after the title. */
+  stack: string[];
   description: string;
-  /** Preview image. Cards without one fall back to a title block. */
+  /** Small thumbnail at the right of the row. Rows without one show none. */
   imgUrl?: string;
   githubUrl?: string;
   websiteUrl?: string;
@@ -80,10 +87,12 @@ const userData: UserData = {
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
   // Seven picked by hand, in this order. Everything else is one click away
-  // through the "View More on GitHub" link under the cards.
+  // through the GitHub link under the rows.
   projects: [
     {
       title: 'mdgloss',
+      dates: '09/2026 – present',
+      stack: ['Tauri 2', 'Rust', 'React', 'TypeScript'],
       description:
         'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
       githubUrl: 'https://github.com/Jaival/mdgloss',
@@ -92,6 +101,8 @@ const userData: UserData = {
     },
     {
       title: 'jobhunt-agent',
+      dates: '10/2026 – present',
+      stack: ['Claude Code', 'MCP (Gmail, Indeed)', 'Python'],
       description:
         'An LLM agent for my own job search, run every day as a Claude Code scheduled task. It pulls new ads from job APIs, Indeed and Gmail alerts, scores them against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. Its rules treat ad text as untrusted input, so prompt-injection attempts get reported instead of followed, and every claim has to come from my master CV. The Python builder then enforces the rest in code: it refuses drafts with placeholders, letters outside 250-350 words or a CV over two pages. Nothing is ever sent automatically.',
       githubUrl: 'https://github.com/Jaival/jobhunt-agent',
@@ -102,6 +113,8 @@ const userData: UserData = {
     },
     {
       title: 'Kubernetes Learning Lab',
+      dates: '10/2026 – present',
+      stack: ['kind', 'Helm', 'Prometheus', 'Grafana'],
       description:
         "Where I'm learning Kubernetes, starting from Docker. Fourteen modules on a local three-node kind cluster, from Pods and Gateway API routing to RBAC, Helm, Prometheus, and Argo CD with GitHub Actions, ending in a capstone app deployed through GitOps. I started in October 2026: the course material is in the repo, and my exercise work goes in module by module.",
       githubUrl: 'https://github.com/Jaival/kubernetes-learning-lab',
@@ -109,8 +122,10 @@ const userData: UserData = {
     },
     {
       title: 'react-rough-notation',
+      dates: '12/2024 – present',
+      stack: ['React', 'TypeScript', 'GitHub Actions', 'npm'],
       description:
-        'My maintained fork of the React wrapper for Rough Notation, the hand-drawn highlights on this page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
+        'My maintained fork of the React wrapper for Rough Notation, which draws hand-drawn highlights on a web page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
       githubUrl: 'https://github.com/Jaival/react-rough-notation',
       websiteUrl:
         'https://www.npmjs.com/package/@jaivalsaija/react-rough-notation',
@@ -120,6 +135,8 @@ const userData: UserData = {
     },
     {
       title: 'NextGleis',
+      dates: '08/2026 – 10/2026',
+      stack: ['Expo', 'React Native', 'TypeScript', 'Node.js on Vercel'],
       description:
         "An Android departure board for German buses and trains, with live delays and platform changes. A small serverless proxy turns Deutsche Bahn's XML into JSON and keeps the API keys off the device. Built with Expo and React Native.",
       githubUrl: 'https://github.com/Jaival/NextGleis',
@@ -128,6 +145,8 @@ const userData: UserData = {
     },
     {
       title: 'Invoicely',
+      dates: '12/2023 – present',
+      stack: ['Next.js', 'Postgres (Neon)', 'Drizzle', 'Better Auth', 'Docker'],
       description:
         'An invoicing app for freelancers, in development and built to learn the full stack. So far: Google sign-in, email verification and organizations. Next.js, Postgres on Neon, Drizzle and Better Auth.',
       imgUrl: '/projects/invoicely.png',
@@ -138,6 +157,8 @@ const userData: UserData = {
     },
     {
       title: 'Taskly',
+      dates: '02/2021 – 10/2026',
+      stack: ['Flutter', 'Riverpod', 'Firebase'],
       description:
         'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
       imgUrl: '/projects/taskly.webp',

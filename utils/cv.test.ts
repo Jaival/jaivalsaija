@@ -3,8 +3,8 @@ import { cv } from './cv';
 import userData from './data';
 
 // Dates read as a range: "MM/YYYY – MM/YYYY", or one that ends in
-// "– present" or "(expected)". A typo here would reach /cv, the experience
-// page and the about page, so it fails the build instead.
+// "– present" or "(expected)". A typo here would reach /cv, the experience,
+// projects and about pages, so it fails the build instead.
 const month = '(0[1-9]|1[0-2])/\\d{4}';
 const range = new RegExp(`^${month} – (${month}( \\(expected\\))?|present)$`);
 
@@ -16,16 +16,28 @@ const dated = [
     dates: entry.dates,
   })),
   ...cv.projects.map(project => ({ name: project.name, dates: project.dates })),
+  ...userData.projects.map(project => ({
+    name: project.title,
+    dates: project.dates,
+  })),
 ];
 
-describe('cv data', () => {
+const stacked = [
+  ...cv.projects.map(project => ({ name: project.name, stack: project.stack })),
+  ...userData.projects.map(project => ({
+    name: project.title,
+    stack: project.stack,
+  })),
+];
+
+describe('cv and site data', () => {
   test.each(dated)('$name has a MM/YYYY date range', ({ dates }) => {
     expect(dates).toMatch(range);
   });
 
-  test.each(cv.projects)('$name lists its stack', project => {
-    expect(project.stack.length).toBeGreaterThan(0);
-    expect(project.stack.every(item => item.trim() !== '')).toBe(true);
+  test.each(stacked)('$name lists its stack', ({ stack }) => {
+    expect(stack.length).toBeGreaterThan(0);
+    expect(stack.every(item => item.trim() !== '')).toBe(true);
   });
 
   test('the range accepts only the allowed endings', () => {

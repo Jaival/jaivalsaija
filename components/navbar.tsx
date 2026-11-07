@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import userData from 'utils/data';
 import { durations, easeOut, spring } from '@/utils/animations';
 import { blogPath } from '@/utils/blog/paths';
 import { useViewTransitionTheme } from '../hooks/useViewTransitionTheme';
@@ -13,19 +12,31 @@ import { useViewTransitionTheme } from '../hooks/useViewTransitionTheme';
 const isActivePath = (pathName: string, href: string) =>
   pathName === href || pathName.startsWith(`${href}/`);
 
+// Lowercase, like paths in a shell.
 const navigationItems = [
-  { href: '/aboutme', label: 'About Me' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/experience', label: 'Experience' },
-  { href: '/cv', label: 'CV' },
-  { href: blogPath, label: 'Blog' },
-  { href: '/contactme', label: 'Contact Me' },
+  { href: '/aboutme', label: 'about' },
+  { href: '/projects', label: 'projects' },
+  { href: '/experience', label: 'experience' },
+  { href: '/cv', label: 'cv' },
+  { href: blogPath, label: 'blog' },
+  { href: '/contactme', label: 'contact' },
 ];
+
+/** The `jaival@saija:~$` prompt that is the logo. */
+function Prompt() {
+  const punctuation = 'font-normal text-muted-foreground';
+  return (
+    <span className='font-mono text-base font-bold text-primary'>
+      jaival<span className={punctuation}>@</span>saija
+      <span className={punctuation}>:~$</span>
+    </span>
+  );
+}
 
 /**
  * Desktop nav link. Hover is colour only — these are hit dozens of times per
- * visit, so anything that moves gets tiring fast. The active pill is the one
- * exception: it slides between items to show where you landed.
+ * visit, so anything that moves gets tiring fast. The active underline is the
+ * one exception: it slides between items to show where you landed.
  */
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathName = usePathname();
@@ -35,23 +46,23 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <Link
       href={href}
       aria-current={isActive ? 'page' : undefined}
-      className={`relative px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 ease-out ${
-        isActive ? 'text-primary' : 'text-foreground hover:text-primary'
+      className={`relative py-2 font-mono text-sm transition-colors duration-200 ease-out ${
+        isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
       }`}
     >
+      {label}
       {isActive && (
         <motion.span
-          layoutId='navbar-pill'
+          layoutId='navbar-underline'
           transition={spring}
-          className='absolute inset-0 rounded-lg bg-primary/10'
+          className='absolute inset-x-0 bottom-1 h-0.5 bg-primary'
         />
       )}
-      <span className='relative z-10'>{label}</span>
     </Link>
   );
 }
 
-const iconClass = 'w-full h-full text-highlight-strong';
+const iconClass = 'w-full h-full text-muted-foreground';
 
 const SunIcon = () => (
   <svg
@@ -89,6 +100,9 @@ const MoonIcon = () => (
   </svg>
 );
 
+const squareButton =
+  'relative size-10 p-2 rounded-md border border-border transition-[background-color,transform] duration-200 ease-out hover:bg-muted active:scale-[0.94]';
+
 function ThemeToggle() {
   const { toggleTheme, buttonRef } = useViewTransitionTheme();
 
@@ -97,7 +111,7 @@ function ThemeToggle() {
       ref={buttonRef}
       aria-label='Toggle Dark Mode'
       type='button'
-      className='relative w-10 h-10 p-2 rounded-xl bg-muted/60 backdrop-blur-sm border border-border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:shadow-lg active:scale-[0.94] reduced-transparency:backdrop-blur-none'
+      className={squareButton}
       onClick={toggleTheme}
     >
       {/* Both icons are in the DOM; the theme class crossfades between
@@ -123,7 +137,7 @@ function MobileMenuButton({
   return (
     <button
       type='button'
-      className='relative md:hidden w-10 h-10 p-2 rounded-xl bg-muted/60 backdrop-blur-sm border border-border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out active:scale-[0.94] reduced-transparency:backdrop-blur-none'
+      className={`${squareButton} md:hidden`}
       onClick={onToggle}
       aria-expanded={isOpen}
       aria-label='Toggle mobile menu'
@@ -157,7 +171,6 @@ function MobileMenuButton({
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathName = usePathname();
-  const { name, designation } = userData;
 
   // Close on route change — the menu must never outlive the page it opened on.
   // Adjusted during render rather than in an effect, so the menu is already
@@ -183,29 +196,23 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   return (
-    // Chrome seen on every page view: no entrance animation.
-    <div className='sticky top-0 z-50 p-4'>
-      <nav className='relative w-full rounded-2xl shadow-lg backdrop-blur-md border border-border bg-card/60 reduced-transparency:bg-card reduced-transparency:backdrop-blur-none'>
-        <div className='max-w-6xl px-6 py-4 mx-auto'>
-          <div className='flex items-center justify-between'>
-            <Link href='/' className='group' aria-label='Go to homepage'>
-              <div className='flex flex-col'>
-                <span className='text-xl font-bold tracking-tight bg-gradient-to-r from-foreground via-primary to-brand-to bg-clip-text text-transparent'>
-                  {name}
-                </span>
-                <span className='text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors duration-200 ease-out'>
-                  {designation}
-                </span>
-              </div>
-            </Link>
+    // Chrome seen on every page view: no entrance animation. A flat bar with
+    // a rule under it, like the top of a terminal window.
+    <div className='sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md reduced-transparency:bg-background reduced-transparency:backdrop-blur-none'>
+      <nav aria-label='Main' className='relative'>
+        <div className='flex items-center justify-between gap-4 max-w-4xl px-4 md:px-8 py-3 mx-auto'>
+          <Link href='/' aria-label='Jaival Saija, home' className='rounded-sm'>
+            <Prompt />
+          </Link>
 
-            <div className='hidden md:flex md:items-center space-x-8'>
+          <div className='flex items-center gap-6'>
+            <div className='hidden md:flex md:items-center gap-5 lg:gap-6'>
               {navigationItems.map(item => (
                 <NavLink key={item.href} href={item.href} label={item.label} />
               ))}
             </div>
 
-            <div className='flex items-center space-x-3'>
+            <div className='flex items-center gap-3'>
               <ThemeToggle />
               <MobileMenuButton
                 isOpen={mobileMenuOpen}
@@ -217,7 +224,8 @@ export default function Navbar() {
 
         {/* Mobile menu: absolutely positioned so opening it never pushes the
             page down, and scaled from the top-right so it reads as coming out
-            of the button that opened it. */}
+            of the button that opened it. Same lowercase mono links as the
+            desktop bar, active one underlined. */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -227,9 +235,10 @@ export default function Navbar() {
               exit={{ opacity: 0, scale: 0.96, y: -8 }}
               transition={{ duration: durations.fast, ease: easeOut }}
             >
-              <div className='py-4 px-4 bg-popover/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl reduced-transparency:bg-popover reduced-transparency:backdrop-blur-none'>
-                <div className='flex flex-col space-y-2'>
-                  {navigationItems.map((item, index) => (
+              <div className='flex flex-col p-2 bg-popover rounded-lg border border-border shadow-xl'>
+                {navigationItems.map((item, index) => {
+                  const isActive = isActivePath(pathName, item.href);
+                  return (
                     <motion.div
                       key={item.href}
                       initial={{ opacity: 0, y: -4 }}
@@ -242,24 +251,19 @@ export default function Navbar() {
                     >
                       <Link
                         href={item.href}
-                        aria-current={
-                          isActivePath(pathName, item.href) ? 'page' : undefined
-                        }
-                        className={`flex items-center text-base py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.98] ${
-                          isActivePath(pathName, item.href)
-                            ? 'text-primary font-semibold bg-primary/10 border border-primary/30'
-                            : 'text-popover-foreground font-medium hover:text-primary hover:bg-accent'
+                        aria-current={isActive ? 'page' : undefined}
+                        className={`flex py-3 px-3 rounded-md font-mono text-base transition-[color,background-color,transform] duration-200 ease-out active:scale-[0.98] ${
+                          isActive
+                            ? 'text-primary underline decoration-2 underline-offset-[6px]'
+                            : 'text-muted-foreground hover:text-primary hover:bg-muted'
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.label}
-                        {isActivePath(pathName, item.href) && (
-                          <span className='ml-auto size-2 rounded-full bg-primary' />
-                        )}
                       </Link>
                     </motion.div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             </motion.div>
           )}

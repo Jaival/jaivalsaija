@@ -59,6 +59,11 @@
   /* next/font sets --font-space-grotesk on <html> (app/layout.tsx); this is
      what makes it the site font. */
   --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  /* JetBrains Mono, also from next/font, for every mono accent: command
+     lines, section labels, dates, nav. Ligatures stay on (its default). */
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -324,21 +329,25 @@
   }
 }
 
-/* Loading spinner: CSS so it keeps spinning while a route is loading.
-   Fades in late so fast loads never flash it. */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* Loading screen: fades in late so fast loads never flash it. A plain fade,
+   so it needs no reduced-motion variant. */
+@utility animate-loading {
+  animation: fade-in 200ms var(--ease-out) 200ms both;
+}
+
+/* Block cursor at the end of a command line. A hard on/off blink, like a
+   terminal; it stays solid under reduced motion. */
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
 
-@utility animate-spinner {
-  animation:
-    spin 700ms linear infinite,
-    fade-in 200ms var(--ease-out) 200ms both;
+@utility animate-blink {
+  animation: blink 1.1s steps(1) infinite;
 
   @media (prefers-reduced-motion: reduce) {
-    animation: fade-in 200ms var(--ease-out) 200ms both;
+    animation: none;
   }
 }
 

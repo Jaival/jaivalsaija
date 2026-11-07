@@ -177,7 +177,8 @@ const userData: UserData = {
     ],
   },
   availability: {
-    // Worded like the CV (utils/cv.ts). /aboutme shows these as status rows.
+    // Worded like the CV (utils/cv.ts). /aboutme shows these as status rows;
+    // home shows all but Start, which the summary pill already says.
     summary: 'Available now · working student or junior role',
     facts: [
       {

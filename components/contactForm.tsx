@@ -19,6 +19,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
+// Zod 4 probes for eval with `new Function` when it builds a schema, which
+// trips the CSP (no 'unsafe-eval'). Jitless mode skips the probe.
+z.config({ jitless: true });
+
 // Form validation schema with Zod
 const contactFormSchema = z.object({
   name: z.string().min(2, {

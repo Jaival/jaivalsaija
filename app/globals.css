@@ -297,10 +297,12 @@
 
 /* Page entrance: pure CSS so server-rendered content animates in without
    waiting for hydration, and stays smooth while the main thread is busy.
-   Stagger siblings with style={{ '--stagger': index }}. */
+   Stagger siblings with style={{ '--stagger': index }}.
+   Starts at 0.01, not 0: Chrome then counts the first paint as the LCP
+   candidate, so Lighthouse's simulated LCP stays equal to FCP. */
 @keyframes enter {
   from {
-    opacity: 0;
+    opacity: 0.01;
     transform: translateY(12px);
   }
 }

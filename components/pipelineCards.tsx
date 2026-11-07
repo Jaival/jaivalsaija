@@ -21,7 +21,7 @@ export default function PipelineCards() {
           <li
             key={project.title}
             className='animate-enter'
-            style={{ '--stagger': 5 + i } as CSSProperties}
+            style={{ '--stagger': 6 + i } as CSSProperties}
           >
             <a
               href={project.githubUrl ?? '/projects'}

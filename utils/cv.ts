@@ -38,7 +38,7 @@ export interface CvProject {
 
 export interface Cv {
   name: string;
-  /** Terminal-style decoration; the profile's first words are the title. */
+  /** Terminal-style decoration, where the PDF has its title line. */
   tagline: string;
   profile: string;
   email: string;
@@ -53,7 +53,7 @@ export interface Cv {
   education: CvEntry[];
   /** Reverse chronological. An entry without bullets is a gap, not a job. */
   experience: CvEntry[];
-  /** At most 3, chosen for DevOps relevance. */
+  /** At most 4, chosen for DevOps relevance, in the PDF's order. */
   projects: CvProject[];
   /** The rest of the projects, in one line. */
   moreProjects: { text: string; link: CvLink };
@@ -64,7 +64,7 @@ export const cv: Cv = {
   name: 'Jaival Saija',
   tagline: '$ junior-devops-engineer --aws --github-actions --docker',
   profile:
-    'Junior DevOps & Cloud Engineer with 10 months of production experience: built GitHub Actions pipelines for 3 products, ran AWS (EC2, S3, IAM, VPC) across Dev, Stage and Production, and resolved 50+ incidents. M.Sc. Computer Science student at RPTU Kaiserslautern, building a Kubernetes lab. 20 h/week in semester, up to 40 in breaks; available immediately; willing to relocate within Germany.',
+    'M.Sc. Computer Science student at RPTU Kaiserslautern (Distributed Systems, Network Security; graduating 09/2027) with 10 months as a Junior DevOps Engineer (06/2021 – 03/2022): built GitHub Actions deploy pipelines to AWS for 2 products, ran AWS (EC2, S3, IAM, VPC) for a 7-server Dev/Stage/Production setup, and resolved 50+ production incidents. Team project on software-defined radio (Python, GNU Radio, Git) in winter semester 2025/26; since 08/2026 building projects with GitHub Actions CI, now a Kubernetes lab on kind.',
   email: 'saijajaival@gmail.com',
   phone: '+49 174 512 6677',
   location: 'Kaiserslautern, Germany',
@@ -77,40 +77,37 @@ export const cv: Cv = {
     },
   ],
   status:
-    'Indian · Student residence permit (§16b AufenthG): 20 h/week in semester',
+    'Work permit: student residence permit (§16b AufenthG) – 20 h/week in semester, up to 40 h/week in breaks · Available immediately · Willing to relocate within Germany',
   photo: '/cv-photo.jpg',
   skills: [
     { label: 'cloud', value: 'AWS (EC2, S3, IAM, VPC, CloudWatch), Firebase' },
-    { label: 'ci_cd & iac', value: 'GitHub Actions, Terraform (basics), Git' },
     {
-      label: 'containers',
-      value: 'Docker',
-      learning: 'Kubernetes (kind), Helm',
+      label: 'ci_cd & iac',
+      value: 'GitHub Actions, Git, GitLab, Terraform (basics)',
     },
+    { label: 'containers', value: 'Docker' },
     {
       label: 'linux & scripting',
       value: 'Linux administration, Bash, Python, cron',
     },
-    {
-      label: 'monitoring',
-      value: 'AWS CloudWatch alarms',
-      learning: 'Prometheus, Grafana',
-    },
+    { label: 'monitoring', value: 'AWS CloudWatch alarms' },
     {
       label: 'network & security',
-      value:
-        'VPC segmentation, least-privilege IAM, subnetting, routing (CCNA ITN course)',
+      value: 'VPC segmentation, least-privilege IAM, subnetting, routing',
     },
     {
       label: 'code & data',
-      value:
-        'Python, JavaScript, Flutter (Dart), SQL (PostgreSQL, MySQL), Firestore',
+      value: 'Python, JavaScript, TypeScript, Node.js, SQL (PostgreSQL, MySQL)',
     },
-    { label: 'ai tools', value: 'Claude Code, MCP connectors' },
+    {
+      label: 'kubernetes (beginner)',
+      value: 'kind, kubectl',
+      learning: 'Helm, Prometheus, Grafana',
+    },
     {
       label: 'languages',
       value:
-        'English C1 · German A1 (Goethe certificate), learning A2 · Hindi, Gujarati native',
+        'English (C1) · German (A1, Goethe certificate 03/2023, learning A2) · Hindi, Gujarati (native)',
     },
   ],
   education: [
@@ -119,7 +116,7 @@ export const cv: Cv = {
       org: 'RPTU Kaiserslautern, Germany',
       dates: '10/2023 – 09/2027 (expected)',
       details:
-        'Focus: Distributed Systems, Network Security · Courses: Network Security; Internet Security Assessment and Operations · Seminar paper: “The Gap Between Theory and Reality: A Survey of Deniable Messaging”',
+        'Focus: Distributed Systems, Network Security · Courses: Network Security; Internet Security Assessment and Operations · Seminar paper (03/2026): “The Gap Between Theory and Reality: A Survey of Deniable Messaging” – surveyed 8 papers on deniable authenticated key exchange (e.g. XZDH) and how deniability holds up in legal and social practice.',
       bullets: [],
     },
     {
@@ -136,65 +133,84 @@ export const cv: Cv = {
       title: 'Career break',
       org: "Master's preparation and relocation to Germany",
       dates: '04/2022 – 09/2023',
-      bullets: [],
+      bullets: [
+        'Took the GRE for M.Sc. admission.',
+        'Passed the Goethe-Institut German A1 exam (03/2023).',
+      ],
     },
     {
       title: 'Junior DevOps Engineer',
       org: 'Maven Infosoft Pvt. Ltd., Ahmedabad, India',
       dates: '06/2021 – 03/2022',
       context:
-        'IT services company (~10 staff) building web products for clients. CI/CD for 3 products; AWS for a .NET school-management CMS used by 3–4 schools (7 EC2 servers across Dev, Stage and Production).',
+        'IT services company (~10 staff) building web products for clients. Deploy pipelines for 2 products; AWS for a .NET school-management CMS used by 3–4 schools (7 EC2 servers across Dev, Stage and Production).',
       bullets: [
-        'Resolved 50+ production incidents in my first six months as first contact for infrastructure alerts, tracing them through logs and fixing the networking faults behind most of them.',
-        'Automated testing, UAT and dev deployments for 3 products by building their GitHub Actions pipelines.',
-        'Secured Dev, Stage and Production on AWS (EC2, S3, VPC) for the CMS and its 7-person team by writing least-privilege IAM policies and segmenting the VPC.',
-        'Caught 8–10 CPU and memory problems before customers noticed with AWS CloudWatch alarms and Python uptime checks run as cron jobs on Linux.',
-        'Cut new-developer onboarding time by 30% and maintenance time by 20% by writing the deployment runbooks from scratch and rewriting the update SOPs.',
-        'Led monthly post-mortems with developers, each reviewing 4–6 incidents to find their root causes.',
-        'Trained 7 teammates in Docker as the team began moving its deployment pipeline to containers.',
+        'Resolved 50+ production incidents in the first six months as first contact for infrastructure alerts, most within 1 hour; traced them through logs and fixed the networking faults behind most of them.',
+        'Built GitHub Actions pipelines to deploy 2 of the 3 products to AWS; they reached the testing stage but were not used in production because of .NET version limits.',
+        'Secured Dev, Stage and Production on AWS (EC2, S3, VPC) for the CMS and its 7-person team: wrote least-privilege IAM policies and segmented the VPC.',
+        'Used AWS CloudWatch CPU/memory alarms to catch 8–10 problems before customers noticed.',
+        'Wrote the deployment runbooks from scratch and rewrote the update SOPs: new-developer onboarding time down 30%, maintenance time down 20%.',
+        'Led monthly post-mortems with the developers, each reviewing 4–6 incidents to find root causes; as a result, added service health checks and a Python cron job on Linux that alerts when a service is down (before, monitoring covered only cost and CPU/memory usage).',
+        'Trained 7 teammates in Docker; the team adopted it for local development as the first step toward container-based deployments.',
       ],
     },
     {
       title: 'Junior Developer Intern',
       org: 'Apexa Information System, Ahmedabad, India',
       dates: '01/2020 – 06/2020',
-      context:
-        'Internship on a task-management app for about 4 users, built end to end.',
       bullets: [
-        'Built and shipped a cross-platform Flutter task manager with a real-time Firebase backend; designed its data model and deployed it on Firebase Hosting.',
+        'Built and shipped a cross-platform Flutter task manager for about 4 users with a real-time Firebase backend; designed the data model and deployed it on Firebase Hosting.',
       ],
     },
   ],
   projects: [
     {
-      name: 'Kubernetes Lab',
-      stack: ['kind', 'Helm', 'Prometheus', 'Grafana'],
+      name: 'DISCO',
+      stack: ['Python', 'GNU Radio', 'SDR hardware', 'Git'],
       link: {
-        label: 'github.com/Jaival/kubernetes-learning-lab',
-        href: 'https://github.com/Jaival/kubernetes-learning-lab',
+        label: 'sci-git.cs.rptu.de/purple-heads/disco-project',
+        href: 'https://sci-git.cs.rptu.de/purple-heads/disco-project',
       },
-      dates: '10/2026 – present',
-      text: 'Multi-node kind cluster running locally; Helm charts and Prometheus/Grafana monitoring are the next modules, building toward a capstone app deployed by CI.',
+      dates: '10/2025 – 03/2026',
+      text: "Software-defined radio team project at RPTU Kaiserslautern (course: Project Performance Evaluation in Distributed Systems, team of 3, shared Git repository). Studied digital modulation (QPSK, QAM) and how data is packaged into frames for modern radio signals; built the team's QAM64 simulations and sent and received data over the air with SDR hardware, measuring an SNR of 10.21 dB for QAM64 and QPSK and 8.15 dB for BPSK.",
     },
     {
       name: 'NextGleis',
-      stack: ['Expo', 'React Native', 'TypeScript', 'Node.js on Vercel'],
+      stack: [
+        'GitHub Actions',
+        'Expo',
+        'React Native',
+        'TypeScript',
+        'Node.js',
+        'Vercel',
+        'EAS',
+      ],
       link: {
         label: 'github.com/Jaival/NextGleis',
         href: 'https://github.com/Jaival/NextGleis',
       },
       dates: '08/2026 – 10/2026',
-      text: 'Serverless proxy on Vercel turns transport-API XML into JSON and keeps the API keys off the device; CI runs type checks, tests and npm audit, and Android builds on EAS publish the APK to GitHub Releases.',
+      text: 'CI pipeline and serverless API. The GitHub Actions pipeline runs type checks, tests and npm audit; Android builds on EAS publish the APK to GitHub Releases. A serverless proxy on Vercel turns transport-API XML into JSON and keeps the API keys off the device.',
+    },
+    {
+      name: 'Kubernetes Lab',
+      stack: ['kind (Helm, Prometheus, Grafana planned)'],
+      link: {
+        label: 'github.com/Jaival/kubernetes-learning-lab',
+        href: 'https://github.com/Jaival/kubernetes-learning-lab',
+      },
+      dates: '10/2026 – present',
+      text: 'Set up a multi-node kind cluster locally and deployed a sample app to it with kubectl. Next modules: Helm charts, Prometheus/Grafana monitoring, and a capstone app deployed by CI.',
     },
     {
       name: 'Job-Hunt Agent',
-      stack: ['Claude Code', 'MCP (Gmail, Indeed)', 'Python'],
+      stack: ['Python', 'Claude Code', 'MCP'],
       link: {
         label: 'github.com/Jaival/jobhunt-agent',
         href: 'https://github.com/Jaival/jobhunt-agent',
       },
       dates: '09/2026 – present',
-      text: 'Scheduled agent that pulls job ads from APIs and Gmail alerts, scores them and drafts applications for human review; Python tools keep a job ledger and block drafts with placeholders. Nothing is sent automatically.',
+      text: 'Scheduled agent that pulls job ads from APIs and Gmail alerts, scores them and drafts applications for human review; Python tools keep a job ledger and block drafts that still contain placeholders.',
     },
   ],
   moreProjects: {
@@ -202,9 +218,9 @@ export const cv: Cv = {
     link: { label: 'github.com/Jaival', href: 'https://github.com/Jaival' },
   },
   certifications: [
+    'AWS Cloud Quest: Generative AI Practitioner (2025)',
     'AWS Academy Cloud Foundations',
     'Google Cloud Platform Fundamentals',
-    'AWS Cloud Quest: Generative AI Practitioner',
     'Cisco CCNA: Introduction to Networks (course)',
   ],
 };

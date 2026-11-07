@@ -193,7 +193,7 @@ export const cv: Cv = {
         label: 'github.com/Jaival/jobhunt-agent',
         href: 'https://github.com/Jaival/jobhunt-agent',
       },
-      dates: '09/2026 – present',
+      dates: '10/2026 – present',
       text: 'Scheduled agent that pulls job ads from APIs and Gmail alerts, scores them and drafts applications for human review; Python tools keep a job ledger and block drafts with placeholders. Nothing is sent automatically.',
     },
   ],

@@ -99,7 +99,7 @@ width.
 2. **Home**: hero (name, `$` tagline with cursor, short profile, photo), status rows, the two CTAs,
    recent posts as rows.
 3. **Experience**: experience and education from the CV module, with the timeline.
-4. **Projects**: all projects as timeline rows with thumbnails.
+4. **Projects**: the curated projects in `utils/data.ts` as timeline rows with thumbnails.
 5. **About**: `$ whoami` lead line, the story, skill rows from the CV module.
 6. **Blog**: list page, series page and post page, with the version history restyled.
 7. **Contact**: contact rows, a terminal box with the CV download, the restyled form. The terminal

@@ -6,7 +6,12 @@ import PostCover from './postCover';
 import PostMeta, { SeriesMeta } from './postMeta';
 import Reveal from './Reveal';
 
-const LIMIT = 3;
+// Home leads with DevOps work, so the cards are picked by hand, not by date.
+// A post slug or a series id; one that no longer exists is skipped.
+const PINNED = ['npm-trusted-publishing', 'kubernetes-lab', 'jobhunt-agent'];
+
+const feedKey = (item: FeedItem) =>
+  item.kind === 'post' ? item.post.slug : item.id;
 
 const card =
   'group flex h-full flex-col rounded-2xl border border-border bg-card/50 p-6 shadow-lg backdrop-blur-sm transition-[border-color,box-shadow,translate] duration-200 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl reduced-transparency:bg-card reduced-transparency:backdrop-blur-none';
@@ -46,23 +51,26 @@ function RecentCard({ item }: { item: FeedItem }) {
   );
 }
 
-/** Home page "Recently": the newest feed entries, below the hero. */
+/** Home page "Writing": the pinned feed entries, below the hero. */
 export default async function RecentPosts() {
-  const items = (await getBlog()).feed.slice(0, LIMIT);
+  const { feed } = await getBlog();
+  const items = PINNED.flatMap(key =>
+    feed.filter(item => feedKey(item) === key),
+  );
   if (items.length === 0) {
     return null;
   }
 
   return (
     // Same container as the hero, so the heading lines up with the text above.
-    <section aria-labelledby='recently-heading' className='px-4 pb-24'>
+    <section aria-labelledby='writing-heading' className='px-4 pb-24'>
       <div className='container mx-auto max-w-6xl'>
         <Reveal className='flex items-baseline justify-between gap-4 mb-8'>
           <h2
-            id='recently-heading'
+            id='writing-heading'
             className='text-3xl md:text-4xl font-bold tracking-tight'
           >
-            Recently
+            Writing
           </h2>
           <Link
             href={blogPath}
@@ -76,7 +84,7 @@ export default async function RecentPosts() {
           {items.map((item, index) => (
             <Reveal
               as='li'
-              key={item.kind === 'post' ? item.post.slug : `series-${item.id}`}
+              key={feedKey(item)}
               index={index}
               className='h-full'
             >

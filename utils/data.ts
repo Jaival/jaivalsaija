@@ -82,13 +82,21 @@ export interface UserData {
 const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
-  designation: 'DevOps Engineer · AI Automation',
+  designation: 'Junior DevOps & Cloud Engineer',
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
-  // Order picked by hand: the agent, mdgloss and the Kubernetes lab first,
-  // then apps and the npm package, client work, Taskly, themes last.
+  // Seven picked by hand, in this order. Everything else is one click away
+  // through the "View More on GitHub" link under the cards.
   projects: [
+    {
+      title: 'mdgloss',
+      description:
+        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
+      githubUrl: 'https://github.com/Jaival/mdgloss',
+      ships:
+        'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
+    },
     {
       title: 'jobhunt-agent',
       description:
@@ -100,27 +108,11 @@ const userData: UserData = {
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',
     },
     {
-      title: 'mdgloss',
-      description:
-        'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
-      githubUrl: 'https://github.com/Jaival/mdgloss',
-      ships:
-        'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
-    },
-    {
       title: 'Kubernetes Learning Lab',
       description:
         "Where I'm learning Kubernetes, starting from Docker. Fourteen modules on a local three-node kind cluster, from Pods and Gateway API routing to RBAC, Helm, Prometheus, and Argo CD with GitHub Actions, ending in a capstone app deployed through GitOps. I started in October 2026: the course material is in the repo, and my exercise work goes in module by module.",
       githubUrl: 'https://github.com/Jaival/kubernetes-learning-lab',
       ships: 'Nothing ships yet. The capstone will deploy through Argo CD.',
-    },
-    {
-      title: 'NextGleis',
-      description:
-        "An Android departure board for German buses and trains, with live delays and platform changes. A small serverless proxy turns Deutsche Bahn's XML into JSON and keeps the API keys off the device. Built with Expo and React Native.",
-      githubUrl: 'https://github.com/Jaival/NextGleis',
-      ships:
-        'CI on every pull request: type checks, lint, tests and npm audit. A merge to main deploys the proxy to Vercel from GitHub Actions and smoke-tests it; a version tag builds the Android app on EAS.',
     },
     {
       title: 'react-rough-notation',
@@ -134,6 +126,14 @@ const userData: UserData = {
         'When the version on main changes, GitHub Actions runs the tests, publishes to npm with provenance, then tags the release. CodeQL scans the code.',
     },
     {
+      title: 'NextGleis',
+      description:
+        "An Android departure board for German buses and trains, with live delays and platform changes. A small serverless proxy turns Deutsche Bahn's XML into JSON and keeps the API keys off the device. Built with Expo and React Native.",
+      githubUrl: 'https://github.com/Jaival/NextGleis',
+      ships:
+        'CI on every pull request: type checks, lint, tests and npm audit. A merge to main deploys the proxy to Vercel from GitHub Actions and smoke-tests it; a version tag builds the Android app on EAS.',
+    },
+    {
       title: 'Invoicely',
       description:
         'An invoicing app for freelancers, in development and built to learn the full stack. So far: Google sign-in, email verification and organizations. Next.js, Postgres on Neon, Drizzle and Better Auth.',
@@ -144,25 +144,6 @@ const userData: UserData = {
         'CI runs lint, types, unit and database tests, checks the migrations match the schema, then runs Playwright end-to-end tests. Vercel migrates the matching Neon branch before each build: production for main, a shared dev branch for previews.',
     },
     {
-      title: 'NextToBinge',
-      description:
-        "One place to find your next movie, drama or anime. Search all three at once, browse what's trending, and keep watchlists with each title marked plan to watch, watching or watched. Next.js 16, Supabase, Drizzle and Clerk.",
-      imgUrl: '/projects/nexttobinge.png',
-      githubUrl: 'https://github.com/Jaival/nexttobinge',
-      websiteUrl: 'https://nexttobinge.vercel.app',
-      ships:
-        'CI on every pull request: lint, types, tests and a build. Vercel deploys a preview per branch and production from main.',
-    },
-    {
-      title: 'Jigna Saija Portfolio',
-      description:
-        'A portfolio site for architect and interior designer Jigna Saija, with more than twenty of her architecture and interior projects. Next.js, Tailwind CSS and Motion.',
-      imgUrl: '/projects/jigna-saija-portfolio.png',
-      githubUrl: 'https://github.com/Jaival/jigna-saija',
-      websiteUrl: 'https://jignasaija.vercel.app',
-      ships: 'Vercel deploys a preview per branch and production from main.',
-    },
-    {
       title: 'Taskly',
       description:
         'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
@@ -171,28 +152,6 @@ const userData: UserData = {
       websiteUrl: 'https://jaival.github.io/taskly-flutter/',
       ships:
         'release-please opens the release PRs. A release builds Android, iOS, macOS, Windows and web, each file with a signed build-provenance attestation. Main deploys the web app to GitHub Pages once the tests and an integration run pass.',
-    },
-    {
-      title: 'Flat',
-      description:
-        'A dark VS Code theme in flat, solid colors: a deep teal editor, yellow text and a lime status bar.',
-      imgUrl: '/projects/flat-theme.png',
-      githubUrl: 'https://github.com/Jaival/Flat-Theme',
-      websiteUrl:
-        'https://marketplace.visualstudio.com/items?itemName=JaivalSaija.flat',
-      websiteLabel: 'Marketplace',
-      ships: 'Published to the VS Code Marketplace.',
-    },
-    {
-      title: "Hacker's Hideout",
-      description:
-        "A dark VS Code theme with a near-black background, lime-green text and neon accents. It covers the whole workbench, down to the terminal's 16 ANSI colors.",
-      imgUrl: '/projects/hacker-hideout.png',
-      githubUrl: 'https://github.com/Jaival/HackersHideout',
-      websiteUrl:
-        'https://marketplace.visualstudio.com/items?itemName=JaivalSaija.hacker-hideout',
-      websiteLabel: 'Marketplace',
-      ships: 'Published to the VS Code Marketplace.',
     },
   ],
   about: {
@@ -207,16 +166,20 @@ const userData: UserData = {
     ],
   },
   availability: {
-    role: "I'm looking for a working student or junior role in DevOps, cloud or AI automation, anywhere in Germany.",
+    role: "I'm looking for a working student (20 h/week) or junior role in DevOps or cloud, anywhere in Germany.",
     facts: [
       { label: 'Hours', value: '20 h/week, 40 in semester breaks' },
       { label: 'Start', value: 'As soon as possible' },
       { label: 'Graduation', value: 'M.Sc. expected autumn 2027' },
       {
         label: 'Permit',
-        value: '§16b student permit, working student OK',
+        value:
+          '§16b AufenthG, valid until 07/2028: up to 20 h/week in semester, full-time in breaks',
       },
-      { label: 'Languages', value: 'English C1, German A1' },
+      {
+        label: 'Languages',
+        value: 'English C1 (work language), German A2 (learning)',
+      },
     ],
   },
   skills: [

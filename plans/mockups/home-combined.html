@@ -1,178 +1,559 @@
 <!doctype html>
 <!-- Home page redesign, 2026-11-07. Chosen: option 2 (photo hero + dashboard row). Others kept for later. -->
 <html>
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-<style>
-  .site {
-    --bg: oklch(0.18 0.02 225); --fg: oklch(0.96 0.008 200); --card: oklch(0.22 0.024 225);
-    --pri: oklch(0.82 0.11 200); --pri-fg: oklch(0.2 0.04 220); --mut: oklch(0.72 0.02 215);
-    --line: oklch(1 0 0 / 10%); --ok: oklch(0.78 0.14 150);
-    background: var(--bg); color: var(--fg); font-family: 'Space Grotesk', sans-serif;
-    border-radius: var(--radius); padding: 28px 28px 32px; font-size: 14px; line-height: 1.55;
-  }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  .pri { color: var(--pri); } .mut { color: var(--mut); } .ok { color: var(--ok); }
-  .eyebrow { font: 500 12px 'JetBrains Mono', monospace; color: var(--pri); }
-  .label { display:flex; align-items:center; gap:10px; font: 700 12px 'JetBrains Mono', monospace; color: var(--pri); margin: 24px 0 10px; }
-  .label::after { content:''; flex:1; height:1px; background: var(--line); }
-  .btns { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
-  .btn { padding: 8px 18px; border-radius: 8px; font-weight:500; font-size:13px; }
-  .btn.solid { background: var(--pri); color: var(--pri-fg); }
-  .btn.ghost { border: 2px solid var(--pri); color: var(--pri); }
-  .avatar { border-radius: 12px; object-fit: cover; display:block; }
-  h3.opt { margin: 26px 0 4px; font-size: 16px; }
-  p.why { margin: 0 0 10px; color: var(--muted-foreground); font-size: 13px; }
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      .site {
+        --bg: oklch(0.18 0.02 225);
+        --fg: oklch(0.96 0.008 200);
+        --card: oklch(0.22 0.024 225);
+        --pri: oklch(0.82 0.11 200);
+        --pri-fg: oklch(0.2 0.04 220);
+        --mut: oklch(0.72 0.02 215);
+        --line: oklch(1 0 0 / 10%);
+        --ok: oklch(0.78 0.14 150);
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Space Grotesk', sans-serif;
+        border-radius: var(--radius);
+        padding: 28px 28px 32px;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .pri {
+        color: var(--pri);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .eyebrow {
+        font:
+          500 12px 'JetBrains Mono',
+          monospace;
+        color: var(--pri);
+      }
+      .label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font:
+          700 12px 'JetBrains Mono',
+          monospace;
+        color: var(--pri);
+        margin: 24px 0 10px;
+      }
+      .label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .btn.solid {
+        background: var(--pri);
+        color: var(--pri-fg);
+      }
+      .btn.ghost {
+        border: 2px solid var(--pri);
+        color: var(--pri);
+      }
+      .avatar {
+        border-radius: 12px;
+        object-fit: cover;
+        display: block;
+      }
+      h3.opt {
+        margin: 26px 0 4px;
+        font-size: 16px;
+      }
+      p.why {
+        margin: 0 0 10px;
+        color: var(--muted-foreground);
+        font-size: 13px;
+      }
 
-  .big { font-size: 40px; line-height:1.05; font-weight:700; letter-spacing:-0.02em; margin: 8px 0 12px; }
-  .big.sm { font-size: 32px; }
-  .big em { font-style:normal; color: var(--pri); }
-  .status { display:inline-flex; gap:6px; align-items:center; border:1px solid var(--line); border-radius:999px; padding:3px 12px; font-size:12.5px; }
+      .big {
+        font-size: 40px;
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 8px 0 12px;
+      }
+      .big.sm {
+        font-size: 32px;
+      }
+      .big em {
+        font-style: normal;
+        color: var(--pri);
+      }
+      .status {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 12.5px;
+      }
 
-  .stats { display:grid; grid-template-columns: repeat(3,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:22px; }
-  .stats div { padding:12px 4px; } .stats div + div { border-left:1px solid var(--line); padding-left:14px; }
-  .stats b { display:block; font-size:26px; font-weight:700; line-height:1.2; }
-  .stats span { font-size:12.5px; }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-top: 22px;
+      }
+      .stats div {
+        padding: 12px 4px;
+      }
+      .stats div + div {
+        border-left: 1px solid var(--line);
+        padding-left: 14px;
+      }
+      .stats b {
+        display: block;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .stats span {
+        font-size: 12.5px;
+      }
 
-  .card { background: var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 13px; }
-  .card h4 { margin: 4px 0 2px; font-size:15px; }
-  .badge { font: 500 11px 'JetBrains Mono', monospace; color: var(--ok); }
-  .badge.wip { color: var(--mut); }
-  .grid3 { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; }
-  .stack > * + * { margin-top:8px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 13px;
+      }
+      .card h4 {
+        margin: 4px 0 2px;
+        font-size: 15px;
+      }
+      .badge {
+        font:
+          500 11px 'JetBrains Mono',
+          monospace;
+        color: var(--ok);
+      }
+      .badge.wip {
+        color: var(--mut);
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .stack > * + * {
+        margin-top: 8px;
+      }
 
-  .log { font-family:'JetBrains Mono', monospace; font-size:12px; }
-  .log .e { display:grid; grid-template-columns: 52px 1fr; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line); align-items:baseline; }
-  .log .e:last-child { border-bottom:0; }
-  .log .t { font-family:'Space Grotesk', sans-serif; font-size:13.5px; color: var(--fg); }
-  .tag { border:1px solid var(--line); border-radius:4px; padding:0 5px; color: var(--pri); font-size:10.5px; margin-right:6px; font-family:'JetBrains Mono', monospace; }
+      .log {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+      }
+      .log .e {
+        display: grid;
+        grid-template-columns: 52px 1fr;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--line);
+        align-items: baseline;
+      }
+      .log .e:last-child {
+        border-bottom: 0;
+      }
+      .log .t {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 13.5px;
+        color: var(--fg);
+      }
+      .tag {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0 5px;
+        color: var(--pri);
+        font-size: 10.5px;
+        margin-right: 6px;
+        font-family: 'JetBrains Mono', monospace;
+      }
 
-  .two { display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
-  .two .label { margin-top:0; }
-  .hero-photo { display:grid; grid-template-columns: 1fr 120px; gap:24px; align-items:start; }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      .two .label {
+        margin-top: 0;
+      }
+      .hero-photo {
+        display: grid;
+        grid-template-columns: 1fr 120px;
+        gap: 24px;
+        align-items: start;
+      }
 
-  /* V3 timeline with cards */
-  .tl { border-left:2px solid var(--pri); padding-left:16px; margin-left:4px; }
-  .tl .e { position:relative; padding:6px 0 10px; }
-  .tl .e::before { content:''; position:absolute; left:-22px; top:13px; width:10px; height:10px; border-radius:50%; background: var(--bg); border:2px solid var(--pri); }
-  .tl .d { font: 12px 'JetBrains Mono', monospace; color: var(--mut); }
+      /* V3 timeline with cards */
+      .tl {
+        border-left: 2px solid var(--pri);
+        padding-left: 16px;
+        margin-left: 4px;
+      }
+      .tl .e {
+        position: relative;
+        padding: 6px 0 10px;
+      }
+      .tl .e::before {
+        content: '';
+        position: absolute;
+        left: -22px;
+        top: 13px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--pri);
+      }
+      .tl .d {
+        font:
+          12px 'JetBrains Mono',
+          monospace;
+        color: var(--mut);
+      }
 
-  /* V4 bento */
-  .bento { display:grid; grid-template-columns: 1.3fr 1fr 1fr; grid-auto-rows: auto; gap:10px; }
-  .bento .tall { grid-row: span 3; }
-</style>
-</head>
-<body>
+      /* V4 bento */
+      .bento {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr;
+        grid-auto-rows: auto;
+        gap: 10px;
+      }
+      .bento .tall {
+        grid-row: span 3;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 class="opt">1 · Stacked</h3>
+    <p class="why">
+      Statement, then numbers, then pipelines and activity side by side. The
+      simplest mix.
+    </p>
+    <div class="site">
+      <div class="eyebrow">
+        jaival saija · junior devops &amp; cloud engineer
+      </div>
+      <div class="big">
+        I build pipelines and<br />keep <em>AWS</em> running.
+      </div>
+      <div class="mut" style="max-width: 500px">
+        M.Sc. student at RPTU Kaiserslautern. Before that, 10 months on AWS in
+        production at Maven Infosoft.
+      </div>
+      <div class="btns">
+        <span class="status"
+          ><span class="ok">●</span> available now · 20 h/week</span
+        >
+      </div>
+      <div class="btns">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">View my work</span>
+      </div>
+      <div class="stats">
+        <div><b>50+</b><span class="mut">incidents resolved</span></div>
+        <div><b>3</b><span class="mut">products on GitHub Actions</span></div>
+        <div><b>10 mo</b><span class="mut">production AWS</span></div>
+      </div>
+      <div class="two" style="margin-top: 24px">
+        <div>
+          <div class="label">pipelines</div>
+          <div class="stack">
+            <div class="card">
+              <span class="badge">✓ ci passing</span>
+              <h4>mdgloss</h4>
+              <div class="mut">Tauri 2 · Rust · React</div>
+            </div>
+            <div class="card">
+              <span class="badge">✓ v1.0.0</span>
+              <h4>jobhunt-agent</h4>
+              <div class="mut">Claude Code · MCP · Python</div>
+            </div>
+            <div class="card">
+              <span class="badge wip">◌ in progress</span>
+              <h4>Kubernetes Lab</h4>
+              <div class="mut">kind · Helm · Argo CD</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="label">git log</div>
+          <div class="log">
+            <div class="e">
+              <span class="mut">07 Nov</span
+              ><span class="t"
+                ><span class="tag">post</span>Dockerizing Invoicely: 3.74 GB to
+                453 MB</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">01 Nov</span
+              ><span class="t"
+                ><span class="tag">release</span>jobhunt-agent v1.0.0</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">26 Oct</span
+              ><span class="t"
+                ><span class="tag">post</span>Publishing to npm with no
+                token</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">22 Oct</span
+              ><span class="t"
+                ><span class="tag">post</span>Building this blog without a
+                database</span
+              >
+            </div>
+            <div class="e">
+              <span class="mut">13 Oct</span
+              ><span class="t"
+                ><span class="tag">start</span>Kubernetes Learning Lab</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h3 class="opt">1 · Stacked</h3>
-<p class="why">Statement, then numbers, then pipelines and activity side by side. The simplest mix.</p>
-<div class="site">
-  <div class="eyebrow">jaival saija · junior devops &amp; cloud engineer</div>
-  <div class="big">I build pipelines and<br>keep <em>AWS</em> running.</div>
-  <div class="mut" style="max-width:500px">M.Sc. student at RPTU Kaiserslautern. Before that, 10 months on AWS in production at Maven Infosoft.</div>
-  <div class="btns"><span class="status"><span class="ok">●</span> available now · 20 h/week</span></div>
-  <div class="btns"><span class="btn solid">Download CV</span><span class="btn ghost">View my work</span></div>
-  <div class="stats">
-    <div><b>50+</b><span class="mut">incidents resolved</span></div>
-    <div><b>3</b><span class="mut">products on GitHub Actions</span></div>
-    <div><b>10 mo</b><span class="mut">production AWS</span></div>
-  </div>
-  <div class="two" style="margin-top:24px">
-    <div>
+    <h3 class="opt">2 · Photo hero + dashboard row</h3>
+    <p class="why">
+      Statement with the photo beside it. Pipelines as a 3-card row, activity
+      log full width under it.
+    </p>
+    <div class="site">
+      <div class="hero-photo">
+        <div>
+          <div class="status">
+            <span class="ok">●</span> available now · working student or junior
+          </div>
+          <div class="big sm" style="margin-top: 14px">
+            I build pipelines and keep <em>AWS</em> running.
+          </div>
+          <div class="mut">
+            Jaival Saija · M.Sc. student, RPTU Kaiserslautern
+          </div>
+          <div class="btns">
+            <span class="btn solid">Download CV</span
+            ><span class="btn ghost">View my work</span>
+          </div>
+        </div>
+        <img
+          class="avatar"
+          src="D:/Projects/jaivalsaija/public/headshot.webp"
+          width="120"
+          height="120"
+        />
+      </div>
       <div class="label">pipelines</div>
-      <div class="stack">
-        <div class="card"><span class="badge">✓ ci passing</span><h4>mdgloss</h4><div class="mut">Tauri 2 · Rust · React</div></div>
-        <div class="card"><span class="badge">✓ v1.0.0</span><h4>jobhunt-agent</h4><div class="mut">Claude Code · MCP · Python</div></div>
-        <div class="card"><span class="badge wip">◌ in progress</span><h4>Kubernetes Lab</h4><div class="mut">kind · Helm · Argo CD</div></div>
+      <div class="grid3">
+        <div class="card">
+          <span class="badge">✓ ci passing</span>
+          <h4>mdgloss</h4>
+          <div class="mut">Tauri 2 · Rust · React</div>
+        </div>
+        <div class="card">
+          <span class="badge">✓ v1.0.0</span>
+          <h4>jobhunt-agent</h4>
+          <div class="mut">Claude Code · MCP · Python</div>
+        </div>
+        <div class="card">
+          <span class="badge wip">◌ in progress</span>
+          <h4>Kubernetes Lab</h4>
+          <div class="mut">kind · Helm · Argo CD</div>
+        </div>
       </div>
-    </div>
-    <div>
-      <div class="label">git log</div>
+      <div class="label">$ git log --since=1.month</div>
       <div class="log">
-        <div class="e"><span class="mut">07 Nov</span><span class="t"><span class="tag">post</span>Dockerizing Invoicely: 3.74 GB to 453 MB</span></div>
-        <div class="e"><span class="mut">01 Nov</span><span class="t"><span class="tag">release</span>jobhunt-agent v1.0.0</span></div>
-        <div class="e"><span class="mut">26 Oct</span><span class="t"><span class="tag">post</span>Publishing to npm with no token</span></div>
-        <div class="e"><span class="mut">22 Oct</span><span class="t"><span class="tag">post</span>Building this blog without a database</span></div>
-        <div class="e"><span class="mut">13 Oct</span><span class="t"><span class="tag">start</span>Kubernetes Learning Lab</span></div>
+        <div class="e">
+          <span class="mut">07 Nov</span
+          ><span class="t"
+            ><span class="tag">post</span>Dockerizing Invoicely: a 3.74 GB image
+            down to 453 MB</span
+          >
+        </div>
+        <div class="e">
+          <span class="mut">01 Nov</span
+          ><span class="t"
+            ><span class="tag">release</span>jobhunt-agent v1.0.0: updates I can
+            trust</span
+          >
+        </div>
+        <div class="e">
+          <span class="mut">26 Oct</span
+          ><span class="t"
+            ><span class="tag">post</span>Publishing to npm with no token:
+            trusted publishing over OIDC</span
+          >
+        </div>
+        <div class="e">
+          <span class="mut">13 Oct</span
+          ><span class="t"
+            ><span class="tag">start</span>Starting a Kubernetes course on a
+            local kind cluster</span
+          >
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<h3 class="opt">2 · Photo hero + dashboard row</h3>
-<p class="why">Statement with the photo beside it. Pipelines as a 3-card row, activity log full width under it.</p>
-<div class="site">
-  <div class="hero-photo">
-    <div>
-      <div class="status"><span class="ok">●</span> available now · working student or junior</div>
-      <div class="big sm" style="margin-top:14px">I build pipelines and keep <em>AWS</em> running.</div>
-      <div class="mut">Jaival Saija · M.Sc. student, RPTU Kaiserslautern</div>
-      <div class="btns"><span class="btn solid">Download CV</span><span class="btn ghost">View my work</span></div>
-    </div>
-    <img class="avatar" src="D:/Projects/jaivalsaija/public/headshot.webp" width="120" height="120">
-  </div>
-  <div class="label">pipelines</div>
-  <div class="grid3">
-    <div class="card"><span class="badge">✓ ci passing</span><h4>mdgloss</h4><div class="mut">Tauri 2 · Rust · React</div></div>
-    <div class="card"><span class="badge">✓ v1.0.0</span><h4>jobhunt-agent</h4><div class="mut">Claude Code · MCP · Python</div></div>
-    <div class="card"><span class="badge wip">◌ in progress</span><h4>Kubernetes Lab</h4><div class="mut">kind · Helm · Argo CD</div></div>
-  </div>
-  <div class="label">$ git log --since=1.month</div>
-  <div class="log">
-    <div class="e"><span class="mut">07 Nov</span><span class="t"><span class="tag">post</span>Dockerizing Invoicely: a 3.74 GB image down to 453 MB</span></div>
-    <div class="e"><span class="mut">01 Nov</span><span class="t"><span class="tag">release</span>jobhunt-agent v1.0.0: updates I can trust</span></div>
-    <div class="e"><span class="mut">26 Oct</span><span class="t"><span class="tag">post</span>Publishing to npm with no token: trusted publishing over OIDC</span></div>
-    <div class="e"><span class="mut">13 Oct</span><span class="t"><span class="tag">start</span>Starting a Kubernetes course on a local kind cluster</span></div>
-  </div>
-</div>
-
-<h3 class="opt">3 · One timeline</h3>
-<p class="why">Pipelines and activity merge: each log entry that is a project shows its pipeline card. One story, newest first.</p>
-<div class="site">
-  <div class="eyebrow">jaival saija · kaiserslautern</div>
-  <div class="big">I build pipelines and<br>keep <em>AWS</em> running.</div>
-  <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:center">
-    <span class="status"><span class="ok">●</span> available now</span>
-    <span class="mut mono" style="font-size:12px">50+ incidents · 3 CI/CD products · 10 mo AWS</span>
-  </div>
-  <div class="btns"><span class="btn solid">Download CV</span><span class="btn ghost">View my work</span></div>
-  <div class="label">$ git log --graph</div>
-  <div class="tl">
-    <div class="e"><div class="d">07 Nov · post</div><div>Dockerizing Invoicely: a 3.74 GB image down to 453 MB</div></div>
-    <div class="e"><div class="d">01 Nov · release</div>
-      <div class="card" style="margin-top:4px"><span class="badge">✓ v1.0.0 released</span><h4>jobhunt-agent</h4><div class="mut">Updates I can trust, and a brief I can answer.</div></div></div>
-    <div class="e"><div class="d">13 Oct · started</div>
-      <div class="card" style="margin-top:4px"><span class="badge wip">◌ in progress · module 1 of 14</span><h4>Kubernetes Learning Lab</h4><div class="mut">kind · Helm · Prometheus · Argo CD</div></div></div>
-    <div class="e"><div class="d">Sep · started</div>
-      <div class="card" style="margin-top:4px"><span class="badge">✓ ci passing</span><h4>mdgloss</h4><div class="mut">Tauri 2 · Rust · React</div></div></div>
-  </div>
-</div>
-
-<h3 class="opt">4 · Bento dashboard</h3>
-<p class="why">Statement on top, then one grid: activity log as the tall card, pipelines and numbers as small cards around it.</p>
-<div class="site">
-  <div class="eyebrow">jaival saija · junior devops &amp; cloud engineer</div>
-  <div class="big sm">I build pipelines and keep <em>AWS</em> running.</div>
-  <div class="btns" style="margin-top:4px"><span class="btn solid">Download CV</span><span class="btn ghost">View my work</span><span class="status" style="margin-left:auto"><span class="ok">●</span> available now</span></div>
-  <div class="bento" style="margin-top:22px">
-    <div class="card tall">
-      <div class="eyebrow">$ git log</div>
-      <div class="log" style="margin-top:4px">
-        <div class="e"><span class="mut">07 Nov</span><span class="t">Dockerizing Invoicely: 3.74 GB to 453 MB</span></div>
-        <div class="e"><span class="mut">01 Nov</span><span class="t">jobhunt-agent v1.0.0</span></div>
-        <div class="e"><span class="mut">26 Oct</span><span class="t">npm with no token</span></div>
-        <div class="e"><span class="mut">22 Oct</span><span class="t">This blog, no database</span></div>
-        <div class="e"><span class="mut">13 Oct</span><span class="t">Kubernetes Lab started</span></div>
+    <h3 class="opt">3 · One timeline</h3>
+    <p class="why">
+      Pipelines and activity merge: each log entry that is a project shows its
+      pipeline card. One story, newest first.
+    </p>
+    <div class="site">
+      <div class="eyebrow">jaival saija · kaiserslautern</div>
+      <div class="big">
+        I build pipelines and<br />keep <em>AWS</em> running.
+      </div>
+      <div
+        style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center"
+      >
+        <span class="status"><span class="ok">●</span> available now</span>
+        <span class="mut mono" style="font-size: 12px"
+          >50+ incidents · 3 CI/CD products · 10 mo AWS</span
+        >
+      </div>
+      <div class="btns">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">View my work</span>
+      </div>
+      <div class="label">$ git log --graph</div>
+      <div class="tl">
+        <div class="e">
+          <div class="d">07 Nov · post</div>
+          <div>Dockerizing Invoicely: a 3.74 GB image down to 453 MB</div>
+        </div>
+        <div class="e">
+          <div class="d">01 Nov · release</div>
+          <div class="card" style="margin-top: 4px">
+            <span class="badge">✓ v1.0.0 released</span>
+            <h4>jobhunt-agent</h4>
+            <div class="mut">
+              Updates I can trust, and a brief I can answer.
+            </div>
+          </div>
+        </div>
+        <div class="e">
+          <div class="d">13 Oct · started</div>
+          <div class="card" style="margin-top: 4px">
+            <span class="badge wip">◌ in progress · module 1 of 14</span>
+            <h4>Kubernetes Learning Lab</h4>
+            <div class="mut">kind · Helm · Prometheus · Argo CD</div>
+          </div>
+        </div>
+        <div class="e">
+          <div class="d">Sep · started</div>
+          <div class="card" style="margin-top: 4px">
+            <span class="badge">✓ ci passing</span>
+            <h4>mdgloss</h4>
+            <div class="mut">Tauri 2 · Rust · React</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card"><span class="badge">✓ ci passing</span><h4>mdgloss</h4><div class="mut">Tauri 2 · Rust</div></div>
-    <div class="card"><span class="badge">✓ v1.0.0</span><h4>jobhunt-agent</h4><div class="mut">Claude Code · MCP</div></div>
-    <div class="card"><span class="badge wip">◌ module 1/14</span><h4>Kubernetes Lab</h4><div class="mut">kind · Argo CD</div></div>
-    <div class="card"><b style="font-size:26px">50+</b><div class="mut">incidents resolved at Maven Infosoft</div></div>
-    <div class="card" style="grid-column: span 2"><div class="eyebrow">status</div><div style="margin-top:4px">Working student or junior · 20 h/week · anywhere in Germany</div></div>
-  </div>
-</div>
 
-</body>
+    <h3 class="opt">4 · Bento dashboard</h3>
+    <p class="why">
+      Statement on top, then one grid: activity log as the tall card, pipelines
+      and numbers as small cards around it.
+    </p>
+    <div class="site">
+      <div class="eyebrow">
+        jaival saija · junior devops &amp; cloud engineer
+      </div>
+      <div class="big sm">I build pipelines and keep <em>AWS</em> running.</div>
+      <div class="btns" style="margin-top: 4px">
+        <span class="btn solid">Download CV</span
+        ><span class="btn ghost">View my work</span
+        ><span class="status" style="margin-left: auto"
+          ><span class="ok">●</span> available now</span
+        >
+      </div>
+      <div class="bento" style="margin-top: 22px">
+        <div class="card tall">
+          <div class="eyebrow">$ git log</div>
+          <div class="log" style="margin-top: 4px">
+            <div class="e">
+              <span class="mut">07 Nov</span
+              ><span class="t">Dockerizing Invoicely: 3.74 GB to 453 MB</span>
+            </div>
+            <div class="e">
+              <span class="mut">01 Nov</span
+              ><span class="t">jobhunt-agent v1.0.0</span>
+            </div>
+            <div class="e">
+              <span class="mut">26 Oct</span
+              ><span class="t">npm with no token</span>
+            </div>
+            <div class="e">
+              <span class="mut">22 Oct</span
+              ><span class="t">This blog, no database</span>
+            </div>
+            <div class="e">
+              <span class="mut">13 Oct</span
+              ><span class="t">Kubernetes Lab started</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="badge">✓ ci passing</span>
+          <h4>mdgloss</h4>
+          <div class="mut">Tauri 2 · Rust</div>
+        </div>
+        <div class="card">
+          <span class="badge">✓ v1.0.0</span>
+          <h4>jobhunt-agent</h4>
+          <div class="mut">Claude Code · MCP</div>
+        </div>
+        <div class="card">
+          <span class="badge wip">◌ module 1/14</span>
+          <h4>Kubernetes Lab</h4>
+          <div class="mut">kind · Argo CD</div>
+        </div>
+        <div class="card">
+          <b style="font-size: 26px">50+</b>
+          <div class="mut">incidents resolved at Maven Infosoft</div>
+        </div>
+        <div class="card" style="grid-column: span 2">
+          <div class="eyebrow">status</div>
+          <div style="margin-top: 4px">
+            Working student or junior · 20 h/week · anywhere in Germany
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

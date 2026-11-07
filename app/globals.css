@@ -409,6 +409,17 @@ code[data-theme*=' '] span {
   color: var(--shiki-dark);
 }
 
+/* Both themes' comment grey misses AA (4.5:1) on the code block background:
+   github-light #6A737D ≈ 4.4, github-dark-dimmed #768390 ≈ 4.3. Swap in the
+   darker / lighter grey from the same GitHub palettes. */
+html:not(.dark) code[data-theme*=' '] span[style*='--shiki-light:#6A737D'] {
+  color: #57606a;
+}
+
+.dark code[data-theme*=' '] span[style*='--shiki-dark:#768390'] {
+  color: #8b949e;
+}
+
 [data-rehype-pretty-code-figure] code {
   display: grid;
   min-width: 100%;

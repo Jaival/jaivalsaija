@@ -34,11 +34,11 @@ export default function Experience() {
                 className='animate-enter'
                 style={{ '--stagger': 2 + i } as CSSProperties}
               >
-                <CvEntry entry={entry} />
+                <CvEntry entry={entry} as='h2' />
               </div>
             ) : (
               <Reveal key={entry.title + entry.dates}>
-                <CvEntry entry={entry} />
+                <CvEntry entry={entry} as='h2' />
               </Reveal>
             ),
           )}

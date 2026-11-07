@@ -93,6 +93,10 @@ export function TitleLine({
   );
 }
 
+/** 'Looking for' → 'looking_for': status labels read like shell flags. */
+export const flagLabel = (label: string) =>
+  label.toLowerCase().replaceAll(' ', '_');
+
 export interface Row {
   label: string;
   value: ReactNode;

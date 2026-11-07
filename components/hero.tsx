@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { CommandLine, Cursor, Rows, SectionLabel } from '@/components/pipeline';
+import {
+  CommandLine,
+  Cursor,
+  Rows,
+  SectionLabel,
+  flagLabel,
+} from '@/components/pipeline';
 import { cv } from '@/utils/cv';
 import userData from '@/utils/data';
 
@@ -10,9 +16,6 @@ const button =
 
 /** Entrance stagger step, in `.animate-enter` units. */
 const step = (index: number) => ({ '--stagger': index }) as CSSProperties;
-
-// 'Looking for' -> 'looking_for': the status labels read like shell flags.
-const flag = (label: string) => label.toLowerCase().replaceAll(' ', '_');
 
 /**
  * Home, above the fold: the name, a `$` tagline, the short profile, the status
@@ -57,7 +60,7 @@ export default function Hero() {
         <Rows
           labelWidth='8rem'
           rows={userData.availability.facts.map(({ label, value }) => ({
-            label: flag(label),
+            label: flagLabel(label),
             value:
               label === 'Start' ? (
                 <>

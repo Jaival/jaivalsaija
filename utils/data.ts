@@ -38,11 +38,6 @@ export interface Availability {
   facts: { label: string; value: string }[];
 }
 
-export interface SkillGroup {
-  group: string;
-  items: string[];
-}
-
 export interface SocialLinks {
   instagram: string;
   twitter: string;
@@ -62,16 +57,12 @@ export interface UserData {
   projects: Project[];
   about: About;
   availability: Availability;
-  /** Mirrors the Technical Proficiency block on the CV. */
-  skills: SkillGroup[];
-  /** Started, not yet something I'd claim as a skill. */
-  learning: string[];
-  /** My master CV PDF, copied in as is. */
   /**
    * Older work that /experience shows after the CV's jobs, but the CV
    * leaves out. Same shape and date format as the CV's entries.
    */
   earlierWork: CvEntry[];
+  /** My master CV PDF, copied in as is. */
   resumeUrl: string;
   socialLinks: SocialLinks;
 }
@@ -200,41 +191,6 @@ const userData: UserData = {
       },
     ],
   },
-  skills: [
-    {
-      group: 'Cloud',
-      items: [
-        'AWS (EC2, S3, IAM, VPC, CloudWatch)',
-        'Google Cloud',
-        'Firebase',
-      ],
-    },
-    {
-      group: 'CI/CD and DevOps',
-      items: [
-        'GitHub Actions',
-        'Docker',
-        'Git',
-        'Linux administration',
-        'Terraform (basics)',
-      ],
-    },
-    {
-      group: 'Security',
-      items: [
-        'IAM least privilege',
-        'VPC network segmentation',
-        'OIDC trusted publishing',
-      ],
-    },
-    {
-      group: 'Code',
-      items: ['Python', 'Bash', 'TypeScript', 'JavaScript', 'Flutter (Dart)'],
-    },
-    { group: 'AI', items: ['Claude', 'Claude Code', 'MCP'] },
-    { group: 'Data', items: ['PostgreSQL', 'MySQL', 'Firestore'] },
-  ],
-  learning: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
   earlierWork: [
     {
       title: 'Mobile App Developer (In-house)',

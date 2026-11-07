@@ -1,10 +1,18 @@
 import { postPath } from '@/utils/blog/paths';
+import type { CvEntry } from '@/utils/cv';
 
 // Enhanced type definitions for better type safety
 export interface Project {
   title: string;
+  /**
+   * First and last commit month, "MM/YYYY – MM/YYYY", or "– present" while
+   * work goes on. The data test checks the form.
+   */
+  dates: string;
+  /** The main tools, shown after the title. */
+  stack: string[];
   description: string;
-  /** Preview image. Cards without one fall back to a title block. */
+  /** Small thumbnail at the right of the row. Rows without one show none. */
   imgUrl?: string;
   githubUrl?: string;
   websiteUrl?: string;
@@ -15,20 +23,12 @@ export interface Project {
    * workflows actually do: a recruiter's engineer will click through.
    */
   ships?: string;
-}
-
-export interface Experience {
-  id: number;
-  title: string;
-  /** Left out for a gap entry, which has no employer. */
-  company?: string;
-  year: string;
-  companyLink?: string;
-  desc: string;
-  /** Results with numbers, shown as a list under desc. */
-  highlights?: string[];
-  /** A dated line that explains time between jobs, styled as a note. */
-  gap?: boolean;
+  /**
+   * The badge on a home card, set by hand: 'ok' for a green check (CI
+   * passing, a release out), 'wip' for work still in progress. Check the
+   * repo's last CI run or release before changing it.
+   */
+  status?: { label: string; state: 'ok' | 'wip' };
 }
 
 export interface About {
@@ -38,20 +38,13 @@ export interface About {
 
 /** What a recruiter filters on before reading anything else. */
 export interface Availability {
-  /** One line: the role I'm looking for. */
-  role: string;
   /** Short label/value pairs. Plain text, so ATS and screen readers get it. */
   facts: { label: string; value: string }[];
-}
-
-export interface SkillGroup {
-  group: string;
-  items: string[];
+  /** The one-line pill above the home headline. */
+  summary: string;
 }
 
 export interface SocialLinks {
-  instagram: string;
-  twitter: string;
   linkedin: string;
   github: string;
 }
@@ -60,19 +53,19 @@ export interface UserData {
   githubUsername: string;
   name: string;
   designation: string;
+  /** The home headline: what I do, true in the present tense. */
+  headline: string;
   avatarUrl: string;
   email: string;
   address: string;
   projects: Project[];
   about: About;
   availability: Availability;
-  /** Mirrors the Technical Proficiency block on the CV. */
-  skills: SkillGroup[];
-  /** Started, not yet something I'd claim as a skill. */
-  learning: string[];
-  /** Work only, newest first. Degrees live in education. */
-  experience: Experience[];
-  education: Experience[];
+  /**
+   * Older work that /experience shows after the CV's jobs, but the CV
+   * leaves out. Same shape and date format as the CV's entries.
+   */
+  earlierWork: CvEntry[];
   /** My master CV PDF, copied in as is. */
   resumeUrl: string;
   socialLinks: SocialLinks;
@@ -83,22 +76,28 @@ const userData: UserData = {
   githubUsername: 'Jaival',
   name: 'Jaival Saija',
   designation: 'Junior DevOps & Cloud Engineer',
+  headline: 'I build CI pipelines and fix what breaks in production.',
   avatarUrl: '/headshot.webp',
   email: 'saijajaival@gmail.com',
   address: 'Kaiserslautern, Germany',
   // Seven picked by hand, in this order. Everything else is one click away
-  // through the "View More on GitHub" link under the cards.
+  // through the GitHub link under the rows.
   projects: [
     {
       title: 'mdgloss',
+      dates: '09/2026 – present',
+      stack: ['Tauri 2', 'Rust', 'React', 'TypeScript'],
       description:
         'A reader-first markdown app for Windows, macOS and the web. Highlight, comment and bookmark as you read, without the markdown files ever changing. In progress, built with Tauri 2, React and TypeScript.',
       githubUrl: 'https://github.com/Jaival/mdgloss',
       ships:
         'CI checks the frontend (lint, types, tests) and the Rust side (fmt, clippy, tests). A version tag builds macOS and Windows binaries into a draft GitHub release.',
+      status: { label: 'ci passing', state: 'ok' },
     },
     {
       title: 'jobhunt-agent',
+      dates: '09/2026 – present',
+      stack: ['Claude Code', 'MCP (Gmail, Indeed)', 'Python'],
       description:
         'An LLM agent for my own job search, run every day as a Claude Code scheduled task. It pulls new ads from job APIs, Indeed and Gmail alerts, scores them against my CV and, on weekdays, drafts a tailored CV and cover letter for the best ones. Its rules treat ad text as untrusted input, so prompt-injection attempts get reported instead of followed, and every claim has to come from my master CV. The Python builder then enforces the rest in code: it refuses drafts with placeholders, letters outside 250-350 words or a CV over two pages. Nothing is ever sent automatically.',
       githubUrl: 'https://github.com/Jaival/jobhunt-agent',
@@ -106,18 +105,24 @@ const userData: UserData = {
       websiteLabel: 'Setup guide',
       ships:
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',
+      status: { label: 'v1.0.0 released', state: 'ok' },
     },
     {
       title: 'Kubernetes Learning Lab',
+      dates: '10/2026 – present',
+      stack: ['kind', 'Helm', 'Prometheus', 'Grafana'],
       description:
         "Where I'm learning Kubernetes, starting from Docker. Fourteen modules on a local three-node kind cluster, from Pods and Gateway API routing to RBAC, Helm, Prometheus, and Argo CD with GitHub Actions, ending in a capstone app deployed through GitOps. I started in October 2026: the course material is in the repo, and my exercise work goes in module by module.",
       githubUrl: 'https://github.com/Jaival/kubernetes-learning-lab',
       ships: 'Nothing ships yet. The capstone will deploy through Argo CD.',
+      status: { label: 'in progress', state: 'wip' },
     },
     {
       title: 'react-rough-notation',
+      dates: '12/2024 – present',
+      stack: ['React', 'TypeScript', 'GitHub Actions', 'npm'],
       description:
-        'My maintained fork of the React wrapper for Rough Notation, the hand-drawn highlights on this page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
+        'My maintained fork of the React wrapper for Rough Notation, which draws hand-drawn highlights on a web page. Releases use npm trusted publishing over OIDC, so there is no npm token stored anywhere.',
       githubUrl: 'https://github.com/Jaival/react-rough-notation',
       websiteUrl:
         'https://www.npmjs.com/package/@jaivalsaija/react-rough-notation',
@@ -127,6 +132,8 @@ const userData: UserData = {
     },
     {
       title: 'NextGleis',
+      dates: '08/2026 – 10/2026',
+      stack: ['Expo', 'React Native', 'TypeScript', 'Node.js on Vercel'],
       description:
         "An Android departure board for German buses and trains, with live delays and platform changes. A small serverless proxy turns Deutsche Bahn's XML into JSON and keeps the API keys off the device. Built with Expo and React Native.",
       githubUrl: 'https://github.com/Jaival/NextGleis',
@@ -135,6 +142,8 @@ const userData: UserData = {
     },
     {
       title: 'Invoicely',
+      dates: '12/2023 – present',
+      stack: ['Next.js', 'Postgres (Neon)', 'Drizzle', 'Better Auth', 'Docker'],
       description:
         'An invoicing app for freelancers, in development and built to learn the full stack. So far: Google sign-in, email verification and organizations. Next.js, Postgres on Neon, Drizzle and Better Auth.',
       imgUrl: '/projects/invoicely.png',
@@ -145,6 +154,8 @@ const userData: UserData = {
     },
     {
       title: 'Taskly',
+      dates: '02/2021 – 10/2026',
+      stack: ['Flutter', 'Riverpod', 'Firebase'],
       description:
         'A task and project manager for small teams. Boards, shared projects with editor and viewer roles, repeating tasks, and offline support, running in the browser and on Android. Started as my 2020 internship project at Apexa and rewritten on Flutter, Riverpod and Firebase.',
       imgUrl: '/projects/taskly.webp',
@@ -166,123 +177,41 @@ const userData: UserData = {
     ],
   },
   availability: {
-    role: "I'm looking for a working student (20 h/week) or junior role in DevOps or cloud, anywhere in Germany.",
+    // Worded like the CV (utils/cv.ts). /aboutme shows these as status rows;
+    // home shows all but Start, which the summary pill already says.
+    summary: 'Available now · working student or junior role',
     facts: [
-      { label: 'Hours', value: '20 h/week, 40 in semester breaks' },
-      { label: 'Start', value: 'As soon as possible' },
-      { label: 'Graduation', value: 'M.Sc. expected autumn 2027' },
+      {
+        label: 'Looking for',
+        value:
+          'Working student or junior role · DevOps, cloud, platform · anywhere in Germany',
+      },
+      { label: 'Hours', value: '20 h/week in semester · up to 40 in breaks' },
+      { label: 'Start', value: 'Available immediately' },
       {
         label: 'Permit',
-        value:
-          '§16b AufenthG, valid until 07/2028: up to 20 h/week in semester, full-time in breaks',
+        value: '§16b AufenthG student permit, valid until 07/2028',
       },
       {
         label: 'Languages',
-        value: 'English C1 (work language), German A2 (learning)',
+        value: 'English C1 · German A1 (Goethe certificate), learning A2',
       },
     ],
   },
-  skills: [
+  earlierWork: [
     {
-      group: 'Cloud',
-      items: [
-        'AWS (EC2, S3, IAM, VPC, CloudWatch)',
-        'Google Cloud',
-        'Firebase',
-      ],
-    },
-    {
-      group: 'CI/CD and DevOps',
-      items: [
-        'GitHub Actions',
-        'Docker',
-        'Git',
-        'Linux administration',
-        'Terraform (basics)',
-      ],
-    },
-    {
-      group: 'Security',
-      items: [
-        'IAM least privilege',
-        'VPC network segmentation',
-        'OIDC trusted publishing',
-      ],
-    },
-    {
-      group: 'Code',
-      items: ['Python', 'Bash', 'TypeScript', 'JavaScript', 'Flutter (Dart)'],
-    },
-    { group: 'AI', items: ['Claude', 'Claude Code', 'MCP'] },
-    { group: 'Data', items: ['PostgreSQL', 'MySQL', 'Firestore'] },
-  ],
-  learning: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
-  experience: [
-    {
-      id: 1,
-      title: "Master's preparation and move to Germany",
-      year: '2022 – 2023',
-      desc: "After Maven I prepared my applications for a Master's and moved from India to Germany to start at RPTU.",
-      gap: true,
-    },
-    {
-      id: 2,
-      title: 'Junior DevOps Engineer',
-      company: 'Maven Infosoft Pvt. Ltd., Ahmedabad',
-      year: 'Jun 2021 – Mar 2022',
-      companyLink: 'https://in.linkedin.com/company/maven-infosoft-pvt-ltd',
-      desc: 'I ran the AWS infrastructure for a .NET CMS product across dev, stage and production, and alerts came to me first.',
-      highlights: [
-        'Resolved 50+ production incidents in my first six months, tracing alerts through logs and fixing the networking faults behind most of them.',
-        'Built the GitHub Actions pipelines for testing, UAT and dev deployments of 3 products.',
-        'Secured dev, stage and production (EC2, S3, VPC) for a 7-person team with least-privilege IAM policies and a segmented VPC.',
-        'Caught 8–10 CPU and memory problems before customers noticed, with CloudWatch alarms.',
-        'Cut new-developer onboarding by 30% and maintenance time by 20% by writing the deployment runbooks and rewriting the update SOPs.',
-        'Led monthly root-cause post-mortems with the developers, 4–6 incidents each, and trained 7 teammates in Docker as we moved the pipeline to containers.',
-      ],
-    },
-    {
-      id: 3,
-      title: 'Junior Developer (Intern)',
-      company: 'Apexa Information System Pvt. Ltd., Ahmedabad',
-      year: 'Jan 2020 – Jun 2020',
-      companyLink: 'https://apexa.in/',
-      desc: 'Built a task management app in Flutter for iOS and Android, with Firebase behind it for real-time sync. I designed the data structure and deployed it to Firebase Hosting, then fixed the 5–6 bugs and UI issues the senior developers raised in review.',
-      highlights: [
-        'Later rebuilt it as the open-source Taskly, with Riverpod, offline support, and GitHub Actions that test it and build releases for every platform.',
-      ],
-    },
-    {
-      id: 4,
       title: 'Mobile App Developer (In-house)',
-      company: 'Ganpat University | Institute of Computer Technology',
-      year: 'May 2019 – Jun 2019',
-      companyLink: 'https://ict.guni.ac.in/',
-      desc: 'A scheduling app so professors and students could book meetings without the email back and forth. I built it with a 4-person student team, from the interface to a test phase with professors.',
-    },
-  ],
-  education: [
-    {
-      id: 1,
-      title: 'M.Sc. Computer Science',
-      company: 'RPTU Kaiserslautern',
-      year: '2023 – Present',
-      companyLink: 'https://cs.rptu.de/en/',
-      desc: 'Distributed systems and network security. Close enough to the infrastructure work I was already doing that the theory fills in gaps I used to work around.',
-    },
-    {
-      id: 2,
-      title: 'B.Tech Computer Science & Engineering',
-      company: 'Ganpat University | Institute of Computer Technology',
-      year: 'Aug 2017 – May 2021',
-      companyLink: 'https://ict.guni.ac.in/',
-      desc: 'Specialized in cloud-based applications, which was an unusual track to pick at the time. CGPA 8.67, top 10% of the class. It meant I was writing serverless functions and setting up cloud networking while it was still coursework.',
+      org: 'Institute of Computer Technology, Ganpat University, India',
+      dates: '05/2019 – 06/2019',
+      context:
+        'A scheduling app so professors and students could book meetings without the email back and forth.',
+      bullets: [
+        'Built it with a 4-person student team, from the interface to a test phase with professors.',
+      ],
     },
   ],
   resumeUrl: '/cv.pdf',
   socialLinks: {
-    instagram: 'https://www.instagram.com/jaivalsaija/',
-    twitter: 'https://x.com/Jaival469',
     linkedin: 'https://www.linkedin.com/in/jaivalsaija/',
     github: 'https://github.com/Jaival',
   },

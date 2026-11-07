@@ -40,7 +40,7 @@ function Code(
   }
   return (
     <code
-      className='box-decoration-clone rounded-md border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.875em] text-foreground'
+      className='box-decoration-clone rounded-md border border-border bg-muted px-1.5 py-0.5 font-mono text-[max(0.875em,0.875rem)] text-foreground'
       {...props}
     />
   );

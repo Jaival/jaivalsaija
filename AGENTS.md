@@ -26,8 +26,8 @@ Jaival Saija's personal site. Edit outside the block above; `next dev` owns it.
 - `getBlog()` in `utils/blog/` is the only way to read posts. It validates all of `content/` once
   per render, so a content mistake fails the build.
 - Build every blog URL with `utils/blog/paths.ts`; don't write `/blog/...` by hand.
-- Show a post's type with `kindLabel` and its dates with `formatPostDate` / `calendarDay`, all in
-  `utils/blog/kind.ts`. Dates are calendar days; never format them in local time.
+- Show a post's kind with `kindLabel(postKind(post))` (a release is derived, not a `type`) and its
+  dates with `formatPostDate` / `calendarDay`, all in `utils/blog/kind.ts`. Dates are calendar days; never format them in local time.
 - Tests: `bun run test`. They run `loadBlog` on posts from memory, not on `content/`.
 - Copy voice: first person, plain and concrete (real numbers, real stack names). Match the existing
   entries; write project descriptions from the project's own README.

@@ -2,12 +2,17 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
-import BackgroundElements from '@/components/backgroundElements';
-import PostTimeline from '@/components/postTimeline';
+import {
+  BareUrl,
+  CommandLine,
+  Rows,
+  SectionLabel,
+  type Row,
+} from '@/components/pipeline';
+import PostRows, { mutedLink } from '@/components/postRows';
 import series, { type SeriesId } from '@/content/series';
 import { getBlog } from '@/utils/blog';
 import { blogPath, postPath, seriesPath } from '@/utils/blog/paths';
-import { gradientText } from '@/utils/styles';
 
 interface SeriesPageProps {
   params: Promise<{ series: string }>;
@@ -52,71 +57,79 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
   const parts = blog.series(id);
   const guide = guideSlug ? blog.post(guideSlug) : undefined;
 
-  // Above the fold: the CSS entrance, as on the post page.
-  return (
-    <div className='relative min-h-svh pb-24'>
-      <BackgroundElements variant='minimal' />
-
-      <div className='relative z-10 max-w-3xl mx-auto px-4 md:px-8 pt-12 md:pt-20'>
-        <Link
-          href={blogPath}
-          className='animate-enter inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-primary'
-          style={step(0)}
+  const rows: Row[] = [];
+  if (url) {
+    rows.push({
+      label: 'repo',
+      value: (
+        <a
+          href={url}
+          target='_blank'
+          rel='noopener noreferrer'
+          className={mutedLink}
         >
-          <span aria-hidden>←</span> All posts
-        </Link>
-
-        <header className='mt-8 mb-12'>
-          <p
-            className='animate-enter text-sm font-medium text-primary'
-            style={step(1)}
-          >
-            Series · {parts.length} {parts.length === 1 ? 'part' : 'parts'} so
-            far
-          </p>
-          <h1
-            className={`${gradientText.hero} animate-enter mt-3 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-balance`}
-            style={step(1)}
-          >
-            {title}
-          </h1>
-          <p
-            className='animate-enter mt-5 text-lg md:text-xl leading-relaxed text-muted-foreground text-pretty'
-            style={step(2)}
-          >
-            {description}
-          </p>
-          {url && (
-            <a
-              href={url}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='animate-enter mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors duration-200 ease-out hover:text-brand-to'
-              style={step(2)}
-            >
-              The repo <span aria-hidden>↗</span>
-            </a>
-          )}
-        </header>
-
-        {guide && (
+          <BareUrl url={url} />
+        </a>
+      ),
+    });
+  }
+  if (guide) {
+    rows.push({
+      label: 'start here',
+      value: (
+        <>
           <Link
             href={postPath(guide.slug)}
-            className='animate-enter group mb-12 flex flex-col gap-1 rounded-2xl border border-primary/30 bg-card/50 p-5 transition-[border-color,background-color] duration-200 ease-out hover:border-primary/60 hover:bg-card/70'
-            style={step(3)}
+            className='font-medium underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary'
           >
-            <span className='text-xs font-medium text-primary'>
-              Start here · the setup guide, kept current
-            </span>
-            <span className='font-semibold text-balance transition-colors duration-200 ease-out group-hover:text-primary'>
-              {guide.title}
-            </span>
+            {guide.title}
           </Link>
-        )}
+          <span className='text-muted-foreground'>
+            {' · '}the setup guide, kept current
+          </span>
+        </>
+      ),
+    });
+  }
 
-        {/* Newest part first, like the feed; parts keep their numbers. */}
-        <PostTimeline posts={parts.toReversed()} />
+  // Above the fold: the CSS entrance, as on the post page.
+  return (
+    <section className='min-h-svh pt-10 md:pt-16 pb-20'>
+      <div className='max-w-4xl mx-auto px-4 md:px-8'>
+        <Link
+          href={blogPath}
+          className={`${mutedLink} animate-enter mb-6 inline-block`}
+          style={step(0)}
+        >
+          <span aria-hidden>← </span>all posts
+        </Link>
+
+        <div className='animate-enter' style={step(1)}>
+          <CommandLine className='mb-1'>$ ls ~/blog/series/{id}</CommandLine>
+          <SectionLabel as='h1' className='lowercase'>
+            {title}
+          </SectionLabel>
+        </div>
+
+        <div className='animate-enter' style={step(2)}>
+          <p className='text-lg md:text-xl text-foreground leading-relaxed text-pretty'>
+            {description}
+          </p>
+          {rows.length > 0 && (
+            <Rows labelWidth='8rem' rows={rows} className='mt-6' />
+          )}
+        </div>
+
+        <section className='mt-12'>
+          <div className='animate-enter' style={step(3)}>
+            <SectionLabel count={parts.length} className='mb-1'>
+              parts
+            </SectionLabel>
+          </div>
+          {/* Newest part first, like the blog; parts keep their numbers. */}
+          <PostRows posts={parts.toReversed()} inSeries firstStep={4} />
+        </section>
       </div>
-    </div>
+    </section>
   );
 }

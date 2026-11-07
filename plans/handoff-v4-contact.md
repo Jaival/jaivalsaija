@@ -43,21 +43,15 @@ the last page phase.
 
 ## Left before `revamp/v4` merges into `main`
 
-1. Review and merge this PR.
-2. Old-look leftovers outside the page phases: `components/cv/cvDownload.tsx` (gradient "Download
-   PDF" button on `/cv`) and `components/ErrorBoundary.tsx` (gradient button, `rounded-xl`). Make
-   both plain solid buttons like the rest.
-3. Content, open since earlier phases:
-   - jobhunt-agent dates: the repo starts 10/2026, `utils/cv.ts` (and likely `public/cv.pdf`) say
-     09/2026.
-   - `public/cv.pdf` (built outside this repo) still says "actively learning" for German; make it
-     "learning A2".
-   - The jobhunt-agent v1.0.0 summary shows literal backticks (`` `why <job>` ``) in blog rows.
-4. RSS categories and the OG image still use `type`, not `postKind()`; decide if a release should
-   show as `release` there too.
-5. Merge `main` into `revamp/v4` (no new commits on `main` today), then one full pass over every
+1. Review and merge this PR and #55. #55 fixes the old gradient buttons (`/cv` "Download PDF",
+   error boundary), the v1.0.0 summary backticks, and RSS / OG kinds (now `postKind()`). It also
+   sets jobhunt-agent to 09/2026 on the site and in `utils/cv.ts` (Jaival: v0.0.1 was local only,
+   so the repo starts a month later).
+2. `public/cv.pdf`: Jaival changes German "actively learning" to "learning A2" in the Word source
+   and exports the PDF again.
+3. Merge `main` into `revamp/v4` (no new commits on `main` today), then one full pass over every
    page in light and dark, phone and desktop, plus a Lighthouse run.
-6. Open the `revamp/v4` → `main` PR (closes #33); after merge, delete the `revamp/v4*` branches
+4. Open the `revamp/v4` → `main` PR (closes #33); after merge, delete the `revamp/v4*` branches
    (keep only main/v1/v2/v3).
 
 ## Open

@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment, type CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import Reveal from '@/components/Reveal';
 import {
+  BareUrl,
   CommandLine,
   SectionLabel,
   Timeline,
@@ -19,27 +20,6 @@ const aboveFold = 2;
 
 const linkStyle =
   'font-mono text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary';
-
-/**
- * `https://github.com/Jaival/x` → `github.com/Jaival/x`, as the CV writes it.
- * A phone can wrap a long one after a slash, never inside a name.
- */
-function BareUrl({ url }: { url: string }) {
-  const parts = url
-    .replace(/^https?:\/\//, '')
-    .replace(/\/$/, '')
-    .split('/');
-  return parts.map((part, i) => (
-    <Fragment key={i}>
-      {i > 0 && (
-        <>
-          /<wbr />
-        </>
-      )}
-      {part}
-    </Fragment>
-  ));
-}
 
 function ProjectRow({ project }: { project: Project }) {
   const {

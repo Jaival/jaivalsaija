@@ -1,30 +1,29 @@
-import { GitBranch, GitCommitHorizontal, Tag } from 'lucide-react';
 import Link from 'next/link';
+import { SectionLabel } from '@/components/pipeline';
 import { formatPostDate } from '@/utils/blog/kind';
 import type { PostVersionSummary } from '@/utils/blog/types';
 import Reveal from './Reveal';
 
 // Both views borrow from git: versions are commits on one branch, `main` is
 // the current version and `HEAD` is the one on screen. A version written for
-// a software release carries that release as a tag, linked to its release
-// post. Amber marks an older version being read, the same warm tone the site
-// uses for highlights.
+// a software release carries that release as a tag (`tag: v1.0.0`, as
+// `git log --decorate` prints it), linked to its release post. Amber marks
+// an older version being read, the same warm tone the site uses for
+// highlights.
 
+/** A ref beside a version, bordered like a blog row's kind tag. */
 const refTag =
-  'rounded-full border px-2 py-px font-mono text-[0.65rem] leading-4 font-medium';
+  'inline-block rounded-sm border px-1.5 font-mono text-sm leading-6 font-medium';
 const mainTag = `${refTag} border-primary/45 text-primary`;
 const headTag = `${refTag} border-highlight/60 text-highlight-strong`;
 
 const textLink =
-  'text-primary transition-colors duration-200 ease-out hover:text-brand-to';
+  'text-primary underline decoration-primary/40 underline-offset-4 transition-colors duration-200 ease-out hover:decoration-primary';
 
-/** A release tag, like `git log --decorate` prints one. */
 function ReleaseTag({ release }: { release: string }) {
   return (
-    <span
-      className={`${refTag} inline-flex items-center gap-1 border-border text-muted-foreground`}
-    >
-      <Tag aria-hidden className='size-2.5' />v{release}
+    <span className={`${refTag} border-border text-muted-foreground`}>
+      tag: v{release}
     </span>
   );
 }
@@ -58,10 +57,9 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
   return (
     <nav
       aria-label='Versions of this post'
-      className='flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium text-muted-foreground'
+      className='flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-sm text-muted-foreground'
     >
-      <GitBranch aria-hidden className='size-3.5 shrink-0' />
-      <ol className='flex items-center'>
+      <ol className='flex flex-wrap items-center gap-y-2'>
         {versions.map(({ version, date, href }, index) => {
           const isHere = version === viewing;
           const node = (
@@ -70,7 +68,7 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
                 aria-hidden
                 className={`size-2.5 ${dotClass(isHere, isOld)}`}
               />
-              <span className='font-mono'>v{version}</span>
+              v{version}
             </>
           );
           return (
@@ -78,7 +76,7 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
               {index > 0 && (
                 <span
                   aria-hidden
-                  className='mx-2 h-0.5 w-10 rounded-full bg-primary/40 sm:w-14'
+                  className='mx-1.5 h-0.5 w-4 rounded-full bg-primary/40 sm:mx-2 sm:w-8'
                 />
               )}
               {isHere ? (
@@ -116,7 +114,7 @@ export function VersionGraph({ versions, viewing }: VersionsProps) {
       ) : (
         <a
           href='#history'
-          className='transition-colors duration-200 ease-out hover:text-primary'
+          className='underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary'
         >
           What changed <span aria-hidden>↓</span>
         </a>
@@ -141,22 +139,16 @@ export function VersionHistory({ versions, viewing }: VersionsProps) {
   return (
     <section id='history' className='mt-16 scroll-mt-28'>
       <Reveal>
-        <div className='flex items-baseline justify-between gap-4 mb-4'>
-          <h2 className='flex items-center gap-2 text-lg font-bold tracking-tight'>
-            <GitCommitHorizontal
-              aria-hidden
-              className='size-4 self-center text-muted-foreground'
-            />
-            History
-          </h2>
-          {isOld && (
-            <span className='text-sm font-medium text-highlight-strong'>
-              You&apos;re reading an older version
-            </span>
-          )}
-        </div>
+        <SectionLabel count={versions.length} className='mb-2'>
+          history
+        </SectionLabel>
+        {isOld && (
+          <p className='mb-2 font-mono text-sm text-highlight-strong'>
+            You&apos;re reading an older version
+          </p>
+        )}
 
-        <ol className='rounded-2xl border border-border bg-card/50 py-2'>
+        <ol>
           {rows.map(
             (
               { version, isCurrent, date, changes, href, release, notesHref },
@@ -165,77 +157,74 @@ export function VersionHistory({ versions, viewing }: VersionsProps) {
               const isHere = version === viewing;
               // The rail joins the dots through each row's padding: from the
               // first dot down, and up to the last, never past either end. The
-              // dot's centre sits 13px into the cell.
+              // dot's centre sits 12px into the cell, mid first line.
               const rail =
                 index === 0
-                  ? 'top-[13px] -bottom-3'
+                  ? 'top-[12px] -bottom-3'
                   : index === rows.length - 1
-                    ? '-top-3 h-[25px]'
+                    ? '-top-3 h-[24px]'
                     : '-top-3 -bottom-3';
-              const content = (
-                <>
-                  <span className='relative flex justify-center self-stretch'>
-                    <span
-                      aria-hidden
-                      className={`absolute left-1/2 w-0.5 -translate-x-1/2 bg-primary/35 ${rail}`}
-                    />
-                    <span
-                      aria-hidden
-                      className={`relative mt-[7px] size-3 ${dotClass(isHere, isOld)} ${isHere ? `ring-4 ${isOld ? 'ring-highlight/20' : 'ring-primary/15'}` : ''}`}
-                    />
-                  </span>
-                  <span className='min-w-0'>
-                    <span className='flex flex-wrap items-center gap-1.5'>
-                      {isHere ? (
-                        <span className='font-mono text-sm text-foreground'>
-                          v{version}
-                        </span>
-                      ) : (
-                        // Stretched over the whole row, so the row is the
-                        // link; the release-notes link sits above it.
-                        <Link
-                          href={href}
-                          aria-label={`Version ${version}, ${formatPostDate(date)}${changes ? `: ${changes}` : ''}`}
-                          className='font-mono text-sm text-foreground after:absolute after:inset-0'
-                        >
-                          v{version}
-                        </Link>
-                      )}
-                      {isCurrent && <span className={mainTag}>main</span>}
-                      {isHere && <span className={headTag}>HEAD</span>}
-                      {release && <ReleaseTag release={release} />}
-                    </span>
-                    {changes && (
-                      <span className='mt-0.5 block text-sm text-muted-foreground text-pretty transition-colors duration-200 ease-out group-hover:text-foreground'>
-                        {changes}
-                      </span>
-                    )}
-                    {notesHref && (
-                      <Link
-                        href={notesHref}
-                        className={`relative z-10 mt-1 inline-block text-sm font-medium ${textLink}`}
-                      >
-                        Release notes <span aria-hidden>→</span>
-                      </Link>
-                    )}
-                  </span>
-                  <time
-                    dateTime={date}
-                    className='pt-0.5 font-mono text-xs whitespace-nowrap text-muted-foreground'
-                  >
-                    {formatPostDate(date)}
-                  </time>
-                </>
-              );
               const row =
-                'relative grid grid-cols-[0.75rem_1fr_auto] gap-x-4 px-5 py-3 transition-colors duration-200 ease-out';
+                'relative -mx-3 grid grid-cols-[0.75rem_1fr] gap-x-4 rounded-md px-3 py-3 transition-colors duration-200 ease-out sm:grid-cols-[0.75rem_1fr_auto]';
               return (
                 <li key={version}>
                   <div
                     aria-current={isHere ? 'page' : undefined}
-                    className={isHere ? row : `${row} group hover:bg-card/70`}
+                    className={isHere ? row : `${row} group hover:bg-muted`}
                   >
-                    {content}
+                    <span className='relative row-span-2 flex justify-center self-stretch sm:row-span-1'>
+                      <span
+                        aria-hidden
+                        className={`absolute left-1/2 w-0.5 -translate-x-1/2 bg-primary/35 ${rail}`}
+                      />
+                      <span
+                        aria-hidden
+                        className={`relative mt-[6px] size-3 ${dotClass(isHere, isOld)} ${isHere ? `ring-4 ${isOld ? 'ring-highlight/20' : 'ring-primary/15'}` : ''}`}
+                      />
+                    </span>
+                    <span className='min-w-0'>
+                      <span className='flex flex-wrap items-center gap-1.5'>
+                        {isHere ? (
+                          <span className='font-mono text-sm leading-6 text-foreground'>
+                            v{version}
+                          </span>
+                        ) : (
+                          // Stretched over the whole row, so the row is the
+                          // link; the release-notes link sits above it.
+                          <Link
+                            href={href}
+                            aria-label={`Version ${version}, ${formatPostDate(date)}${changes ? `: ${changes}` : ''}`}
+                            className='font-mono text-sm leading-6 text-foreground after:absolute after:inset-0'
+                          >
+                            v{version}
+                          </Link>
+                        )}
+                        {isCurrent && <span className={mainTag}>main</span>}
+                        {isHere && <span className={headTag}>HEAD</span>}
+                        {release && <ReleaseTag release={release} />}
+                      </span>
+                      {changes && (
+                        <span className='mt-0.5 block text-muted-foreground text-pretty transition-colors duration-200 ease-out group-hover:text-foreground'>
+                          {changes}
+                        </span>
+                      )}
+                      {notesHref && (
+                        <Link
+                          href={notesHref}
+                          className={`relative z-10 mt-1 inline-block font-mono text-sm ${textLink}`}
+                        >
+                          Release notes <span aria-hidden>→</span>
+                        </Link>
+                      )}
+                    </span>
+                    {/* On phones the date goes under the version, as in a
+                        title line. */}
+                    <time
+                      dateTime={date}
+                      className='col-start-2 font-mono text-sm leading-6 whitespace-nowrap text-muted-foreground sm:col-start-3 sm:row-start-1'
+                    >
+                      {formatPostDate(date)}
+                    </time>
                   </div>
                 </li>
               );
@@ -259,7 +248,7 @@ export function ReleaseLine({
   guide: { title: string; version: PostVersionSummary };
 }) {
   return (
-    <p className='flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium text-muted-foreground'>
+    <p className='flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-sm text-muted-foreground'>
       <ReleaseTag release={release} />
       <Link href={guide.version.href} className={textLink}>
         Setup guide as of v{release} <span aria-hidden>→</span>

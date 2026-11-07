@@ -1,12 +1,31 @@
 // How a post is labelled and dated, wherever it shows: the meta line, the
-// timeline, the OG image and the RSS feed. No server-only: client and server
+// blog rows, the OG image and the RSS feed. No server-only: client and server
 // components both use it.
-import type { PostType } from './types';
+import type { PostSummary } from './types';
 
-const labels: Record<PostType, string> = { post: 'Post', update: 'Update' };
+/** What a reader sees a post as: its `type`, or a release. */
+export type PostKind = 'post' | 'update' | 'release';
 
-/** 'update' -> 'Update'. The name readers see for a post's type. */
-export const kindLabel = (type: PostType) => labels[type];
+const labels: Record<PostKind, string> = {
+  post: 'Post',
+  update: 'Update',
+  release: 'Release',
+};
+
+/**
+ * A release post is a series part that names a software release. A series'
+ * guide tags its versions with `release` too, but it is in no series, so it
+ * stays a post.
+ */
+export const postKind = ({
+  type,
+  release,
+  series,
+}: Pick<PostSummary, 'type' | 'release' | 'series'>): PostKind =>
+  release && series ? 'release' : type;
+
+/** 'update' -> 'Update'. The name readers see for a post's kind. */
+export const kindLabel = (kind: PostKind) => labels[kind];
 
 /**
  * A post date is a calendar day with no time zone, so it is read as UTC

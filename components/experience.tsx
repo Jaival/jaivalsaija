@@ -3,10 +3,12 @@ import CvEntry from '@/components/cvEntry';
 import Reveal from '@/components/Reveal';
 import { CommandLine, SectionLabel } from '@/components/pipeline';
 import { cv } from '@/utils/cv';
+import userData from '@/utils/data';
 
 // /experience: the CV's experience and education, from utils/cv.ts like /cv.
 // Newest first, so the career break sits above the jobs and the gap reads as
-// explained before a recruiter sees the dates.
+// explained before a recruiter sees the dates. The site's earlier work, which
+// the CV leaves out, follows the CV's jobs.
 
 /** Entries painted at load get the CSS entrance; the rest reveal on scroll. */
 const aboveFold = 2;
@@ -24,7 +26,7 @@ export default function Experience() {
         </div>
 
         <div className='space-y-5'>
-          {cv.experience.map((entry, i) =>
+          {[...cv.experience, ...userData.earlierWork].map((entry, i) =>
             i < aboveFold ? (
               // Painted before hydration; a Reveal here would ship at opacity 0.
               <div

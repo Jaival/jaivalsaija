@@ -24,10 +24,12 @@ Branch `revamp/v4-experience` → PR into `revamp/v4`, stacked on phase 2 (#49, 
 
 ## Decided
 
-- The site now shows what the CV shows. The old site-only entry "Mobile App Developer (In-house),
-  Ganpat University, 05/2019 – 06/2019" is gone with the old data (spec story 7: no contradictions
-  with the CV). Add it to `utils/cv.ts` if it should come back; it then shows on `/cv` and the PDF
-  too.
+- Earlier work (Jaival, 2026-11-07): "Mobile App Developer (In-house), Institute of Computer
+  Technology, Ganpat University, 05/2019 – 06/2019" stays on the site but not on the CV. It lives in
+  `userData.earlierWork` (`utils/data.ts`, typed `CvEntry`) and `/experience` shows it after the
+  CV's jobs, on the timeline. `/cv` and the PDF leave it out. The data test checks its dates.
+- German (Jaival, 2026-11-07): A1 certificate held, A2 in progress. Site status and `utils/cv.ts`
+  both say "German A1 (Goethe certificate), learning A2".
 - All bullets show; the mockup's "+ 5 more" was mockup brevity.
 
 ## Next: phase 4, Projects
@@ -42,8 +44,8 @@ Branch `revamp/v4-experience` → PR into `revamp/v4`, stacked on phase 2 (#49, 
 
 ## Open
 
-- `utils/cv.ts` still says "German A1 (Goethe certificate)"; the site says A2 (learning). Align the
-  CV module (and the PDF, built outside this repo) or the site.
+- `public/cv.pdf` (master CV, built outside this repo) still says "actively learning"; update it to
+  "learning A2" there.
 - About, projects, blog and contact still use the old look until their phases.
 - Screenshots: headless Chrome over CDP against `next start` on a free port (3123 was taken; a busy
   port makes `next start` exit while an old server keeps answering). Kill the headless Chrome after

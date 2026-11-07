@@ -1,4 +1,5 @@
 import { postPath } from '@/utils/blog/paths';
+import type { CvEntry } from '@/utils/cv';
 
 // Enhanced type definitions for better type safety
 export interface Project {
@@ -59,6 +60,11 @@ export interface UserData {
   /** Started, not yet something I'd claim as a skill. */
   learning: string[];
   /** My master CV PDF, copied in as is. */
+  /**
+   * Older work that /experience shows after the CV's jobs, but the CV
+   * leaves out. Same shape and date format as the CV's entries.
+   */
+  earlierWork: CvEntry[];
   resumeUrl: string;
   socialLinks: SocialLinks;
 }
@@ -167,7 +173,10 @@ const userData: UserData = {
         label: 'Permit',
         value: '§16b AufenthG student permit, valid until 07/2028',
       },
-      { label: 'Languages', value: 'English C1 · German A2 (learning)' },
+      {
+        label: 'Languages',
+        value: 'English C1 · German A1 (Goethe certificate), learning A2',
+      },
     ],
   },
   skills: [
@@ -205,6 +214,18 @@ const userData: UserData = {
     { group: 'Data', items: ['PostgreSQL', 'MySQL', 'Firestore'] },
   ],
   learning: ['Kubernetes', 'Helm', 'Prometheus', 'Grafana'],
+  earlierWork: [
+    {
+      title: 'Mobile App Developer (In-house)',
+      org: 'Institute of Computer Technology, Ganpat University, India',
+      dates: '05/2019 – 06/2019',
+      context:
+        'A scheduling app so professors and students could book meetings without the email back and forth.',
+      bullets: [
+        'Built it with a 4-person student team, from the interface to a test phase with professors.',
+      ],
+    },
+  ],
   resumeUrl: '/cv.pdf',
   socialLinks: {
     instagram: 'https://www.instagram.com/jaivalsaija/',

@@ -3,6 +3,7 @@ import Projects from '@/components/projects';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/projects' },
   title: 'Projects - Jaival Saija',
   description:
     'What I build outside work, with how each one ships: CI, releases and deploys, and links to the code.',

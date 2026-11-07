@@ -1,0 +1,26 @@
+name: Lighthouse
+
+# Scores the built site on every pull request. Assertions only warn, so a
+# low score shows in the log and the report but never blocks a merge.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: bunx @lhci/cli@0.16.x autorun

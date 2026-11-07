@@ -1,5 +1,8 @@
 # jaivalsaija.dev
 
+[![CI](https://github.com/Jaival/jaivalsaija/actions/workflows/ci.yml/badge.svg)](https://github.com/Jaival/jaivalsaija/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Jaival/jaivalsaija/actions/workflows/codeql.yml/badge.svg)](https://github.com/Jaival/jaivalsaija/actions/workflows/codeql.yml)
+
 My portfolio and blog. I'm Jaival Saija, a DevOps engineer doing an M.Sc. in Computer Science at
 RPTU Kaiserslautern.
 
@@ -52,8 +55,12 @@ The site itself is a Next.js app deployed on Vercel. Some choices I made for it:
   [Building this blog without a database](https://www.jaivalsaija.dev/blog/building-this-blog).
 - **Content as typed data.** Site copy lives in `utils/data.ts` and the CV in `utils/cv.ts`, so a
   content change is a data edit, not a page edit.
-- **Security headers** on every route (`X-Frame-Options`, `X-Content-Type-Options`,
-  `Referrer-Policy`, `Permissions-Policy`), set in `next.config.js`.
+- **Security headers** on every route, set in `next.config.js`: HSTS (two years, subdomains), a
+  Content Security Policy (Report-Only while I check it), `X-Frame-Options`,
+  `X-Content-Type-Options`, `Referrer-Policy` and `Permissions-Policy`. The CSP is static, without
+  nonces, so every page stays prerendered.
+- **Checked on every pull request.** CI runs lint, types, tests and a build. CodeQL scans the code,
+  Lighthouse CI scores three pages (warnings only), and Dependabot opens grouped updates weekly.
 - **Discoverable.** Sitemap, `robots.txt`, an RSS feed at `/blog/rss.xml` and a generated Open Graph
   image per post.
 - **Works before JavaScript loads.** Above-the-fold entrances are CSS animations, so the first paint

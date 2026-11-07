@@ -1,5 +1,27 @@
 const createMDX = require('@next/mdx');
 
+// Static CSP, no nonces: a nonce needs dynamic rendering, and every page here
+// is prerendered. So inline scripts (Next's hydration data) need
+// 'unsafe-inline'. Shipped as Report-Only first: violations show in the
+// browser console without breaking anything. Switch the key to
+// Content-Security-Policy once a week of browsing shows none.
+// vercel.live is the Vercel toolbar on preview deployments.
+const isDev = process.env.NODE_ENV === 'development';
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline' https://vercel.live${isDev ? " 'unsafe-eval'" : ''}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' blob: data:",
+  "font-src 'self'",
+  "connect-src 'self' https://vercel.live",
+  'frame-src https://vercel.live',
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  'upgrade-insecure-requests',
+].join('; ');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -23,6 +45,16 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: csp,
+          },
+          {
+            // Two years, subdomains too. No preload: the preload list is
+            // hard to leave, and the .dev TLD is HSTS-preloaded already.
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains',
+          },
           {
             key: 'X-Frame-Options',
             value: 'DENY',

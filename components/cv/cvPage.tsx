@@ -2,13 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
 import Reveal from '@/components/Reveal';
-import {
-  CommandLine,
-  Rows,
-  SectionLabel,
-  TitleLine,
-} from '@/components/pipeline';
+import { CommandLine, SectionLabel, TitleLine } from '@/components/pipeline';
 import CvEntry from '@/components/cvEntry';
+import SkillRows from '@/components/skillRows';
 import { cv } from '@/utils/cv';
 import CvDownload from './cvDownload';
 
@@ -113,22 +109,7 @@ export default function CvPage() {
 
         <Section title='skills'>
           <Reveal>
-            <Rows
-              rows={cv.skills.map(skill => ({
-                label: skill.label,
-                value: (
-                  <>
-                    {skill.value}
-                    {skill.learning && (
-                      <span className='text-muted-foreground'>
-                        {' '}
-                        · learning: {skill.learning}
-                      </span>
-                    )}
-                  </>
-                ),
-              }))}
-            />
+            <SkillRows />
           </Reveal>
         </Section>
 

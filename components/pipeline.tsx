@@ -36,7 +36,7 @@ export function Cursor() {
 
 /**
  * Lowercase mono section label with a rule that fills the rest of the line.
- * On a sub-page the first one is the page's `<h1>`.
+ * On a sub-page the first one is the page's `<h1>`, set larger as the title.
  */
 export function SectionLabel({
   as: Heading = 'h2',
@@ -50,11 +50,16 @@ export function SectionLabel({
   children: ReactNode;
   className?: string;
 }) {
+  // A page title outranks the entry titles under it (text-lg), so it is
+  // larger, and may wrap: a long series title is wider than a phone.
+  const size =
+    Heading === 'h1' ? 'text-2xl md:text-3xl' : 'text-sm tracking-wide';
+  const wrap = Heading === 'h1' ? 'min-w-0' : 'whitespace-nowrap';
   return (
     <Heading
-      className={`mb-5 flex items-center gap-3 font-mono text-sm font-bold tracking-wide text-primary ${className}`}
+      className={`mb-5 flex items-center gap-3 font-mono font-bold text-primary ${size} ${className}`}
     >
-      <span className='whitespace-nowrap'>
+      <span className={wrap}>
         {children}
         {count !== undefined && (
           <span className='ml-2.5 font-normal text-muted-foreground'>

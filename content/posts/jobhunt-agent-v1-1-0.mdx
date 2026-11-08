@@ -1,0 +1,77 @@
+export const metadata = {
+  title: 'jobhunt-agent v1.1.0: my CV design survives tailoring',
+  date: '2026-11-08',
+  summary:
+    'v1.1.0 keeps the fonts of my master CV, tailors the tagline in the letter, picks which projects get a full block, and adds a list of phrases a letter must never contain.',
+  type: 'post',
+  series: 'jobhunt-agent',
+  release: '1.1.0',
+};
+
+[jobhunt-agent](https://github.com/Jaival/jobhunt-agent) runs every morning on my laptop, searches job boards, scores new ads against my CV and drafts applications for the best ones. The [setup post](/blog/jobhunt-agent-setup) covers how to install it.
+
+[v1.0.0](/blog/jobhunt-agent-v1-0-0) made updates follow tagged releases and let me answer the daily brief. Then I redesigned my master CV and letter, and the builder flattened half of the design. v1.1.0, "your own design", lets the builder keep more of the master: its fonts, a tagline per job and more projects than fit on two pages. Every new setting is optional. Without them, the documents stay exactly the same.
+
+## Two fonts, kept
+
+The builder set every font in the CV and the letter to one family. That's safe for a one-font master, but my new design uses a sans font for the text and a mono font for headings and dates, and tailoring turned all of it into one. A new setting keeps the master's own fonts:
+
+```yaml
+font: keep
+fallback_font: { Inter: Arial, JetBrains Mono: Consolas }
+```
+
+`fallback_font` can now be a map, one substitute per font, for a machine that doesn't have the original. A single name still applies to every font. With `font: keep`, the PDF export and the page check stay on, so a two-font CV still gets checked for its two pages.
+
+## A tagline per job
+
+My master letter has a tagline under my name, `$ devops-and-software --python --aws`. The builder couldn't change it per job, so it had to stay neutral enough for every ad. It can now be tailored. Map it as `letter: headline:` in `cv/layout.yaml`, and the builder fills it from `letter_headline:` in the job's application.md:
+
+```yaml
+letter_headline: $ devops --kubernetes --terraform
+```
+
+It can also be one text per language, `{de: ..., en: ...}`. Without a `letter_headline`, the builder uses the CV headline. A tagline I set is grounded like the CV headline, so it can't name a tool my files don't back up. "remap my CV" maps the line for you.
+
+## More projects than fit
+
+I have six projects and room for three or four full blocks on two pages. The builder could only reorder them, and leaving one out with `omit_projects` needed a dated approval every time. A projects section in `cv/layout.yaml` can now be a pool:
+
+```yaml
+max: 4
+further: { starts_with: 'Further projects' }
+```
+
+Each CV shows the first four projects in the job's order as full blocks. The others aren't dropped: their names go at the front of the "further projects" line, after the `: `. So the master holds every project, and the tailor picks which ones the ad gets in full. The tailor subagent's rules now say how to order a pool.
+
+## Phrases a letter must never write
+
+The grounding check from [v0.5.0](/blog/jobhunt-agent-v0-5-0) asks whether a number or a tool is in my files. It can't catch a claim built from words that are all true on their own. One of my letters said "three products" and "developers stopped deploying by hand". My CLAUDE.md forbids both, and the build passed. Now there's a list for that:
+
+```yaml
+never_write: ['3 products', 'stopped deploying\s+by hand']
+```
+
+Each entry is a phrase or a regex. A match in the CV or a letter fails the build, and the tailor rewrites the letter, the same way it does for a grounding failure.
+
+That letter also showed a gap I'd listed in the v0.5.0 post: a number written as a word wasn't checked. The grounding check now reads number words too, "three" and "twenty-five" in English, "zwölf" and "zwanzig" in German. "one" and "ein" are left out, because they're too often not a number. A number word that isn't in my files or the ad is a warning for now, so older letters don't suddenly fail a minor update. `grounding_number_words: fail` makes it an error.
+
+## One fix
+
+After I rebuilt my master CV, 8 of the 9 entries in `cv/variants.yaml` no longer matched its text. Every build stopped with `variant 'profile': master text found 0 times`, even for jobs that used no variant. Now only a build that picks or reorders a stale entry stops. The others print a warning, and `cv_map.py check` lists every stale entry.
+
+## Same scores
+
+None of this touches the scoring, and the eval agrees. On the 33 labelled ads, v1.1.0 matches v1.0.0 on all six metrics: in scope 30/33, role type 20/21, hard mismatch 20/21, score inside the range 19/21, tailor decision 30/30, German level 31/33. It was recorded with Claude Opus 5.5 and cost $3.92.
+
+## Upgrading
+
+Open the workspace folder in the Code tab and say:
+
+```text
+update the engine
+```
+
+`config.yaml` stays at version 2, and the migration only updates the tailor subagent. `upgrade.py compare` should say **SAME DOCUMENTS**, because nothing changes until you set one of the new settings. After the first **Run now**, the brief's first line is `engine 1.1.0 (…) · model …`. If you set one of the new settings, open a tailored CV and letter from that run and check the fonts, the tagline or the projects line.
+
+`python engine/tools/upgrade.py rollback` puts the old engine and config.yaml back, so settings you added after the update go with it. The [upgrade guide](https://github.com/Jaival/jobhunt-agent/blob/v1.1.0/docs/upgrading/v1.1.0.md) has every step, and the [changelog](https://github.com/Jaival/jobhunt-agent/blob/main/CHANGELOG.md) lists every behaviour change.

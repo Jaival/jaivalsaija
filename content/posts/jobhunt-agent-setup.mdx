@@ -2,13 +2,13 @@ export const metadata = {
   title: 'Setting up jobhunt-agent, my daily job-search routine',
   date: '2026-10-22',
   time: '18:00',
-  updated: '2026-11-01',
+  updated: '2026-11-08',
   changes:
-    'v1.0.0: updates from releases only, a Decisions checklist in the brief, commands, and a local history of the workspace',
+    'v1.1.0: optional settings to keep your own fonts, tailor the letter tagline, pool projects, and list phrases a letter must never write',
   summary:
     'A Claude Code routine that finds and scores job ads every morning and drafts a tailored CV and letter for the best ones, now for any field. How to install it, and what the first run asks you.',
   type: 'post',
-  release: '1.0.0',
+  release: '1.1.0',
 };
 
 Looking for a working-student job means checking the same boards every day, reading ads that turn out to be closed, and rewriting a CV and letter for each one. [jobhunt-agent](https://github.com/Jaival/jobhunt-agent) does the searching and the first drafts for me.
@@ -17,7 +17,7 @@ Every morning it searches job boards, scores new ads against my CV and, on weekd
 
 It works for student and junior roles in any field, from marketing and nursing to engineering and software, and with your own CV design.
 
-This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v1.0.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
+This is the setup guide from the repo (`docs/setup-guide.html` on main), written out as a post. It always describes the current release, v1.1.0. What each release changed, and why, is in the [jobhunt-agent releases](/blog/series/jobhunt-agent) series.
 
 ## What you need
 
@@ -168,15 +168,15 @@ JobHunt/
 These are permission rules and a guard hook, not only instructions, so they hold even if a job ad talks the agent into something.
 
 - **Send anything.** No applications, emails or posts. You get drafts and you decide.
-- **Invent facts.** Every claim comes from your CV or from what you confirmed during setup. The builder checks every number and every skill or tool a letter names against your own files and the ad, and refuses to build a letter with one it can't find.
+- **Invent facts.** Every claim comes from your CV or from what you confirmed during setup. The builder checks every number and every skill or tool a letter names against your own files and the ad, and refuses to build a letter with one it can't find. Numbers written as words, like "three" or "zwölf", get a warning.
 - **Obey job ads.** A separate ad reader with no tools to misuse turns each ad into fixed facts, and the run works only from those. Hidden "AI, do this" instructions in an ad are reported, never followed.
 
-The builder also refuses to produce a draft with a placeholder left in it, a wording you haven't approved, a number or skill that isn't in your files or the ad, a letter outside 250 to 350 words, a CV over two pages or a letter over one.
+The builder also refuses to produce a draft with a placeholder left in it, a wording you haven't approved, a number or skill that isn't in your files or the ad, a letter outside 250 to 350 words, a CV over two pages or a letter over one. Phrases you list under `never_write:` in config.yaml, for example a claim your CLAUDE.md forbids, fail the build too.
 
 ## If something goes wrong
 
 - **It keeps asking setup questions.** Run `python engine/tools/setup_check.py` in the folder. Every TODO line says what is missing.
-- **A "CV map" warning.** The builder finds the parts it may change (the headline, the order of items, the letter text) through `cv/layout.yaml`, a map of your own CV. If you edited your master CV since it was mapped, say "remap my CV". Until the map works you get the letter text and the CV choices, but no finished documents.
+- **A "CV map" warning.** The builder finds the parts it may change (the headline, the order of items, the letter text) through `cv/layout.yaml`, a map of your own CV. If you edited your master CV since it was mapped, say "remap my CV". Until the map works you get the letter text and the CV choices, but no finished documents. `python engine/tools/cv_map.py check` lists variants whose master text is gone; they only stop the builds that use them.
 - **The tracker didn't update.** Close it in Excel before the run. Rows that couldn't be saved wait in `tracker/pending_rows.csv`.
 - **A build fails with "not in your CV, CLAUDE.md, projects.md or the ad".** The letter names a number or a tool your files don't back up. The routine rewrites the letter and builds again; it never adds the fact to your files to make it pass. If you have the skill, add it to your CV or CLAUDE.md yourself.
 - **An ad "couldn't be read".** The site showed a bot check or an empty page. The next run tries it again. A job ad that's gone counts as closed.

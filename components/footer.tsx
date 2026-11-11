@@ -29,7 +29,7 @@ export default function Footer() {
                     target: '_blank',
                     rel: 'noopener noreferrer',
                   })}
-                  className='underline decoration-transparent underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary'
+                  className='inline-block py-0.5 underline decoration-transparent underline-offset-4 transition-[color,text-decoration-color] duration-200 ease-out hover:text-primary hover:decoration-primary'
                 >
                   {label}
                 </a>

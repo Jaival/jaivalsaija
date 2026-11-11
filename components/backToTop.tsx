@@ -60,11 +60,12 @@ export function CommitRail({
       inert={!visible}
       className={`fixed top-28 bottom-8 right-0.5 md:right-4 z-40 flex w-5 md:w-6 flex-col items-center transition-[opacity,translate] duration-200 ease-out ${visible ? '' : hidden}`}
     >
+      {/* 20px on a phone; the ::after grows the hit area to 24px. */}
       <button
         type='button'
         onClick={toTop}
         aria-label='Back to top'
-        className='grid size-5 md:size-6 shrink-0 place-items-center rounded-full border-[1.5px] border-primary bg-background text-primary transition-[background-color,color,scale] duration-200 ease-out hover:bg-primary hover:text-primary-foreground active:scale-90'
+        className='grid relative after:absolute after:-inset-0.5 size-5 md:size-6 shrink-0 place-items-center rounded-full border-[1.5px] border-primary bg-background text-primary transition-[background-color,color,scale] duration-200 ease-out hover:bg-primary hover:text-primary-foreground active:scale-90'
       >
         <ArrowUp aria-hidden strokeWidth={2.5} className='size-3' />
       </button>

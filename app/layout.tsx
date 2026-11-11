@@ -110,8 +110,15 @@ export default function RootLayout({
           <div className='flex min-h-svh flex-col grow app-bg'>
             {/* Subtle noise overlay for depth */}
             <div className='noise-overlay' />
+            {/* First tab stop on every page; shown only while focused. */}
+            <a
+              href='#main'
+              className='sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary'
+            >
+              skip to content
+            </a>
             <Navbar />
-            <main className='flex-1'>
+            <main id='main' className='flex-1'>
               <ErrorBoundary>
                 <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
               </ErrorBoundary>

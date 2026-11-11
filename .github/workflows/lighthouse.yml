@@ -20,7 +20,8 @@ jobs:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          # Pinned so a run can be repeated. Bump together with @types/bun.
+          bun-version: 1.4.4
       - run: bun install --frozen-lockfile
       - run: bun run build
       - run: bunx @lhci/cli@0.16.x autorun

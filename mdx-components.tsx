@@ -8,6 +8,10 @@ import type { ComponentPropsWithoutRef } from 'react';
 
 const headingBase =
   'scroll-mt-28 font-bold tracking-tight text-foreground text-balance';
+// A heading is a link to itself (rehype-slug sets the id), so a reader can
+// copy a link to a section. It looks like a heading until hovered.
+const headingLink =
+  'underline decoration-transparent underline-offset-4 transition-[text-decoration-color] duration-200 ease-out hover:decoration-primary';
 
 function Anchor({ href = '', ...props }: ComponentPropsWithoutRef<'a'>) {
   const className =
@@ -47,17 +51,27 @@ function Code(
 }
 
 const components = {
-  h2: props => (
+  h2: ({ id, children, ...props }) => (
     <h2
+      id={id}
       className={`${headingBase} mt-12 mb-4 text-2xl md:text-3xl`}
       {...props}
-    />
+    >
+      <a href={`#${id}`} className={headingLink}>
+        {children}
+      </a>
+    </h2>
   ),
-  h3: props => (
+  h3: ({ id, children, ...props }) => (
     <h3
+      id={id}
       className={`${headingBase} mt-10 mb-3 text-xl md:text-2xl`}
       {...props}
-    />
+    >
+      <a href={`#${id}`} className={headingLink}>
+        {children}
+      </a>
+    </h3>
   ),
   h4: props => <h4 className={`${headingBase} mt-8 mb-2 text-lg`} {...props} />,
   p: props => (

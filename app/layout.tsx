@@ -9,6 +9,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { feedPath } from '@/utils/blog/paths';
 import { siteUrl } from '@/utils/site';
 import { themeColor } from '@/utils/theme';
+import userData from '@/utils/data';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -26,10 +27,15 @@ const jetBrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
 });
 
+// Written once: the browser tab, the Open Graph card and the Twitter card
+// show the same title and description.
+const title = `${userData.name} | ${userData.designation}`;
+const description =
+  'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.';
+
 export const metadata: Metadata = {
-  title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-  description:
-    'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+  title,
+  description,
   keywords: [
     'DevOps Engineer',
     'Cloud Engineer',
@@ -60,16 +66,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-    description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+    title,
+    description,
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-    description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+    title,
+    description,
     creator: '@Jaival469',
   },
 };
@@ -97,6 +101,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className='min-h-svh text-foreground antialiased'>
+        {/* Reveal ships at opacity 0 and JS fades it in. Without JS, show it. */}
+        <noscript>
+          <style>
+            {'[data-reveal]{opacity:1!important;transform:none!important}'}
+          </style>
+        </noscript>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
@@ -106,8 +116,15 @@ export default function RootLayout({
           <div className='flex min-h-svh flex-col grow app-bg'>
             {/* Subtle noise overlay for depth */}
             <div className='noise-overlay' />
+            {/* First tab stop on every page; shown only while focused. */}
+            <a
+              href='#main'
+              className='sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary'
+            >
+              skip to content
+            </a>
             <Navbar />
-            <main className='flex-1'>
+            <main id='main' className='flex-1'>
               <ErrorBoundary>
                 <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
               </ErrorBoundary>

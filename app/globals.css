@@ -112,8 +112,7 @@
 }
 
 /* Theme variables — "Tidewater" palette.
-   One brand hue (teal, ~205) carried from the old hero-font, a warm coral
-   highlight taken from the hero's rough-notation marks, and neutrals tinted
+   One brand hue (teal, ~205), a warm coral highlight, and neutrals tinted
    toward the brand hue instead of shadcn's default slate. Every text pair
    below clears WCAG AA (4.5:1) in its theme. */
 :root {
@@ -149,8 +148,7 @@
   /* Brand gradient (headings, primary CTA): teal into blue */
   --brand-from: oklch(0.5 0.09 205);
   --brand-to: oklch(0.52 0.13 245);
-  /* Hand-drawn highlights behind the hero roles (rough-notation). Pastels
-     here, deep tints in dark mode, so text-foreground reads on both. */
+  /* shadcn's chart tokens. Nothing uses them since v4. */
   --chart-1: oklch(0.5 0.09 205);
   --chart-2: oklch(0.68 0.15 40);
   --chart-3: oklch(0.62 0.11 150);

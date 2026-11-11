@@ -3,18 +3,18 @@
 import { useTheme } from 'next-themes';
 import { useCallback, useRef } from 'react';
 import { flushSync } from 'react-dom';
+import { themeColor } from '@/utils/theme';
 
 /** Matches --ease-in-out in globals.css: on-screen movement. */
 const EASE_IN_OUT = 'cubic-bezier(0.77, 0, 0.175, 1)';
 
 /** Keeps the mobile browser chrome in step with a manual theme change. */
 function syncThemeColor(theme: 'light' | 'dark') {
-  const color = theme === 'dark' ? '#020618' : '#ffffff';
   document
     .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
     .forEach(meta => {
       meta.removeAttribute('media');
-      meta.content = color;
+      meta.content = themeColor[theme];
     });
 }
 

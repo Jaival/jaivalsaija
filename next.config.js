@@ -86,20 +86,8 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
     ];
   },
-  // eslint: {
-  //   ignoreDuringBuilds: false, // Enable ESLint in builds for better code quality
-  // },
   // Enable gzip compression
   compress: true,
 };

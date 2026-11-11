@@ -5,9 +5,9 @@ import { ArrowUp } from 'lucide-react';
 import { useState } from 'react';
 import { useBackToTop } from '../hooks/useBackToTop';
 
-// Two back-to-top controls for long pages. Both stay hidden for the first
-// screen and fade in after it. CSS owns their fade and press; framer-motion
-// owns only the scroll-linked parts (the fill, the dot, the ring).
+// The back-to-top control for long pages. It stays hidden for the first
+// screen and fades in after it. CSS owns its fade and press; framer-motion
+// owns only the scroll-linked parts (the fill and the dot).
 
 const hidden = 'pointer-events-none translate-y-2 opacity-0';
 
@@ -86,49 +86,5 @@ export function CommitRail({
         </motion.div>
       </div>
     </div>
-  );
-}
-
-/**
- * A frosted round button bottom-right, the navbar's glass, with a ring
- * around it that fills as you read.
- */
-export function ProgressRing({ targetId }: { targetId: string }) {
-  const { visible, scrollYProgress, toTop } = useBackToTop(targetId);
-
-  return (
-    <button
-      type='button'
-      onClick={toTop}
-      aria-label='Back to top'
-      inert={!visible}
-      className={`fixed right-4 bottom-4 md:right-6 md:bottom-6 z-40 grid size-12 place-items-center rounded-full bg-card/70 text-foreground shadow-lg backdrop-blur-md transition-[opacity,translate,color,scale] duration-200 ease-out hover:text-primary active:scale-95 reduced-transparency:bg-card reduced-transparency:backdrop-blur-none ${visible ? '' : hidden}`}
-    >
-      <svg
-        aria-hidden
-        viewBox='0 0 48 48'
-        className='absolute inset-0 size-full -rotate-90'
-      >
-        <circle
-          cx='24'
-          cy='24'
-          r='22'
-          fill='none'
-          strokeWidth='2.5'
-          className='stroke-border'
-        />
-        <motion.circle
-          cx='24'
-          cy='24'
-          r='22'
-          fill='none'
-          strokeWidth='2.5'
-          strokeLinecap='round'
-          className='stroke-primary'
-          style={{ pathLength: scrollYProgress }}
-        />
-      </svg>
-      <ArrowUp aria-hidden className='size-4' />
-    </button>
   );
 }

@@ -47,13 +47,6 @@ const labelStyle = 'font-mono text-sm font-medium text-primary';
 const fieldStyle =
   'bg-background border border-input hover:border-primary/60 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-200 ease-out text-base';
 
-const swap = {
-  initial: { opacity: 0, filter: 'blur(4px)' },
-  animate: { opacity: 1, filter: 'blur(0px)' },
-  exit: { opacity: 0, filter: 'blur(4px)' },
-  transition: { duration: durations.fast, ease: easeOut },
-};
-
 const notice = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
@@ -62,10 +55,7 @@ const notice = {
 };
 
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
+  const [opened, setOpened] = useState(false);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -78,30 +68,19 @@ export default function ContactForm() {
   });
 
   // There's no backend: submitting hands the message to the visitor's email
-  // app, so it actually reaches me instead of vanishing.
+  // app. The browser doesn't say whether one opened, so the fields keep
+  // their text and the notice covers both cases.
   const onSubmit = (data: ContactFormData) => {
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    try {
-      const body = `${data.message}
+    const body = `${data.message}
 
 ${data.name}
 ${data.email}`;
-      window.location.assign(
-        `mailto:${userData.email}?subject=${encodeURIComponent(
-          data.subject,
-        )}&body=${encodeURIComponent(body)}`,
-      );
-
-      setSubmitStatus('success');
-      form.reset();
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    window.location.assign(
+      `mailto:${userData.email}?subject=${encodeURIComponent(
+        data.subject,
+      )}&body=${encodeURIComponent(body)}`,
+    );
+    setOpened(true);
   };
 
   return (
@@ -196,53 +175,27 @@ ${data.email}`;
 
         <button
           type='submit'
-          disabled={isSubmitting}
-          className='inline-flex items-center justify-center h-11 px-8 text-sm font-medium rounded-md bg-primary text-primary-foreground transition-[background-color,transform] duration-200 ease-out hover:bg-primary/90 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+          className='inline-flex items-center justify-center h-11 px-8 text-sm font-medium rounded-md bg-primary text-primary-foreground transition-[background-color,transform] duration-200 ease-out hover:bg-primary/90 active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
         >
-          <AnimatePresence mode='popLayout' initial={false}>
-            {isSubmitting ? (
-              <motion.span
-                key='loading'
-                {...swap}
-                className='flex items-center justify-center gap-2'
-              >
-                <span className='size-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin' />
-                <span>Opening your email app...</span>
-              </motion.span>
-            ) : (
-              <motion.span key='idle' {...swap} className='block'>
-                Send via email
-              </motion.span>
-            )}
-          </AnimatePresence>
+          Send via email
         </button>
 
         <AnimatePresence>
-          {submitStatus === 'success' && (
+          {opened && (
             <motion.p
               {...notice}
               role='status'
-              className='rounded-md border border-success/40 bg-success/10 px-4 py-3 text-foreground'
+              className='rounded-md border border-border bg-muted px-4 py-3 text-foreground'
             >
-              <span aria-hidden className='mr-2 font-mono text-success'>
-                ✓
-              </span>
-              Your email app should have opened with the message ready. Hit send
-              there and I&apos;ll get back to you within a day or so.
-            </motion.p>
-          )}
-
-          {submitStatus === 'error' && (
-            <motion.p
-              {...notice}
-              role='alert'
-              className='rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-foreground'
-            >
-              <span aria-hidden className='mr-2 font-mono text-destructive'>
-                ✗
-              </span>
-              Your email app didn&apos;t open. Write to {userData.email}{' '}
-              directly instead.
+              If your email app opened, hit send there and I&apos;ll answer
+              within a day or so. If nothing happened, write to{' '}
+              <a
+                href={`mailto:${userData.email}`}
+                className='underline decoration-border underline-offset-4 transition-colors duration-200 ease-out hover:text-primary hover:decoration-primary'
+              >
+                {userData.email}
+              </a>{' '}
+              directly. Your message is still in the form to copy.
             </motion.p>
           )}
         </AnimatePresence>

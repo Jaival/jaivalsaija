@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { feedPath } from '@/utils/blog/paths';
 import { siteUrl } from '@/utils/site';
+import { themeColor } from '@/utils/theme';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -77,8 +78,8 @@ export const metadata: Metadata = {
 // The navbar keeps these in sync when the theme is toggled by hand.
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7fbfb' },
-    { media: '(prefers-color-scheme: dark)', color: '#071318' },
+    { media: '(prefers-color-scheme: light)', color: themeColor.light },
+    { media: '(prefers-color-scheme: dark)', color: themeColor.dark },
   ],
   colorScheme: 'light dark',
 };

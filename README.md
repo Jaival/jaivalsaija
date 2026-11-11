@@ -21,7 +21,7 @@ anywhere in Germany.
 - **Permit:** §16b AufenthG student residence permit, valid until 07/2028. It allows up to 20 h/week
   during the semester and full-time work in semester breaks. It can be renewed for the rest of my
   Master's; after graduation I can apply for an 18-month job-seeker permit (§20 AufenthG).
-- **Languages:** English C1 (work language), German A2 (learning)
+- **Languages:** English C1 (work language), German A1 (Goethe certificate), learning A2
 
 ## Where to look first
 
@@ -39,7 +39,7 @@ If you have five minutes, these show the most:
   builder refuses drafts that break its rules. Nothing is sent automatically.
 - **Experience**: 10 months as a Junior DevOps Engineer at Maven Infosoft, running AWS for a .NET
   CMS across dev, stage and production. 50+ incidents resolved in the first six months, GitHub
-  Actions pipelines for 3 products. The details are on the
+  Actions deploy pipelines for 2 of the 3 products. The details are on the
   [experience page](https://www.jaivalsaija.dev/experience).
 
 Seven selected projects, with how each one is built, tested and released, are on the

@@ -1,18 +1,33 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { SectionLabel } from '@/components/pipeline';
+import { getBlog } from '@/utils/blog';
 import userData from '@/utils/data';
 
 const SHOWN = 3;
 
 /**
- * Home "pipelines": the first projects of /projects as cards, each with the
- * badge set by hand in utils/data.ts (CI passing, a release, in progress).
+ * Home "pipelines": the first projects of /projects as cards, each with a
+ * badge: the newest release from the blog for a project with a releaseSeries,
+ * else the one set by hand in utils/data.ts.
  * Reorder the projects there and home follows. On a desktop the cards are in
  * the first screen, so they enter with CSS, not a scroll reveal.
  */
-export default function PipelineCards() {
-  const projects = userData.projects.slice(0, SHOWN);
+export default async function PipelineCards() {
+  const blog = await getBlog();
+  const projects = userData.projects.slice(0, SHOWN).map(project => {
+    // Parts are oldest first, so the last one with a release is the newest.
+    const release =
+      project.releaseSeries &&
+      blog.series(project.releaseSeries).findLast(part => part.release)
+        ?.release;
+    return {
+      ...project,
+      status: release
+        ? { label: `v${release} released`, state: 'ok' as const }
+        : project.status,
+    };
+  });
   return (
     <section className='mt-12'>
       <SectionLabel>pipelines</SectionLabel>

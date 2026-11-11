@@ -1,5 +1,6 @@
 import { postPath } from '@/utils/blog/paths';
 import type { CvEntry } from '@/utils/cv';
+import type { SeriesId } from '@/content/series';
 
 // Enhanced type definitions for better type safety
 export interface Project {
@@ -24,11 +25,18 @@ export interface Project {
    */
   ships?: string;
   /**
-   * The badge on a home card, set by hand: 'ok' for a green check (CI
-   * passing, a release out), 'wip' for work still in progress. Check the
-   * repo's last CI run or release before changing it.
+   * The badge on a home card, set by hand (unless releaseSeries is set):
+   * 'ok' for a green check (CI passing, a release out), 'wip' for work
+   * still in progress. Check the repo's last CI run or release before
+   * changing it.
    */
   status?: { label: string; state: 'ok' | 'wip' };
+  /**
+   * A blog series whose release posts name this project's versions. The
+   * home card then shows the newest one as "vX.Y.Z released", in place of
+   * `status`, so the badge can't fall behind the blog.
+   */
+  releaseSeries?: SeriesId;
 }
 
 export interface About {
@@ -105,7 +113,7 @@ const userData: UserData = {
       websiteLabel: 'Setup guide',
       ships:
         'Python tools with a pytest suite that builds a sample workspace end to end. Runs on my own machine as a scheduled task.',
-      status: { label: 'v1.0.0 released', state: 'ok' },
+      releaseSeries: 'jobhunt-agent',
     },
     {
       title: 'Kubernetes Learning Lab',

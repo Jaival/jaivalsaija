@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import userData from '@/utils/data';
 
-export const alt = 'Jaival Saija | Cloud Engineer';
+export const alt = `${userData.name} | ${userData.designation}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 

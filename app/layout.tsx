@@ -9,6 +9,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { feedPath } from '@/utils/blog/paths';
 import { siteUrl } from '@/utils/site';
 import { themeColor } from '@/utils/theme';
+import userData from '@/utils/data';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -26,10 +27,15 @@ const jetBrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
 });
 
+// Written once: the browser tab, the Open Graph card and the Twitter card
+// show the same title and description.
+const title = `${userData.name} | ${userData.designation}`;
+const description =
+  'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.';
+
 export const metadata: Metadata = {
-  title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-  description:
-    'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+  title,
+  description,
   keywords: [
     'DevOps Engineer',
     'Cloud Engineer',
@@ -60,16 +66,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-    description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+    title,
+    description,
     siteName: 'Jaival Saija',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaival Saija | Junior DevOps & Cloud Engineer',
-    description:
-      'Jaival Saija is an M.Sc. Computer Science student in Kaiserslautern who ran AWS in production as a junior DevOps engineer. Looking for a working student or junior role in DevOps or cloud in Germany.',
+    title,
+    description,
     creator: '@Jaival469',
   },
 };

@@ -99,6 +99,8 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: ['remark-gfm'],
     rehypePlugins: [
+      // Gives every heading an id from its text, so a section can be linked.
+      'rehype-slug',
       [
         'rehype-pretty-code',
         {

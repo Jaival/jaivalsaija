@@ -101,6 +101,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className='min-h-svh text-foreground antialiased'>
+        {/* Reveal ships at opacity 0 and JS fades it in. Without JS, show it. */}
+        <noscript>
+          <style>
+            {'[data-reveal]{opacity:1!important;transform:none!important}'}
+          </style>
+        </noscript>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

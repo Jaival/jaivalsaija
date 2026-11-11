@@ -66,6 +66,8 @@ export default function Reveal({
       // motion[as] is a union of element types; the ref fits each of them.
       ref={ref as never}
       className={className}
+      // The <noscript> style in app/layout.tsx shows these without JS.
+      data-reveal
       initial={{ opacity: 0, transform: 'translateY(12px)' }}
       whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
       viewport={{ once: true, amount }}
